@@ -1,0 +1,80 @@
+<html>
+    <head>
+        <title>Detection Report ({{report.taskId}}.{{report.detectionId}})</title>
+        <link rel="stylesheet" href="../../../reportTemplete/report.css">
+    </head>
+    <body>
+        <div id="page">
+            <div id="infoContent">
+                <div class="infoLine">
+                    <div class="infoItem">
+                        <span>Time: </span>
+                        <span>{{report.time}}</span>
+                    </div>
+                    <div class="infoItem">
+                        <span>Clone set num: </span>
+                        <span>{{report.cloneSum}}</span>
+                    </div>
+                    <div class="infoItem">
+                        <span>Threshold: </span>
+                        <span>{{report.threshold}}</span>
+                    </div>
+                    <div class="infoItem">
+                        <span>Min size:</span>
+                        <span>{{report.minsize}}</span>
+                    </div>
+                </div>
+                <div class="infoLine">
+                    <div class="infoItem">
+                        <span>
+                            Execution time:
+                        </span>
+                        <span>
+                            {{report.wholetime}}s
+                        </span>
+                    </div>
+                    <div class="infoItem">
+                        <span>
+                            Token bag generation time:
+                        </span>
+                        <span>
+                            {{report.bagtime}}s
+                        </span>
+                    </div>
+                    <div class="infoItem">
+                        <span>
+                            Detection time:
+                        </span>
+                        <span>
+                            {{report.detectiontime}}s
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div id="cloneContent">
+                {% for cloneClass in report.cloneClasses %}
+                <div class="cloneClass">
+                    <div class="info">
+                        Clone class {{cloneClass.cloneClassIndex}}
+                    </div>
+                    {% for code in cloneClass.clones %}
+                    <div class="clones">
+                        <div class="clone">
+                            <div class="infoLine">File: {{code.filePath}}</div>
+                            <div class="infoLine">Position: {{code.position}}  Token num:{{code.tokenNum}}   bagIndex: {{code.bagIndex}}</div>
+                            <pre>
+{% for line in code.content%}
+<span>{{line}}</span>
+{% endfor %}
+                            </pre>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    <div style="clear:both"></div>
+                </div>
+                {% endfor %}
+                <div style="clear:both"></div>
+            </div>
+        </div>
+    </body>
+</html>

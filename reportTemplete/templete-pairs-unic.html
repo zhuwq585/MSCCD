@@ -1,0 +1,85 @@
+<html>
+    <head>
+        <title>Unic pairs</title>
+        <link rel="stylesheet" href="../../reportTemplete/report.css">
+    </head>
+    <body>
+        <div id="page">
+            <a href="#sapa">aaa</a>
+            <div id="infoContent">
+                <div class="infoLine">
+                    <div class="infoItem">
+                        <span>Unic Clone1 num: </span>
+                        <span>{{report.dec1len}}</span>
+                    </div>
+                    <div class="infoItem">
+                        <span>Unic Clone2 num: </span>
+                        <span>{{report.dec2len}}</span>
+                    </div>
+                    <div class="infoItem">
+                        <span>Threshold: </span>
+                        <span>{{report.threshold}}</span>
+                    </div>
+                    <div class="infoItem">
+                        <span>Min size:</span>
+                        <span>{{report.minsize}}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="cloneContent">
+                {% for cloneClass in report.cloneClasses1 %}
+                <div class="cloneClass">
+                    <div class="info">
+                        <span>Pair {{cloneClass.cloneClassIndex}}</span>
+                        <span>Similarity: {{cloneClass.similarity}}</span>
+                        <span>Overlap: {{cloneClass.overlap}}</span>
+                    </div>
+                    {% for code in cloneClass.clones %}
+                    <div class="clones">
+                        <div class="clone">
+                            <div class="infoLine">File: {{code.filePath}}</div>
+                            <div class="infoLine">Position: {{code.position}}  Token num:{{code.tokenNum}}   bagIndex: {{code.bagIndex}} Grunlarity: {{code.granularity}}</div>
+                            <pre>
+{% for line in code.content%}
+<span>{{line}}</span>
+{% endfor %}
+                            </pre>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    <div style="clear:both"></div>
+                </div>
+                {% endfor %}
+                <div style="clear:both"></div>
+            </div>
+            <div id="sapa"></div>
+            <div class="cloneContent">
+                {% for cloneClass in report.cloneClasses2 %}
+                <div class="cloneClass">
+                    <div class="info">
+                        <span>Pair {{cloneClass.cloneClassIndex}}</span>
+                        <span>Similarity: {{cloneClass.similarity}}</span>
+                        <span>Overlap: {{cloneClass.overlap}}</span>
+                    </div>
+                    {% for code in cloneClass.clones %}
+                    <div class="clones">
+                        <div class="clone">
+                            <div class="infoLine">File: {{code.filePath}}</div>
+                            <div class="infoLine">Position: {{code.position}}  Token num:{{code.tokenNum}}   bagIndex: {{code.bagIndex}} Grunlarity: {{code.granularity}}</div>
+                            <pre>
+{% for line in code.content%}
+<span>{{line}}</span>
+{% endfor %}
+                            </pre>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    <div style="clear:both"></div>
+                </div>
+                {% endfor %}
+                <div style="clear:both"></div>
+            </div>
+        </div>
+    </body>
+</html>
+

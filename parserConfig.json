@@ -1,0 +1,5 @@
+{
+    "parser": "grammarDefinations/java",
+    "grammarName": "Java",
+    "startSymbol": "compilationUnit"
+}
