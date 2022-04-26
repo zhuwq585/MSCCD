@@ -1,5 +1,0 @@
-################################################
-#### Code clone detection.
-################################################
-#### Starting detection with threshold 0.7 ,minsize: 10
-Check the report in tasks/task4/detection1
