@@ -1,0 +1,5 @@
+tokenizers/*
+tasks/*
+!tasks/tNum.sta
+analysisScripts/*
+configExample.md
