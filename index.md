@@ -71,8 +71,3 @@ For example, `python3 controller.py 1` means excute from tasks/task1. `python3 c
 + Speed up 
 + Analysis scripts to make the detection results easier to read and use
 
-
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
