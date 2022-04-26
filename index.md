@@ -1,3 +1,5 @@
+# MSCCD: a grammar pluggable code clone detecter
+
 ## Features
 
 Coming soon.
