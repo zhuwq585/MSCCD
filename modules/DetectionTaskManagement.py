@@ -10,7 +10,6 @@ class DetectionTaskManagement():
         try:
             tStaFile = __file__[:-34]+'tasks/tNum.sta'
             staFile = open(tStaFile,'r')
-            # staFile = open('tasks/tNum.sta','r')
         except FileNotFoundError :
             print('err: tNum.sta not found')
             return None
@@ -30,14 +29,15 @@ class DetectionTaskManagement():
             staFile.write(str(self.__taskNumber + 1))
             staFile.close()
             self.__taskNumber += 1
-        
     
     def createTask(self, configObj, inputObj):
         newTaskId = int(self.__getTaskNumber()) + 1
+        if newTaskId == None:
+            print("err: tNum.str not found")
+            return
         path = self.__initTaskFolder(newTaskId)
         self.__addTaskNumber()
         return DetectionTask(newTaskId, configObj, inputObj, path)
-
 
     def __initTaskFolder(self, newTaskId):
         path = 'tasks/task' + str(newTaskId)

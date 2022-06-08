@@ -1,6 +1,9 @@
 import sys
 class Logger(object):
     # type: 1: log 2: error
+    def __init___(self):
+        pass
+    
     def __init__(self, taskId, stream=sys.stdout, type=1):  
         self.terminal = stream
         self.taskFolder = 'tasks/task' + str(taskId)

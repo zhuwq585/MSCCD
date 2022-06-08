@@ -7,7 +7,6 @@ from DetectionTaskManagement import DetectionTaskManagement
 from InputManagement import InputProject
 from tokenBagGeneration import TokenBagGenerationController
 from globalTokenFrequency import GlobalTokenfrequency
-from tokenBagGeneration import *
 from CloneDetection import CloneDetectionContraller
 from reportManagement import ReportController
 from Analysis import AnalysisController
@@ -63,8 +62,6 @@ class MainController():
             print('Err: Failed to load task' + str(taskId))
             return False
 
-
-
         # Clone Detection
         print("################################################")
         print("#### Code clone detection.")
@@ -75,7 +72,7 @@ class MainController():
        
         # detector parameters
         # outputFolder: decFolderPath
-        tokenBagSourcePath   = taskObj.taskFolderPath+'/tokenBags'
+        tokenBagSourcePath   = taskObj.taskFolderPath + '/tokenBags'
         minToken             = taskObj.configObj['minTokens']
         similarity_threahold = taskObj.configObj['detectionThreshold']
         thread_num           = taskObj.configObj['threadNum_detection']
@@ -89,6 +86,9 @@ class MainController():
         # Report 
         reportController.reportGeneration([timeStart,timeBagGeneration,timeFinish])
 
+
+
+
     def createTask_new(self): # Boolean
         
         print('#### Starting by creating a new task.')
@@ -96,10 +96,8 @@ class MainController():
         if configObj == None:
             print("#### Unsuccess to get congurations from config.json")
             return None
-
        
         inputObj       = InputProject(configObj["inputProject"], configObj["languageExtensionName"])
-
 
         taskController = DetectionTaskManagement()
         taskObj        = taskController.createTask(configObj, inputObj) 

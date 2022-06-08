@@ -1,5 +1,5 @@
 {
-    "parser": "grammarDefinations/java",
-    "grammarName": "Java",
-    "startSymbol": "compilationUnit"
+    "parser": "grammarDefinations/R",
+    "grammarName": "R",
+    "startSymbol": "prog"
 }
