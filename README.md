@@ -66,6 +66,21 @@ Just run it by **python3 controller.py [taskId] ([statementThreshold])**.
 
 For example, **python3 controller.py 1** means excute from tasks/task1. **python3 controller.py 2 0.9** means excute from tasks/task2, and set the detectionThreshold to 0.9
 
+## Check the detection results.
+
+ For each task, all the data is saved in the tasks/task* folder, including configurations, file list, token bags. Here is the description:
+ | file | description |
+ | --- | --- |
+ | fileList.txt | Each line represents a source file, formatting with (projectId, file Path). The index of each file in each project is defined as fileId. |
+ |tokenBags | Each line represents a token bag and uses '@ @' to separate each data field: projectId @ @ fileId @ @ bagId @ @ granularity value @ @ number of keywords @ @ symbol number @@ token number @@ start line in original file -- end line in original file@@ tokens(token text :: frequency) |
+ | taskData.obj | Configurations |
+
+ Results of each detection is saved in tasks/task*/detection* folder. 
+ | file | description |
+ | --- | --- |
+ | pairs.file | Reported clones in [[projectId,fileId,bagId],[projectId,fileId,bagId]] |
+ | info.obj | Exection times...|
+
 ## Comming soon
 
 + Speed up 
