@@ -12,7 +12,8 @@ MSCCD mainly depends on these software:
 + Python v3.6.9
 + Java v1.8
 + Maven v3.8.5
-+ jinji2 (pip3)
++ jinja2 (pip3)
++ ujson (pip3)
 
 We added some interfaces and methods to ANTLR4.8 and packaged a .jar file for MSCCD. Please install the provided antlr-4.8-modified.jar to your local maven repository. 
 
