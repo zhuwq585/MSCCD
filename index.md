@@ -2,17 +2,27 @@
 
 ## Features
 
-Coming soon.
+MSCCD provides a tokenizer generator for supporting any new programming language if its grammar definition in g4 file exists.
 
-See our paper(accepted by ICPC2022) in https://arxiv.org/pdf/2204.01028.pdf 
+MSCCD can detect type-3 code clones for the supported languages.
+
+See our paper(accepted by ICPC2022) in https://arxiv.org/pdf/2204.01028.pdf for more details.
+
+## Docker Image
+
+Please use the provideded docker image: 
+
+Link: https://drive.google.com/file/d/17zsCf-5FnKbE1iPw6Ca4onW5ckQX69eQ/view?usp=sharing 
+
+MSCCD;s path: /root/MSCCD 
 
 ## Environment dependence
 
 We have tested MSCCD on Ubuntu 18.04LTS / MacOS Monterey. 
 
-MSCCD mainly depends on these software:
+MSCCD mainly depends on these environments:
 + Python v3.6.9
-+ Java v1.8
++ Java 11 (Newer than Java9) (Remember to set version by editting modules/msccd_tokenizers/pom.xml when using a different version)
 + Maven v3.8.5
 + jinja2 (pip3)
 + ujson (pip3)
@@ -72,16 +82,17 @@ For example, **python3 controller.py 1** means excute from tasks/task1. **python
 ## Check the detection results.
 
  For each task, all the data is saved in the tasks/task* folder, including configurations, file list, token bags. Here is the description:
- + **fileList.txt** : Each line represents a source file, formatting with (projectId, file Path). The index of each file in each project is defined as fileId.|
- + **tokenBags** : Each line represents a token bag and uses '@ @' to separate each data field: 
-
-        projectId @ @ fileId @ @ bagId @ @ granularity value @ @ number of keywords @ @ symbol number @@ token number @@ start line in original file -- end line in original file@@ tokens(token text :: frequency) 
-
-+ **taskData.obj** : Configurations 
+ | file | description |
+ | --- | --- |
+ | fileList.txt | Each line represents a source file, formatting with (projectId, file Path). The index of each file in each project is defined as fileId. |
+ |tokenBags | Each line represents a token bag and uses '@ @' to separate each data field: projectId @ @ fileId @ @ bagId @ @ granularity value @ @ number of keywords @ @ symbol number @@ token number @@ start line in original file -- end line in original file@@ tokens(token text :: frequency) |
+ | taskData.obj | Configurations |
 
  Results of each detection is saved in tasks/task*/detection* folder. 
- + **pairs.file** : Reported clones in [[projectId,fileId,bagId],[projectId,fileId,bagId]] 
- + **info.obj** : Exection times... 
+ | file | description |
+ | --- | --- |
+ | pairs.file | Reported clones in [[projectId,fileId,bagId],[projectId,fileId,bagId]] |
+ | info.obj | Exection times...|
 
 ## Comming soon
 
