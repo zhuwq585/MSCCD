@@ -8,9 +8,9 @@ See our paper(accepted by ICPC2022) in https://arxiv.org/pdf/2204.01028.pdf
 
 We have tested MSCCD on Ubuntu 18.04LTS / MacOS Monterey. 
 
-MSCCD mainly depends on these software:
+MSCCD mainly depends on these environments:
 + Python v3.6.9
-+ Java v1.8
++ Java 11 (Newer than Java9) (Remember to set version by editting modules/msccd_tokenizers/pom.xml when using a different version)
 + Maven v3.8.5
 + jinja2 (pip3)
 + ujson (pip3)
