@@ -4,6 +4,12 @@ Coming soon.
 
 See our paper(accepted by ICPC2022) in https://arxiv.org/pdf/2204.01028.pdf 
 
+## Docker Image
+
+You can use the provideded docker image to avoiding environment dependence setting
+Link: https://drive.google.com/file/d/17zsCf-5FnKbE1iPw6Ca4onW5ckQX69eQ/view?usp=sharing 
+MSCCD is in /root/MSCCD 
+
 ## Environment dependence
 
 We have tested MSCCD on Ubuntu 18.04LTS / MacOS Monterey. 
