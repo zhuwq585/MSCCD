@@ -37,6 +37,8 @@ public class TokenBagController {
                 while( (str = input.readLine()) != null){
 
                     TokenBag tmpBag = createBagFromStr(str);
+                    if (tmpBag == null)
+                        continue;
 
                     if(tmpBag.bagId == 0)
                         gtp.addItems(tmpBag);
@@ -67,6 +69,10 @@ public class TokenBagController {
 
     private TokenBag createBagFromStr(String sourceLine){
         String infoArr[]     = sourceLine.split("@ @");
+
+        if (infoArr.length != 9)
+            return null;
+
         int    tokenNum      = Integer.valueOf(infoArr[6]);
         int    projectId     = Integer.valueOf(infoArr[0]);
         int    fileId        = Integer.valueOf(infoArr[1]);
@@ -98,9 +104,10 @@ public class TokenBagController {
         for(ArrayList<ArrayList<TokenBag>> bagsForProject : bagCollection)
             for( ArrayList<TokenBag> i : bagsForProject)
                 for(TokenBag j : i){
-                    if(j.granularity == roundId && j.tokenNum >= minToken)
+                    if(j.granularity == roundId && j.tokenNum >= minToken){
                     // if(j.granularity == roundId && j.symbolNum >= minToken)
                         res.add(j);
+                    }
                 }
 
         ArrayList<TokenSorter> threadArr = new ArrayList<TokenSorter>();

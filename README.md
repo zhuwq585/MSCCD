@@ -90,6 +90,14 @@ For example, **python3 controller.py 1** means excute from tasks/task1. **python
  | pairs.file | Reported clones in [[projectId,fileId,bagId],[projectId,fileId,bagId]] |
  | info.obj | Exection times...|
 
+## Scripts:
+
++ **scripts/blockPairOutput.py** : generate a output file in csv format: [file1Path,startLine,endLine,file2Path,startLine,endline]
+  + python3 scripts/blockPairOutput.py taskId detectionId outputFile   
++ **scripts/filePairOutput.py** : generate a output file in csv format: [file1Path,file2Path]
+  + It's useful when MSCCD is executed as a file-level clone detector. (When setting maxRound in config.json as 1 or 0)
+  + python3 scripts/filePairOutput.py taskId detectionId outputFile   
+
 ## Comming soon
 
 + Speed up 

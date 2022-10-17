@@ -37,7 +37,7 @@ class ParseTreeController extends Thread{
     
     public TokenBag runSimplyTokenize(String filePath){
         System.out.println("executing file: " + filePath + " as query bag.");
-        TokenBag res = new TokenBag(-1, -1, -1, -1, -1);
+        TokenBag res = new TokenBag(-1, -1, -1, -1);
         
         if (pController.run(filePath)){
             setParseTree(pController.getPTree());
@@ -56,10 +56,29 @@ class ParseTreeController extends Thread{
                 }
             }
         }
-
         return res;
     }
 
+    private TokenBag generateFileLevelBag(){
+        TokenBag res = new TokenBag(this.fileId, 0, -1, this.projectId);
+        List<Token> tokens = pController.getLexicalUnits();
+        int tokenType;
+        for (Token commonToken : tokens){
+            String tokenText = commonToken.getText();
+            tokenType = getTokenType(tokenText);
+            if (tokenType == 1)
+                res.addToken(tokenText);
+            else if (tokenType == 3){
+                String[] splitedToken = stringSplit(tokenText);
+                for(int i = 0; i < splitedToken.length; i++)
+                    res.addToken(splitedToken[i]);
+            }
+        }
+        res.setPosition(tokens.get(0).getLine(), tokens.get(tokens.size()-1).getLine());
+        return res;
+    }
+
+    
     public ArrayList<TokenBag> run(SourceFile sFile){
         System.out.println("executing file: " + sFile.filePath);
 
@@ -71,9 +90,31 @@ class ParseTreeController extends Thread{
             setParseTree(pController.getPTree());
             setLexicalUnitsArray(pController.getLexicalUnits());
             
+            if(lexicalUnitsArray.size() < minSize){
+                System.out.println("Failed to parse " + filePath + "by parse error or minimal size limitation");
+                return null;
+            }
             
             ArrayList<TokenBag> res = getAllTokenBag();
-    
+
+            if (res.size() == 0){
+                TokenBag fileLevelBag = this.generateFileLevelBag();
+                res.add(0, fileLevelBag);
+            }
+            // }else if( res.get(0).tokenNum < minSize){
+            //     TokenBag fileLevelBag = this.generateFileLevelBag();
+            //     res.add(0, fileLevelBag);
+            // }
+
+
+
+            int currentBagId = 0;
+            while(currentBagId < res.size()){
+                res.get(currentBagId).setBagId(currentBagId);
+                currentBagId++;
+            }
+            
+
             reset();
             return res;
     
@@ -83,6 +124,7 @@ class ParseTreeController extends Thread{
     }
 
 
+
     private ArrayList<TokenBag> getAllTokenBag(){
         ArrayList<TokenBag> result = new ArrayList<TokenBag>();
 
@@ -90,7 +132,9 @@ class ParseTreeController extends Thread{
         bagNodeExtraction();
 
         for(int i = 0; i < bagNodeArr.size();i++){
-            result.add( tokenBagGeneration(bagNodeArr.get(i) , i) );
+            TokenBag addBag = tokenBagGeneration(bagNodeArr.get(i)); 
+            if(addBag != null)        
+                result.add( addBag );
         }
 
         return result;
@@ -118,14 +162,14 @@ class ParseTreeController extends Thread{
     };
 
 
-    private TokenBag tokenBagGeneration(int bagNodeIndex, int bagIndex){
+    private TokenBag tokenBagGeneration(int bagNodeIndex){
         ParseTree bagNode  = allNode.get(bagNodeIndex).treeNode;
         int startNodeIndex = bagNode.getStart().getTreeNodeIndex(),
             stopNodeIndex  = bagNode.getStop().getTreeNodeIndex();
 
 
 
-        TokenBag tBag = new TokenBag(fileId, bagIndex, bagNode.getNodeInfoObj().getGranularity(), bagNode.getNodeInfoObj().getSymbolNum(), projectId);
+        TokenBag tBag = new TokenBag(fileId, bagNode.getNodeInfoObj().getGranularity(), bagNode.getNodeInfoObj().getSymbolNum(), projectId);
 
         ParseTree leafNodeTmp;
         int typeTmp;
@@ -145,10 +189,14 @@ class ParseTreeController extends Thread{
                     tBag.addKeywords();
             }
         }
+
+        if (tBag.tokenNum < minSize)
+            return null;
+
         try{
-        tBag.setPosition(allNode.get(startNodeIndex).getTreeNode().getSymbol().getLine(), allNode.get(stopNodeIndex).getTreeNode().getSymbol().getLine());
+            tBag.setPosition(allNode.get(startNodeIndex).getTreeNode().getSymbol().getLine(), allNode.get(stopNodeIndex).getTreeNode().getSymbol().getLine());
         }catch(Exception e){
-            System.out.println("err in line 86");
+            System.out.println(e.getLocalizedMessage());
         }
 
         return tBag;
@@ -156,6 +204,7 @@ class ParseTreeController extends Thread{
 
     private void bagNodeExtraction(){
         ArrayList<Integer> result = new ArrayList<Integer>();
+        // not to add root node at this time
         result.add(0);
         
         Stack<ParseTree> traverseStack = new Stack<ParseTree>();
@@ -177,8 +226,6 @@ class ParseTreeController extends Thread{
                 
             }
             
-
-
             // traverse all the child
             childIndex = currentNode.getChildCount() - 1;
             typeCheck  = 0;
@@ -241,7 +288,7 @@ class ParseTreeController extends Thread{
                 // leafnode
                 allLeafNode.add(nodeInfoObj);
                 currentNode.getSymbol().setTreeNodeIndex(nodeIndex);
-                if (setTokenType(currentNode) ) { // currentNode contains tokens
+                if ( setTokenType(currentNode) ) { // currentNode contains tokens
                     // 向上更新各个树结点的状态
                     updateSize_Type(currentNode);
                 }

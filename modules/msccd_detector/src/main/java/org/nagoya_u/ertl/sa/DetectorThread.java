@@ -32,7 +32,7 @@ public class DetectorThread extends Thread{
     }
 
     public void run(){
-        System.out.println("Detection Thread Start");
+        // System.out.println("Detection Thread Start");
         for(int queryBlockIndex : queryBlockIndexArr){
             // if(queryBlockIndex == 5224)
             //     System.out.println('s');
@@ -111,7 +111,7 @@ public class DetectorThread extends Thread{
             
         }
 
-        System.out.println("Detection THread onve");
+        System.out.println("Detection Thread over");
     }
 
     // private boolean ifBagOverLap(TokenBag a, TokenBag b){

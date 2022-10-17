@@ -1,12 +1,16 @@
 {
-    "inputProject": ["/Users/syu/workspace/MSCCD"],
-    "keywordsList": "/Users/syu/workspace/MSCCD/grammarDefinations/java/Java.reserved",
-    "languageExtensionName":[".java"],
-    "minTokens": 20,
-    "minTokensForBagGeneration": 20,
+    "inputProject": [
+        "/Users/syu/zls"
+    ],
+    "keywordsList": "/Users/syu/workspace/MSCCD/grammarDefinations/zig/zig.reserved",
+    "languageExtensionName": [
+        ".zig"
+    ],
+    "minTokens": 5,
+    "minTokensForBagGeneration": 5,
     "detectionThreshold": 0.7,
-    "maxRound": 20,
-    "tokenizer": "Java",
+    "maxRound": 1,
+    "tokenizer": "zig",
     "threadNum_tokenizer": 20,
     "threadNum_detection": 20
 }

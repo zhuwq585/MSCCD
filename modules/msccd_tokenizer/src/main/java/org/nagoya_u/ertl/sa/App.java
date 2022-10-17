@@ -87,10 +87,10 @@ public class App
 
         // // TESTING 
         // int minToken = 2;
-        // String fileListPath = "/home/syu/workspace/MSCCD_ALL/Project/tasks/task1000004/fileList.txt";
-        // String keywordsListPath = "/home/syu/workspace/MSCCD_ALL/Project/grammarDefinations/java/j";
-        // String outputFilePath = "/home/syu/workspace/MSCCD_ALL/Project/tasks";
-        // int threadNum = 4;
+        // String fileListPath = "/Users/syu/workspace/MSCCD/tasks/task18/fileList.txt";
+        // String keywordsListPath = "/Users/syu/workspace/MSCCD/grammarDefinations/C/C.reserved";
+        // String outputFilePath = "/home/syu/workspace/test.txt";
+        // int threadNum = 1;
 
         int    minToken         = Integer.valueOf(args[1]); 
         String fileListPath     = args[2]; 
@@ -120,7 +120,7 @@ public class App
         // start sub thread
         for(int i = 0; i < threadArr.size(); i++)
             threadArr.get(i).start();
-
+            // threadArr.get(i).run();
         try{
             BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(outputFilePath));
 
@@ -198,13 +198,78 @@ public class App
     public static void main( String[] args )
     {
         
-        // int executionType = Integer.valueOf(args[0]);
+        // // TESTING 
+        // int minToken = 2;
+        // String fileListPath = "/Users/syu/workspace/MSCCD/tasks/task21/fileList.txt";
+        // String keywordsListPath = "/Users/syu/workspace/MSCCD/grammarDefinations/C/C.reserved";
+        // String outputFilePath = "/home/syu/workspace/test.txt";
+        // int threadNum = 1;
+
+        int    minToken         = Integer.valueOf(args[1]); 
+        String fileListPath     = args[2]; 
+        String keywordsListPath = args[3]; 
+        String outputFilePath   = args[4]; 
+        int    threadNum        = Integer.valueOf(args[5]); 
         
-        fullyTokenize(args);
-        // if(executionType == 1)
-        //     fullyTokenize(args);
-        // else
-        //     simplyTokenize(args);
+        ArrayList<SourceFile> fileList = (new FileController()).setFileArr(fileListPath).getFileList();
+        ArrayBlockingQueue<ArrayList<TokenBag>> q = new ArrayBlockingQueue<ArrayList<TokenBag>>(fileList.size());
+        KeywordsSet k = new KeywordsSet(keywordsListPath);
+
+
+        // concurrent execution start
+        // build sub thread
+        ArrayList<SubTokenizer> threadArr = new ArrayList<SubTokenizer>();
+        for(int i = 0; i < threadNum; i++)
+            threadArr.add(new SubTokenizer(null, k, minToken, q));
+        
+        int cursor = 0;
+        for (SourceFile tmpFile : fileList){
+            threadArr.get(cursor).addFile(tmpFile);
+            cursor++;
+            if(cursor >= threadNum)
+                cursor = 0;
+        }
+
+        // start sub thread
+        for(int i = 0; i < threadArr.size(); i++)
+            threadArr.get(i).start();
+            // threadArr.get(i).run();
+        
+        try{
+            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(outputFilePath));
+
+            // get all tBag from Queuq
+            ArrayList<TokenBag> bagArraytmp;
+
+            int gotNum = 0, i;
+            TokenBag bagTmp = null;
+            String printStringTmp = "";
+
+            while(gotNum < fileList.size()){
+                bagArraytmp = q.poll();
+                if(bagArraytmp == null){
+                    try{
+                        Thread.sleep(5000);
+                        System.out.print("#### Waiting for a new element from bagArray queue.\n");
+                    }catch(InterruptedException e){
+                        e.printStackTrace();
+                    }
+                }
+                else{
+                    if(bagArraytmp.size() != 0){
+                        for(i = 0; i < bagArraytmp.size(); i++){
+                            bagTmp = bagArraytmp.get(i);
+                            printStringTmp = bagTmp.outputBag();
+                            bufferedWriter.write(printStringTmp);
+                        }
+                    }
+                    gotNum++;
+                }
+            }
+            bufferedWriter.close();
+        }catch(IOException e){
+            e.printStackTrace();
+        }
 
     }
 }

@@ -45,15 +45,33 @@ public class TokenFrequency {
     }
 
     public int getFreqByToken(String token){
-        return tokenFrequency.get(token)[1];
+        // return tokenFrequency.get(token)[1];
+        try{            
+            return tokenFrequency.get(token)[1];
+        }catch(NullPointerException e){
+            // System.out.println("cannot find in gtp: " + token);
+            // e.printStackTrace();
+            return -1;
+        }
     }
 
     public int getFreqById(Integer id){
-        return tokenFrequency.get(tokenList.get(id))[1];
+        try{
+            return tokenFrequency.get(tokenList.get(id))[1];
+        }catch(IndexOutOfBoundsException e){
+            return -1;
+        }
     }
 
     public int getIdByToken(String token){
-        return tokenFrequency.get(token)[0];
+        // return tokenFrequency.get(token)[0];
+        try{
+            return tokenFrequency.get(token)[0];
+        }catch(NullPointerException e){
+            // System.out.println("cannot find in gtp: " + token);
+            // e.printStackTrace();
+            return -1;
+        }
     }
 
     public void addItems(TokenBag tBag){

@@ -16,17 +16,22 @@ public class TokenBag{
     public int tokenNum;
     public int symbolNum;
 
-    TokenBag(int fileId, int bagId, int granularity, int symbolNum, int pId){
+    // TokenBag(int fileId, int bagId, int granularity, int symbolNum, int pId){
+    TokenBag(int fileId, int granularity, int symbolNum, int pId){
         tokenMap = new HashMap<String, Integer>();
 
         this.fileId       = fileId;
         this.granularity  = granularity;
-        this.bagId        = bagId;
+        // this.bagId        = bagId;
         this.symbolNum    = symbolNum;
         this.projectId    = pId;
 
         tokenNum     = 0;
         num_keywords = 0;
+    }
+
+    public void setBagId(int bagId){
+        this.bagId = bagId;
     }
 
     public void addToken(String str){

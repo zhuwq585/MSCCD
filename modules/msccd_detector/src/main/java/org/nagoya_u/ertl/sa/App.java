@@ -2,10 +2,6 @@ package org.nagoya_u.ertl.sa;
 
 import java.util.ArrayList;
 
-/**
- * Hello world!
- *
- */
 public class App 
 {
     public static void main( String[] args )
@@ -21,11 +17,11 @@ public class App
 
         // //testArgs
         // String outputFolder         = "/home/syu/workspace/MCCD/Project/tasks/";
-        // String tokenBagSourcePath   = "/home/syu/workspace/MSCCD_ALL/Project/tasks/task1000003/tokenBags";
-        // int    minToken             = 50;
+        // String tokenBagSourcePath   = "/Users/syu/workspace/MSCCD/tasks/task6/tokenBags";
+        // int    minToken             = 20;
         // double similarity_threshold = 0.7;
-        // int    thread_num           = 7;
-        // int    max_round            = 20;
+        // int    thread_num           = 1;
+        // int    max_round            = 1;
         
 
 

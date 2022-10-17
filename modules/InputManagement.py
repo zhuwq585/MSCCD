@@ -46,11 +46,10 @@ class InputProject():
         return os.path.exists(pathStr)
 
     def saveFileList(self, folderPath):
-        filePath = folderPath + '/fileList.txt'
-        file = open(filePath,'w')
+        fileListPath = folderPath + '/fileList.txt'
+        file = open(fileListPath,'w')
         for projectId in range(len(self.fileList)):
             for filePath in self.fileList[projectId]:
                 file.write(str(projectId) + ',' + filePath + '\n')
-
+        print("File list created in file:" + fileListPath)
         file.close()
-        print("File list created in file:" + filePath)

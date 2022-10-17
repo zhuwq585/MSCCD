@@ -1,5 +1,5 @@
 {
-    "parser": "grammarDefinations/Go",
-    "grammarName": "Go",
-    "startSymbol": "sourceFile"
+    "parser": "grammarDefinations/zig",
+    "grammarName": "zig",
+    "startSymbol": "root"
 }

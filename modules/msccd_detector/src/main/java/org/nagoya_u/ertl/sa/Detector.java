@@ -22,7 +22,7 @@ public class Detector {
         this.minToken       = minToken;
         this.threshold      = threshold;
         this.thread_num     = threadNum;
-        if(maxRound > 0)
+        if(maxRound >= 0)
             this.maxRound   = maxRound;
         else
             this.maxRound   = tBagController.minGranularity;
@@ -34,7 +34,7 @@ public class Detector {
         ArrayList<ArrayList<LinkedList<TokenBag>>> pairsBefore = new ArrayList<ArrayList<LinkedList<TokenBag>>>();
 
         int round = 0;
-        while(round <= maxRound){
+        while(round <= this.maxRound){
             detectionRound(round, pairsBefore);
             round++;
         }
@@ -46,7 +46,7 @@ public class Detector {
     private void detectionRound(int round, ArrayList<ArrayList<LinkedList<TokenBag>>> resArr){
         // if (round == 4)
         //     System.out.println(" ");
-        System.out.println("bagPoolGeneration");
+        // System.out.println("bagPoolGeneration");
         ArrayList<TokenBag> bagPool = tBagController.bagPoolGeneration(round, minToken, gtp);
         System.out.println("Round " + String.valueOf(round) + " started, bagPool's size is " + String.valueOf(bagPool.size()));
 
@@ -98,7 +98,7 @@ public class Detector {
 
         Lock lock = new ReentrantLock();
 
-        System.out.println("Thread number: " + String.valueOf(this.thread_num));
+        // System.out.println("Thread number: " + String.valueOf(this.thread_num));
 
         ArrayList<DetectorThread> threadArr = new ArrayList<DetectorThread>();
         for (int i = 0; i < thread_num; i++)
@@ -142,7 +142,7 @@ public class Detector {
                 continue;
             }
         }
-        System.out.println("result:" + String.valueOf(res.size()));
+        // System.out.println("result:" + String.valueOf(res.size()));
         return res;   
     } 
 }
