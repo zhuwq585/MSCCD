@@ -1,30 +1,30 @@
 <html>
     <head>
         <title>Detection Report ({{report.taskId}}.{{report.detectionId}})</title>
-        <link rel="stylesheet" href="../../../reportTemplete/report.css">
+        <link rel="stylesheet" href="{{report.CSS_PATH}}">
     </head>
     <body>
         <div id="page">
             <div id="infoContent">
                 <div class="infoLine">
-                    <div class="infoItem">
+                    <!-- <div class="infoItem">
                         <span>Time: </span>
                         <span>{{report.time}}</span>
-                    </div>
+                    </div> -->
                     <div class="infoItem">
-                        <span>Clone set num: </span>
+                        <span>Clone pair num: </span>
                         <span>{{report.cloneSum}}</span>
                     </div>
-                    <div class="infoItem">
+                    <!-- <div class="infoItem">
                         <span>Threshold: </span>
                         <span>{{report.threshold}}</span>
                     </div>
                     <div class="infoItem">
                         <span>Min size:</span>
                         <span>{{report.minsize}}</span>
-                    </div>
+                    </div> -->
                 </div>
-                <div class="infoLine">
+                <!-- <div class="infoLine">
                     <div class="infoItem">
                         <span>
                             Execution time:
@@ -49,15 +49,15 @@
                             {{report.detectiontime}}s
                         </span>
                     </div>
-                </div>
+                </div> -->
             </div>
             <div id="cloneContent">
                 {% for cloneClass in report.cloneClasses %}
                 <div class="cloneClass">
                     <div class="info">
                         <span>Pair {{cloneClass.cloneClassIndex}}</span>
-                        <span>Similarity: {{cloneClass.similarity}}</span>
-                        <span>Overlap: {{cloneClass.overlap}}</span>
+                        <!-- <span>Similarity: {{cloneClass.similarity}}</span>
+                        <span>Overlap: {{cloneClass.overlap}}</span> -->
                     </div>
                     {% for code in cloneClass.clones %}
                     <div class="clones">

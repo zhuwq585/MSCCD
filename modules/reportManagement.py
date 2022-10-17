@@ -167,7 +167,7 @@ class ReportController():
         file.close()
 
     def __saveTaskinfo(self, timeArr):
-        filePath = self.newDecFolder + '/info.obj'
+        filePath = self.newDecFolder + '/time.txt'
         file = open(filePath, 'w')
         file.write('Time: ' + str(datetime.date.today()) + '  ' + time.strftime("%H:%M:%S") + '\n')
         file.write('DetectionThreshold:' + str(self.taskObj.configObj['detectionThreshold']) + '\n')

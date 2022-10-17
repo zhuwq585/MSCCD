@@ -9,7 +9,6 @@ from tokenBagGeneration import TokenBagGenerationController
 from globalTokenFrequency import GlobalTokenfrequency
 from CloneDetection import CloneDetectionContraller
 from reportManagement import ReportController
-from Analysis import AnalysisController
 from Logger import Logger
 import pickle, time
 

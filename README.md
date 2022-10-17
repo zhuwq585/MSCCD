@@ -12,6 +12,8 @@ Link: https://drive.google.com/file/d/17zsCf-5FnKbE1iPw6Ca4onW5ckQX69eQ/view?usp
 
 MSCCD is in /root/MSCCD 
 
+Remember to update to the newest MSCCD by **git pull**
+
 ## Environment dependence
 
 We have tested MSCCD on Ubuntu 18.04LTS / MacOS Monterey. 
