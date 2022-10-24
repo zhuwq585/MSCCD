@@ -1,5 +1,5 @@
 {
-    "parser": "grammarDefinations/zig",
-    "grammarName": "zig",
-    "startSymbol": "root"
+    "parser": "grammarDefinations/C",
+    "grammarName": "C",
+    "startSymbol": "primaryExpression"
 }

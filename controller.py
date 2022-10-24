@@ -5,9 +5,6 @@ sys.path.append(sys.path[0] + '/modules')
 from Config import Config
 from DetectionTaskManagement import DetectionTaskManagement
 from InputManagement import InputProject
-from tokenBagGeneration import TokenBagGenerationController
-from globalTokenFrequency import GlobalTokenfrequency
-from CloneDetection import CloneDetectionContraller
 from reportManagement import ReportController
 from Logger import Logger
 import pickle, time
