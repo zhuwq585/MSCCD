@@ -1,4 +1,4 @@
-// Generated from /Users/syu/workspace/MSCCD/grammarDefinations/Cpp/CPP14Parser.g4 by ANTLR 4.9.2
+// Generated from /Users/syu/workspace/MSCCD/grammarDefinations/cpp/CPP14Parser.g4 by ANTLR 4.9.2
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;

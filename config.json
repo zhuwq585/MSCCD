@@ -1,16 +1,16 @@
 {
     "inputProject": [
-        "/Users/syu/workspace/Project_CodeNet/data/p00012/C"
+        "\/Users\/syu\/workspace\/MultilingualCloneBench-CodeNet\/precision\/data\/9\/C++"
     ],
-    "keywordsList": "/Users/syu/workspace/MSCCD/grammarDefinations/C/C.reserved",
+    "keywordsList": "\/Users\/syu\/workspace\/MSCCD\/grammarDefinations\/cpp\/CPP14.reserved",
     "languageExtensionName": [
-        ".c"
+        ".cpp"
     ],
     "minTokens": 5,
     "minTokensForBagGeneration": 5,
     "detectionThreshold": 0.7,
     "maxRound": 1,
-    "tokenizer": "C",
+    "tokenizer": "CPP14",
     "threadNum_tokenizer": 20,
     "threadNum_detection": 20
 }

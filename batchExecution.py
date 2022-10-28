@@ -41,7 +41,7 @@ def getList_json(filePath):
 
 if __name__ == "__main__":
     ### config ### 
-    TASK_NUM = 56
+    TASK_NUM = 40
     configItem_normal = ["keywordsList", "tokenizer"]
     configItem_json   = ["inputProject", "languageExtensionName"]
     configItem_dict   = {}

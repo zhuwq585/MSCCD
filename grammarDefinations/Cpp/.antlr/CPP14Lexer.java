@@ -1,4 +1,4 @@
-// Generated from /Users/syu/workspace/MSCCD/grammarDefinations/Cpp/CPP14Lexer.g4 by ANTLR 4.9.2
+// Generated from /Users/syu/workspace/MSCCD/grammarDefinations/cpp/CPP14Lexer.g4 by ANTLR 4.9.2
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.Token;
