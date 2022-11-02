@@ -41,7 +41,7 @@ def getList_json(filePath):
 
 if __name__ == "__main__":
     ### config ### 
-    TASK_NUM = 40
+    TASK_NUM = 44
     configItem_normal = ["keywordsList", "tokenizer"]
     configItem_json   = ["inputProject", "languageExtensionName"]
     configItem_dict   = {}
@@ -74,7 +74,7 @@ if __name__ == "__main__":
             os.system("python3 controller.py")
             
             # pairFileOutput
-            os.system("python3 ./scripts/filePairOutput.py " + str(taskId) + " 1 " + configObj['inputProject'][0].split("/")[-1] + "_" + configObj['inputProject'][0].split("/")[-2] + ".txt")
+            os.system("python3 ./scripts/filePairOutput.py " + str(taskId) + " 1 ./" + configObj['inputProject'][0].split("/")[-1] + "_" + configObj['inputProject'][0].split("/")[-2] + "_" + configObj['inputProject'][0].split("/")[-3] + ".txt")
             #
             taskId += 1
             

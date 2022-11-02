@@ -204,7 +204,7 @@ class ParseTreeController extends Thread{
 
     private void bagNodeExtraction(){
         ArrayList<Integer> result = new ArrayList<Integer>();
-        // not to add root node at this time
+        // not to add root node at this time？
         result.add(0);
         
         Stack<ParseTree> traverseStack = new Stack<ParseTree>();
