@@ -61,6 +61,7 @@ if __name__ == "__main__":
     if checkRes:
         configObj = ujson.loads("".join(open("./config.json","r").readlines()))
         taskId = int(open("./tasks/tNum.sta","r").readlines()[0][:-1]) + 1
+        detectionId = open("./tasks/task" +str(taskId) + "d_Num.str","r").readlines()[0][:-1]
         # 
         for taskIndex in range(0, TASK_NUM):
             for configuredItem in configItem_json + configItem_normal:
@@ -74,7 +75,9 @@ if __name__ == "__main__":
             os.system("python3 controller.py")
             
             # pairFileOutput
-            os.system("python3 ./scripts/filePairOutput.py " + str(taskId) + " 1 ./" + configObj['inputProject'][0].split("/")[-1] + "_" + configObj['inputProject'][0].split("/")[-2] + "_" + configObj['inputProject'][0].split("/")[-3] + ".txt")
+            # os.system("python3 ./scripts/filePairOutput.py " + str(taskId) + " 1 ./" + configObj['inputProject'][0].split("/")[-1] + "_" + configObj['inputProject'][0].split("/")[-2] + "_" + configObj['inputProject'][0].split("/")[-3] + ".txt")
+            os.system("python3 ./scripts/blockPairOutput.py " + str(taskId) + " " + str(detectionId) + " ./" + str(taskId) + "_"+ str(detectionId) + ".csv")
+
             #
             taskId += 1
             
