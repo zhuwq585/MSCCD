@@ -18,6 +18,7 @@ class ParseTreeController extends Thread{
     public int    fileId;
     public String filePath;
     public int    projectId;
+    public int    maxLexicalUnitIndex;
 
     public ParserController pController; 
 
@@ -33,6 +34,8 @@ class ParseTreeController extends Thread{
 
         if(minSize > -1)
             this.minSize  = minSize;
+        
+            this.maxLexicalUnitIndex = -1;
     }    
     
     public TokenBag runSimplyTokenize(String filePath){
@@ -89,7 +92,7 @@ class ParseTreeController extends Thread{
         if(pController.run(filePath)){
             setParseTree(pController.getPTree());
             setLexicalUnitsArray(pController.getLexicalUnits());
-            
+
             if(lexicalUnitsArray.size() < minSize){
                 System.out.println("Failed to parse " + filePath + "by parse error or minimal size limitation");
                 return null;
@@ -154,6 +157,8 @@ class ParseTreeController extends Thread{
     private void setLexicalUnitsArray(List<Token> arr){
         if (arr != null)
             lexicalUnitsArray = arr;
+        if (arr.get(arr.size() - 1).getText() == "<EOF>")
+            this.maxLexicalUnitIndex = arr.size() - 1;
     };
 
     private void setParseTree(ParseTree tree){
@@ -167,7 +172,9 @@ class ParseTreeController extends Thread{
         int startNodeIndex = bagNode.getStart().getTreeNodeIndex(),
             stopNodeIndex  = bagNode.getStop().getTreeNodeIndex();
 
-
+        if (stopNodeIndex == this.maxLexicalUnitIndex){
+            stopNodeIndex -= 1;
+        }
 
         TokenBag tBag = new TokenBag(fileId, bagNode.getNodeInfoObj().getGranularity(), bagNode.getNodeInfoObj().getSymbolNum(), projectId);
 
@@ -177,7 +184,7 @@ class ParseTreeController extends Thread{
         for(int i = startNodeIndex; i <= stopNodeIndex ; i++){
             typeTmp = allNode.get(i).getTreeNode().getNodeInfoObj().getTokenType();
             if(typeTmp != 0 ){
-                // token dearu
+
                 leafNodeTmp = allNode.get(i).getTreeNode();
                 if(leafNodeTmp.getSplitedToken() == null)
                     tBag.addToken( leafNodeTmp.getText() );

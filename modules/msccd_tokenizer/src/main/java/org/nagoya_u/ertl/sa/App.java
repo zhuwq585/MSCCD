@@ -86,17 +86,17 @@ public class App
     public static void fullyTokenize(String[] args){
 
         // // TESTING 
-        // int minToken = 2;
-        // String fileListPath = "/Users/syu/workspace/MSCCD/tasks/task18/fileList.txt";
-        // String keywordsListPath = "/Users/syu/workspace/MSCCD/grammarDefinations/C/C.reserved";
-        // String outputFilePath = "/home/syu/workspace/test.txt";
-        // int threadNum = 1;
+        int minToken = 2;
+        String fileListPath = "/Users/syu/workspace/MSCCD/tasks/task18/fileList.txt";
+        String keywordsListPath = "/Users/syu/workspace/MSCCD/grammarDefinations/java/Java.reserved";
+        String outputFilePath = "/home/syu/workspace/test.txt";
+        int threadNum = 1;
 
-        int    minToken         = Integer.valueOf(args[1]); 
-        String fileListPath     = args[2]; 
-        String keywordsListPath = args[3]; 
-        String outputFilePath   = args[4]; 
-        int    threadNum        = Integer.valueOf(args[5]); 
+        // int    minToken         = Integer.valueOf(args[1]); 
+        // String fileListPath     = args[2]; 
+        // String keywordsListPath = args[3]; 
+        // String outputFilePath   = args[4]; 
+        // int    threadNum        = Integer.valueOf(args[5]); 
         
         ArrayList<SourceFile> fileList = (new FileController()).setFileArr(fileListPath).getFileList();
         ArrayBlockingQueue<ArrayList<TokenBag>> q = new ArrayBlockingQueue<ArrayList<TokenBag>>(fileList.size());
@@ -119,8 +119,8 @@ public class App
 
         // start sub thread
         for(int i = 0; i < threadArr.size(); i++)
-            threadArr.get(i).start();
-            // threadArr.get(i).run();
+            // threadArr.get(i).start();
+            threadArr.get(i).run();
         
         try{
             BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(outputFilePath));
@@ -199,10 +199,10 @@ public class App
     public static void main( String[] args )
     {
         
-        // // TESTING 
+        // // // TESTING 
         // int minToken = 2;
-        // String fileListPath = "/Users/syu/workspace/MSCCD/tasks/task21/fileList.txt";
-        // String keywordsListPath = "/Users/syu/workspace/MSCCD/grammarDefinations/C/C.reserved";
+        // String fileListPath = "/Users/syu/workspace/MSCCD/tasks/task2046/fileList.txt";
+        // String keywordsListPath = "/Users/syu/workspace/MSCCD/grammarDefinations/python3/Python.reserved";
         // String outputFilePath = "/home/syu/workspace/test.txt";
         // int threadNum = 1;
 

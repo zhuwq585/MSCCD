@@ -6,9 +6,9 @@ Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions
 are met:
 1. Redistributions of source code must retain the above copyright
-   notice, this re_list of conditions and the following disclaimer.
+   notice, this list of conditions and the following disclaimer.
 2. Redistributions in binary form must reproduce the above copyright
-   notice, this re_list of conditions and the following disclaimer in the
+   notice, this list of conditions and the following disclaimer in the
    documentation and/or other materials provided with the distribution.
 3. Neither the name of Tom Everett nor the names of its contributors
    may be used to endorse or promote products derived from this software
@@ -44,7 +44,7 @@ where_module
 
 module_body
     :
-    re_open body close semi*
+    open_ body close semi*
     ;
 
 pragmas
@@ -61,7 +61,7 @@ pragma
 
 language_pragma
     :
-    '{-#' 'LANGUAGE'  extension (',' extension)* '#-}' semi?
+    '{-#' 'LANGUAGE'  extension_ (',' extension_)* '#-}' semi?
     ;
 
 options_ghc
@@ -74,7 +74,7 @@ simple_options
     '{-#' 'OPTIONS' ('-' (varid | conid))* '#-}' semi?
     ;
 
-extension
+extension_
     :
     CONID
     ;
@@ -117,14 +117,14 @@ impspec
 
 himport
     :
-    var
+    var_
     | ( tycon ( ('(' '..' ')') | ('(' (cname (',' cname)*)? ')') )? )
     | ( tycls ( ('(' '..' ')') | ('(' sig_vars? ')') )? )
     ;
 
 cname
     :
-    var | con
+    var_ | con
     ;
 
 // -------------------------------------------
@@ -161,21 +161,21 @@ topdecl
     | infixexp
     ;
 
-// re_Type classes
+// Type classes
 //
 cl_decl
     :
     'class' tycl_hdr fds? where_cls?
     ;
 
-// re_Type declarations (toplevel)
+// Type declarations (toplevel)
 //
 ty_decl
     :
-    // ordinary re_type synonyms
-    'type' re_type '=' ktypedoc
+    // ordinary type synonyms
+    'type' type_ '=' ktypedoc
     // type family declarations
-    | 'type' 'family' re_type opt_tyfam_kind_sig? opt_injective_info? where_type_family?
+    | 'type' 'family' type_ opt_tyfam_kind_sig? opt_injective_info? where_type_family?
     // ordinary data type or newtype declaration
     | 'data' capi_ctype? tycl_hdr constrs derivings?
     | 'newtype' capi_ctype? tycl_hdr constrs derivings?
@@ -183,7 +183,7 @@ ty_decl
     | 'data' capi_ctype? tycl_hdr opt_kind_sig? gadt_constrlist? derivings?
     | 'newtype' capi_ctype? tycl_hdr opt_kind_sig? gadt_constrlist? derivings?
     // data/newtype family
-    | 'data' 'family' re_type opt_datafam_kind_sig?
+    | 'data' 'family' type_ opt_datafam_kind_sig?
     ;
 
 // standalone kind signature
@@ -268,9 +268,9 @@ where_type_family
 
 ty_fam_inst_eqn_list
     :
-    (re_open ty_fam_inst_eqns? close)
+    (open_ ty_fam_inst_eqns? close)
     | ('{' '..' '}')
-    | (re_open '..' close)
+    | (open_ '..' close)
     ;
 
 ty_fam_inst_eqns
@@ -280,11 +280,11 @@ ty_fam_inst_eqns
 
 ty_fam_inst_eqn
     :
-    'forall' tv_bndrs? '.' re_type '=' ktype
-    | re_type '=' ktype
+    'forall' tv_bndrs? '.' type_ '=' ktype
+    | type_ '=' ktype
     ;
 
-//  Associated re_type family declarations
+//  Associated type family declarations
 
 //  * They have a different syntax than on the toplevel (no family special
 //    identifier).
@@ -295,8 +295,8 @@ ty_fam_inst_eqn
 
 at_decl_cls
     :
-    ('data' 'family'? re_type opt_datafam_kind_sig?)
-    | ('type' 'family'? re_type opt_at_kind_inj_sig?)
+    ('data' 'family'? type_ opt_datafam_kind_sig?)
+    | ('type' 'family'? type_ opt_at_kind_inj_sig?)
     | ('type' 'instance'? ty_fam_inst_eqn)
     ;
 
@@ -340,16 +340,16 @@ opt_at_kind_inj_sig
 
 tycl_hdr
     :
-    (tycl_context '=>' re_type)
-    | re_type
+    (tycl_context '=>' type_)
+    | type_
     ;
 
 tycl_hdr_inst
     :
-    ('forall' tv_bndrs? '.' tycl_context '=>' re_type)
-    | ('forall' tv_bndrs? '.' re_type)
-    | (tycl_context '=>' re_type)
-    | re_type
+    ('forall' tv_bndrs? '.' tycl_context '=>' type_)
+    | ('forall' tv_bndrs? '.' type_)
+    | (tycl_context '=>' type_)
+    | type_
     ;
 
 capi_ctype
@@ -395,24 +395,24 @@ pattern_synonym_decl
 
 pattern_synonym_lhs
     :
-    (con re_vars?)
+    (con vars_?)
     | (varid conop varid)
     | (con '{' cvars '}')
     ;
 
-re_vars
+vars_
     :
     varid+
     ;
 
 cvars
     :
-    var (',' var)*
+    var_ (',' var_)*
     ;
 
 where_decls
     :
-    'where' re_open decls? close
+    'where' open_ decls? close
     ;
 
 pattern_synonym_sig
@@ -439,7 +439,7 @@ decls_cls
 
 decllist_cls
     :
-    re_open decls_cls? close
+    open_ decls_cls? close
     ;
 
 // Class body
@@ -464,7 +464,7 @@ decls_inst
 
 decllist_inst
     :
-    re_open decls_inst? close
+    open_ decls_inst? close
     ;
 
 // Instance body
@@ -483,7 +483,7 @@ decls
 
 decllist
     :
-    re_open decls? close
+    open_ decls? close
     ;
 
 // Binding groups other than those of class and instance declarations
@@ -491,7 +491,7 @@ decllist
 binds
     :
     decllist
-    | (re_open dbinds? close)
+    | (open_ dbinds? close)
     ;
 
 wherebinds
@@ -603,7 +603,7 @@ safety : 'unsafe' | 'safe' | 'interruptible';
 
 fspec
     :
-    pstring? var '::' sigtypedoc
+    pstring? var_ '::' sigtypedoc
     ;
 
 // -------------------------------------------
@@ -625,7 +625,7 @@ sigtypedoc
 
 sig_vars
     :
-    var (',' var)*
+    var_ (',' var_)*
     ;
 
 sigtypes1
@@ -666,8 +666,8 @@ ctype
     :
     'forall' tv_bndrs? forall_vis_flag ctype
     | btype '=>' ctype
-    | var '::' re_type // not sure about this rule
-    | re_type
+    | var_ '::' type_ // not sure about this rule
+    | type_
     ;
 
 // -- Note [ctype and ctypedoc]
@@ -679,14 +679,14 @@ ctype
 // -- fields:
 // --         data R = R { field :: Int -- ^ comment on the field }
 // -- If we allow comments on types here, it's not clear if the comment applies
-// -- to 'field' or to 'Int'. So we must use `ctype` to describe the re_type.
+// -- to 'field' or to 'Int'. So we must use `ctype` to describe the type.
 
 
 ctypedoc
     :
     'forall' tv_bndrs? forall_vis_flag ctypedoc
     | tycl_context '=>' ctypedoc
-    | var '::' re_type
+    | var_ '::' type_
     | typedoc
     ;
 
@@ -700,19 +700,19 @@ tycl_context
 
 // {- Note [GADT decl discards annotations]
 // ~~~~~~~~~~~~~~~~~~~~~
-// The re_type production for
+// The type production for
 
 //     btype `->`         ctypedoc
 //     btype docprev `->` ctypedoc
 
 // add the AnnRarrow annotation twice, in different places.
 
-// This is because if the re_type is processed as usual, it belongs on the annotations
-// for the re_type as a whole.
+// This is because if the type is processed as usual, it belongs on the annotations
+// for the type as a whole.
 
-// But if the re_type is passed to mkGadtDecl, it discards the top level SrcSpan, and
+// But if the type is passed to mkGadtDecl, it discards the top level SrcSpan, and
 // the top-level annotation will be disconnected. Hence for this specific case it
-// is connected to the first re_type too.
+// is connected to the first type too.
 // -}
 
 constr_context
@@ -722,22 +722,22 @@ constr_context
 
 // {- Note [GADT decl discards annotations]
 // ~~~~~~~~~~~~~~~~~~~~~
-// The re_type production for
+// The type production for
 
 //     btype `->`         ctypedoc
 //     btype docprev `->` ctypedoc
 
 // add the AnnRarrow annotation twice, in different places.
 
-// This is because if the re_type is processed as usual, it belongs on the annotations
-// for the re_type as a whole.
+// This is because if the type is processed as usual, it belongs on the annotations
+// for the type as a whole.
 
-// But if the re_type is passed to mkGadtDecl, it discards the top level SrcSpan, and
+// But if the type is passed to mkGadtDecl, it discards the top level SrcSpan, and
 // the top-level annotation will be disconnected. Hence for this specific case it
-// is connected to the first re_type too.
+// is connected to the first type too.
 // -}
 
-re_type
+type_
     :
     btype
     | btype '->' ctype
@@ -805,10 +805,10 @@ atype
     | ('\'' qcon_nowiredlist)
     | ('\'' '(' ktype ',' comma_types ')')
     | ('\'' '[' comma_types? ']')
-    | ('\'' var)
-    // Two or more [ty, ty, ty] must be a promoted re_list re_type, just as
+    | ('\'' var_)
+    // Two or more [ty, ty, ty] must be a promoted list type, just as
     // if you had written '[ty, ty, ty]
-    // (One means a re_list re_type, zero means the re_list re_type constructor,
+    // (One means a list type, zero means the list type constructor,
     // so you have to quote those.)
     | ('[' ktype ',' comma_types ']')
     | integer
@@ -898,7 +898,7 @@ kind
 // When the user write Zero instead of 'Zero in types, we parse it a
 // HsTyVar ("Zero", TcClsName) instead of HsTyVar ("Zero", DataName). We
 // deal with this in the renamer. If a HsTyVar ("Zero", TcClsName) is not
-// bounded in the re_type level, then we look for it in the term level (we
+// bounded in the type level, then we look for it in the term level (we
 // change its namespace to DataName, see Note [Demotion] in GHC.Types.Names.OccName).
 // And both become a HsTyVar ("Zero", DataName) after the renamer.
 
@@ -909,7 +909,7 @@ kind
 
 gadt_constrlist
     :
-    'where' re_open gadt_constrs? semi* close
+    'where' open_ gadt_constrs? semi* close
     ;
 
 gadt_constrs
@@ -965,7 +965,7 @@ constrs1
 // {- Note [Constr variations of non-terminals]
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-// In record declarations we assume that 'ctype' used to parse the re_type will not
+// In record declarations we assume that 'ctype' used to parse the type will not
 // consume the trailing docprev:
 
 //   data R = R { field :: Int -- ^ comment on the field }
@@ -1046,7 +1046,7 @@ fielddecl
     sig_vars '::' ctype
     ;
 
-// A re_list of one or more deriving clauses at the end of a datatype
+// A list of one or more deriving clauses at the end of a datatype
 derivings
     :
     deriving+
@@ -1073,19 +1073,19 @@ deriv_clause_types
 
 // {- Note [Declaration/signature overlap]
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-// There's an awkward overlap with a re_type signature.  Consider
+// There's an awkward overlap with a type signature.  Consider
 //         f :: Int -> Int = ...rhs...
-//    Then we can't tell whether it's a re_type signature or a value
+//    Then we can't tell whether it's a type signature or a value
 //    definition with a result signature until we see the '='.
 //    So we have to inline enough to postpone reductions until we know.
 // -}
 
 // {-
-//   ATTENTION: Dirty Hackery Ahead! If the second alternative of re_vars is var
+//   ATTENTION: Dirty Hackery Ahead! If the second alternative of vars is var
 //   instead of qvar, we get another shift/reduce-conflict. Consider the
 //   following programs:
 
-//      { (^^) :: Int->Int ; }          re_Type signature; only var allowed
+//      { (^^) :: Int->Int ; }          Type signature; only var allowed
 
 //      { (^^) :: Int->Int = ... ; }    Value defn with result signature;
 //                                      qvar allowed (because of instance decls)
@@ -1131,7 +1131,7 @@ gdrh
 sigdecl
     :
     (infixexp '::' sigtypedoc)
-    | (var ',' sig_vars '::' sigtypedoc)
+    | (var_ ',' sig_vars '::' sigtypedoc)
     | (fixity integer? ops)
     | (pattern_synonym_sig)
     | ('{-#' 'COMPLETE' con_list opt_tyconsig? '#-}')
@@ -1237,7 +1237,7 @@ aexp2
     | ('(' tup_exprs ')')
     | ('(#' texp '#)')
     | ('(#' tup_exprs '#)')
-    | ('[' re_list ']')
+    | ('[' list_ ']')
     | '_'
     // Template Haskell
     | splice_untyped
@@ -1284,7 +1284,7 @@ acmd
 
 cvtopbody
     :
-    re_open cvtopdecls0? close
+    open_ cvtopdecls0? close
     ;
 
 cvtopdecls0
@@ -1323,9 +1323,9 @@ tup_tail
     ;
 
 // -------------------------------------------
-// re_List expressions
+// List expressions
 
-re_list
+list_
     :
     texp
     | lexps
@@ -1343,7 +1343,7 @@ lexps
 
 
 // -------------------------------------------
-// re_List Comprehensions
+// List Comprehensions
 
 flattenedpquals
     :
@@ -1372,7 +1372,7 @@ transformqual
     ;
 
 // Note that 'group' is a special_id, which means that you can enable
-// TransformListComp while still using Data.re_List.group. However, this
+// TransformListComp while still using Data.List.group. However, this
 // introduces a shift/reduce conflict. Happy chooses to resolve the conflict
 // in by choosing the "group by" variant, which is what we want.
 
@@ -1383,10 +1383,10 @@ transformqual
 
 guards
     :
-    guard (',' guard)*
+    guard_ (',' guard_)*
     ;
 
-guard
+guard_
     :
     pat '<-' infixexp
     | 'let' decllist
@@ -1398,8 +1398,8 @@ guard
 
 alts
     :
-    (re_open (alt semi*)+ close)
-    | (re_open close)
+    (open_ (alt semi*)+ close)
+    | (open_ close)
     ;
 
 alt : pat alt_rhs ;
@@ -1464,7 +1464,7 @@ fpat
 
 stmtlist
     :
-    re_open stmts? close
+    open_ stmts? close
     ;
 
 stmts
@@ -1554,12 +1554,12 @@ namelist
 
 name_var
     :
-    var | con
+    var_ | con
     ;
 
 // -------------------------------------------
 // Data constructors
-// There are two different productions here as lifted re_list constructors
+// There are two different productions here as lifted list constructors
 // are parsed differently.
 
 qcon_nowiredlist : gen_qcon | sysdcon_nolist;
@@ -1593,7 +1593,7 @@ qconop : gconsym | ('`' qconid '`')	 ;
 gconsym: ':'  	 | qconsym			 ;
 
 // -------------------------------------------
-// re_Type constructors (Be careful!!!)
+// Type constructors (Be careful!!!)
 
 gtycon
     :
@@ -1617,22 +1617,22 @@ oqtycon
     | ('(' qtyconsym ')')
     ;
 
-// {- Note [re_Type constructors in export re_list]
+// {- Note [Type constructors in export list]
 // ~~~~~~~~~~~~~~~~~~~~~
-// Mixing re_type constructors and data constructors in export lists introduces
-// ambiguity in grammar: e.g. (*) may be both a re_type constructor and a function.
+// Mixing type constructors and data constructors in export lists introduces
+// ambiguity in grammar: e.g. (*) may be both a type constructor and a function.
 
-// -XExplicitNamespaces allows to disambiguate by explicitly prefixing re_type
-// constructors with 're_type' keyword.
+// -XExplicitNamespaces allows to disambiguate by explicitly prefixing type
+// constructors with 'type' keyword.
 
 // This ambiguity causes reduce/reduce conflicts in parser, which are always
 // resolved in favour of data constructors. To get rid of conflicts we demand
-// that ambiguous re_type constructors (those, which are formed by the same
-// productions as variable constructors) are always prefixed with 're_type' keyword.
-// Unambiguous re_type constructors may occur both with or without 're_type' keyword.
+// that ambiguous type constructors (those, which are formed by the same
+// productions as variable constructors) are always prefixed with 'type' keyword.
+// Unambiguous type constructors may occur both with or without 'type' keyword.
 
-// Note that in the parser we still parse data constructors as re_type
-// constructors. As such, they still end up in the re_type constructor namespace
+// Note that in the parser we still parse data constructors as type
+// constructors. As such, they still end up in the type constructor namespace
 // until after renaming when we resolve the proper namespace for each exported
 // child.
 // -}
@@ -1665,7 +1665,7 @@ qvarop : qvarsym | ('`' qvarid '`');
 qvaropm: qvarsym_no_minus | ('`' qvarid '`');
 
 // -------------------------------------------
-// re_Type variables
+// Type variables
 
 tyvar : varid;
 
@@ -1685,7 +1685,7 @@ qtycls  : (modid '.')? tycls;
 // -------------------------------------------
 // Variables
 
-var	   : varid   | ( '(' varsym ')' );
+var_	   : varid   | ( '(' varsym ')' );
 
 qvar   : qvarid  | ( '(' qvarsym ')');
 
@@ -1747,7 +1747,7 @@ literal : integer | pfloat | pchar | pstring;
 // -------------------------------------------
 // Layout
 
-re_open : VOCURLY | OCURLY;
+open_ : VOCURLY | OCURLY;
 close : VCCURLY | CCURLY;
 semi : ';' | SEMI;
 

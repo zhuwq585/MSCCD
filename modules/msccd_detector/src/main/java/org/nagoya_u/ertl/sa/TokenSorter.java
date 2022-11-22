@@ -17,7 +17,7 @@ public class TokenSorter extends Thread {
     }
     
     public void run(){
-        System.out.println("");
+        // System.out.println("");
         for(TokenBag bag : bagList)
             sortBag(bag);
     }

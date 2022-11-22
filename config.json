@@ -1,15 +1,15 @@
 {
     "inputProject": [
-        "\/Users\/syu\/workspace\/MultilingualCloneBench-CodeNet\/precision\/data\/group4\/0\/C++"
+        "\/Users\/syu\/workspace\/MultilingualCloneBench-CodeNet\/precision\/data\/group3\/4\/C++"
     ],
     "keywordsList": "\/Users\/syu\/workspace\/MSCCD\/grammarDefinations\/cpp\/CPP14.reserved",
     "languageExtensionName": [
         ".cpp"
     ],
-    "minTokens": 5,
-    "minTokensForBagGeneration": 5,
+    "minTokens": 20,
+    "minTokensForBagGeneration": 20,
     "detectionThreshold": 0.7,
-    "maxRound": 1,
+    "maxRound": 0,
     "tokenizer": "CPP14",
     "threadNum_tokenizer": 20,
     "threadNum_detection": 20

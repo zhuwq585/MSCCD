@@ -35,20 +35,19 @@ public class TokenBag{
     }
 
     public void addToken(String str){
-    if(str.length() < 1)
-        return;
-        
-    try{
-        if ( tokenMap.containsKey(str))
-            tokenMap.put(str, tokenMap.get(str)+1);
-        else
-            tokenMap.put(str, 1);    
-        
-        tokenNum++;
-    }catch(OutOfMemoryError e){
-        System.out.println(str);
-        e.printStackTrace();
-    }
+        if(str.length() < 1)
+            return;
+            
+        try{
+            if ( tokenMap.containsKey(str))
+                tokenMap.put(str, tokenMap.get(str)+1);
+            else
+                tokenMap.put(str, 1);    
+            
+            tokenNum++;
+        }catch(OutOfMemoryError e){
+            e.printStackTrace();
+        }
     }
 
     public String[] getAllToken(){
