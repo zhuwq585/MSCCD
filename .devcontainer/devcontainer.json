@@ -4,8 +4,13 @@
   "name": "Ubuntu",
   "image": "mcr.microsoft.com/devcontainers/base:bionic",
   "features": {
-    "ghcr.io/devcontainers/features/java:1": {},
-    "ghcr.io/devcontainers/features/python:1": {}
+    "ghcr.io/devcontainers/features/java:1": {
+      "version": "11",
+      "installMaven": "true"
+    },
+    "ghcr.io/devcontainers/features/python:1": {
+      "version": "3.6",
+    }
   },
   "extensions": [
     "EditorConfig.EditorConfig"
