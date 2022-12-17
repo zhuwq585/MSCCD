@@ -19,6 +19,7 @@ class MainController():
         print("################################################")
         
         timeStart = time.time()
+                
         if len(sys.argv) == 1:
             taskObj = self.createTask_new()
             if taskObj == None:

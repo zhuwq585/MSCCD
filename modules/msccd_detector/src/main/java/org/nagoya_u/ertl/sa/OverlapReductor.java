@@ -85,7 +85,7 @@ public class OverlapReductor {
                 //     System.out.println("312312312");
                     
 
-                if ( !ifBagOverLapByFileCloneMap(bagA, bagB)){
+                if ( !ifBagOverLapByFileCloneMap(bagA, bagB) && !ifSelfOverlappedClone(bagA, bagB)){
                     addFileCloneMapItem(bagA, bagB);
                     Integer[] tmp = {bagA.projectId, bagA.fileId,bagA.bagId,bagB.projectId,bagB.fileId,bagB.bagId};
                     res.add(tmp);
@@ -108,6 +108,20 @@ public class OverlapReductor {
 
 
     }
+
+    private boolean ifSelfOverlappedClone(TokenBag bagA, TokenBag bagB){
+        if( (bagA.bagId == 0) || (bagB.bagId == 0)){
+            if((bagA.fileId == bagB.fileId) && (bagA.projectId == bagB.projectId)) {
+                return true;
+            }else{
+                return false;
+            }
+        }else{
+            return false;
+        }
+    }
+
+
     private boolean ifBagOverLapByFileCloneMap(TokenBag bagA, TokenBag bagB){
 
         Integer[] testPair = {bagA.projectId,bagA.fileId,bagA.bagId,bagB.projectId,bagB.fileId,bagB.bagId};

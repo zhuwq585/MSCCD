@@ -3,6 +3,8 @@ package org.nagoya_u.ertl.sa;
 import java.util.HashMap;
 import java.util.Set;
 
+import org.antlr.runtime.Token;
+
 public class TokenBag{
 
     public HashMap<String, Integer> tokenMap;
@@ -38,6 +40,7 @@ public class TokenBag{
         if(str.length() < 1)
             return;
             
+        str = this.removeEnter(str);
         try{
             if ( tokenMap.containsKey(str))
                 tokenMap.put(str, tokenMap.get(str)+1);
@@ -48,6 +51,13 @@ public class TokenBag{
         }catch(OutOfMemoryError e){
             e.printStackTrace();
         }
+    }
+
+    private String removeEnter(String str){
+        if (str.equalsIgnoreCase(str)){
+            str = str.replaceAll("\n", "");
+        }
+        return str;
     }
 
     public String[] getAllToken(){
@@ -100,4 +110,13 @@ public class TokenBag{
         return res;
     }
     // projectId @@ fileId @@ bagId @@ granularity @@ num_keywords @@ symbolN @@ tokenN @@ startline -- endline @@ tokens...........
+
+    // public static void main(String args[]){
+    //     TokenBag test = new TokenBag(0, 0, 0, 0);
+
+    //     String a = "/";
+    //     System.out.println(a);
+    //     System.out.println(test.removeEnter(a));
+    //     System.out.println(test.removeEnter(a));
+    // }
 }

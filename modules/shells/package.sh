@@ -13,3 +13,5 @@ fi
 
 
 cp $1/modules/msccd_tokenizer/target/msccd_tokenizer-1.0-SNAPSHOT.jar $1/tokenizers/$2/$2_tokenizer.jar   
+
+mvn clean
