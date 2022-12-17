@@ -61,6 +61,8 @@ def filePath2BCBMsg(path): # "subfolder,fileName"
 if __name__ == "__main__":
     res = []
     
+    granularity_range = [0,1,2,3,4]
+    
     taskIdStart = int(sys.argv[1])
     taskIdEnd   = int(sys.argv[2])
     outputFile  = sys.argv[3]
@@ -80,6 +82,10 @@ if __name__ == "__main__":
             fileList  = fileListGeneration(fileListFile)
             cloneList = cloneListGeneration(resultFile)
             for clone in cloneList:
+                if granularity_range != None:
+                    if (not bagList[clone[0][0]][clone[0][1]][clone[0][2]][2] in granularity_range) or (not bagList[clone[1][0]][clone[1][1]][clone[1][2]][2] in granularity_range):
+                        continue
+                
                 msg = ""
                 msg = msg + filePath2BCBMsg( fileList[clone[0][0]][clone[0][1]]) + ","
                 msg = msg + str(bagList[clone[0][0]][clone[0][1]][clone[0][2]][0]) + ","
