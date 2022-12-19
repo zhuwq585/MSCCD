@@ -1,0 +1,16 @@
+{
+    "inputProject": [
+        "sampleInput/jsoncpp"
+    ],
+    "keywordsList": "grammarDefinations/cpp/CPP14.reserved",
+    "languageExtensionName": [
+        ".cpp"
+    ],
+    "minTokens": 50,
+    "minTokensForBagGeneration": 50,
+    "detectionThreshold": 0.7,
+    "maxRound": 5,
+    "tokenizer": "CPP14",
+    "threadNum_tokenizer": 20,
+    "threadNum_detection": 20
+}

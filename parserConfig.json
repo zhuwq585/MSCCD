@@ -1,5 +1,5 @@
 {
-    "parser": "grammarDefinations/cpp",
-    "grammarName": "CPP14",
-    "startSymbol": "translationUnit"
+    "parser": "grammarDefinations/C",
+    "grammarName": "C",
+    "startSymbol": "primaryExpression"
 }
