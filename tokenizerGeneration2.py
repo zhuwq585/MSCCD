@@ -37,6 +37,13 @@ def generate(name, config="./tokenizerManifests.json"):
         )
         sys.exit(1)
 
+    if not "startSymbol" in lang_setting:
+        console.print(
+            "[italic]startSymbol[/italic] is not defined in manifest %s" % (name),
+            style="bold red",
+        )
+        sys.exit(1)
+
     # step2
     console.print("step2: Cleanup files", style="bold cyan")
     if os.path.isdir(tokenizer_src_parser_dirpath):
