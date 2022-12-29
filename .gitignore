@@ -1,4 +1,4 @@
 tasks/*
 !tasks/tNum.sta
 */.DS_Store
-tokenizers/*
+# tokenizers/*

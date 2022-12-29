@@ -1,8 +1,8 @@
 {
     "inputProject": [
-        "\/Users\/syu\/workspace\/MultilingualCloneBench-CodeNet\/precision\/data\/group3\/4\/C++"
+        "sampleInput/jsoncpp"
     ],
-    "keywordsList": "\/Users\/syu\/workspace\/MSCCD\/grammarDefinations\/cpp\/CPP14.reserved",
+    "keywordsList": "MSCCD/grammarDefinations/cpp/CPP14.reserved",
     "languageExtensionName": [
         ".cpp"
     ],

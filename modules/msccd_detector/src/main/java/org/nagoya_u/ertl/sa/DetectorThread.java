@@ -111,7 +111,7 @@ public class DetectorThread extends Thread{
             
         }
 
-        System.out.println("Detection Thread over");
+        // System.out.println("Detection thread over");
     }
 
     // private boolean ifBagOverLap(TokenBag a, TokenBag b){
