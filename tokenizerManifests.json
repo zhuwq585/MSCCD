@@ -6,5 +6,9 @@
   "CPP14": {
     "parser": "grammarDefinations/Cpp",
     "startSymbol": "translationUnit"
+  },
+  "Java": {
+    "parser": "grammarDefinations/java",
+    "startSymbol": "compilationUnit"
   }
 }
