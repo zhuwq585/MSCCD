@@ -17,14 +17,20 @@
     "EditorConfig.EditorConfig",
     "mike-lischke.vscode-antlr4",
     "tamasfe.even-better-toml",
+    "ms-python.vscode-pylance",
     "ms-python.python"
   ],
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
   // "forwardPorts": [],
   // Use 'postCreateCommand' to run commands after the container is created.
-  "postCreateCommand": "sh ./.devcontainer/postCreateCommand.sh"
+  "postCreateCommand": "sh ./.devcontainer/postCreateCommand.sh",
   // Configure tool-specific properties.
   // "customizations": {},
   // Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
   // "remoteUser": "root"
+  "settings": {
+    "python.defaultInterpreterPath": ".venv/bin/python3",
+    "python.formatting.provider": "black",
+    "python.formatting.blackPath": "black"
+  }
 }
