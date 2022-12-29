@@ -84,14 +84,14 @@ def generate(name, config="./tokenizerManifests.json"):
 
     # step7
     console.print("step7: Copy tokenizer", style="bold cyan")
-    tokenizer_copyto = Path("./tokenizers/").joinpath("%s.jar" % name)
+    tokenizer_copyto = Path("./tokenizers/").joinpath("%s_tokenizer.jar" % name)
     shutil.copy(
         Path("./modules/msccd_tokenizer/target/msccd_tokenizer-1.0-SNAPSHOT.jar"),
-        Path("./tokenizers/").joinpath("%s_tokenizer.jar" % name),
+        tokenizer_copyto,
     )
 
     console.print("Tokenizer successfuly created!", style="bold green")
-    console.print("Created to: [bold green]%s[/bold green]" % tokenizer_copyto)
+    console.print("Created: [bold green]%s[/bold green]" % tokenizer_copyto)
 
 
 if __name__ == "__main__":
