@@ -31,6 +31,9 @@
   "settings": {
     "python.defaultInterpreterPath": ".venv/bin/python3",
     "python.formatting.provider": "black",
-    "python.formatting.blackPath": "black"
+    "python.formatting.blackPath": "black",
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": true
+    }
   }
 }

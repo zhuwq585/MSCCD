@@ -8,9 +8,12 @@ authors = ["Your Name <you@example.com>"]
 python = "^3.11"
 ujson = "^5.6.0"
 jinja2 = "^3.1.2"
+fire = "^0.5.0"
+rich = "^12.6.0"
 
 [tool.poetry.group.dev.dependencies]
 black = "^22.12.0"
+isort = "^5.11.4"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

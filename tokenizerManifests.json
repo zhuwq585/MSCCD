@@ -1,0 +1,10 @@
+{
+  "C": {
+    "parser": "grammarDefinations/C",
+    "startSymbol": "primaryExpression"
+  },
+  "CPP14": {
+    "parser": "grammarDefinations/Cpp",
+    "startSymbol": "translationUnit"
+  }
+}

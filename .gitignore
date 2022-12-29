@@ -1,5 +1,14 @@
 tasks/*
 !tasks/tNum.sta
 
+.venv
+
+.vscode/settings.json
+
 **/.DS_Store
 **/__pycache__
+**/.antlr
+
+modules/msccd_tokenizer/src/main/java/org/nagoya_u/ertl/sa/parser/
+modules/msccd_tokenizer/src/main/java/org/nagoya_u/ertl/sa/ParserController.java
+modules/msccd_tokenizer/target

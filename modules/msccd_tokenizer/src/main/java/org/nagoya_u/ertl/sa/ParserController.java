@@ -1,5 +1,0 @@
-package org.nagoya_u.ertl.sa;import java.nio.file.Files;import java.nio.file.Paths;import java.util.List;import org.antlr.v4.runtime.*;  import org.antlr.v4.runtime.tree.*;import org.nagoya_u.ertl.sa.parser.*;public class ParserController { public ParseTree pTree; public List<Token> lexicalUnits; ParserController(){  } public boolean run(String filePath){try{if (Files.lines(Paths.get(filePath)).count() > 30000){ System.out.println("too big file. ");    return false; }CharStream input = CharStreams.fromFileName(filePath);CLexer lexer = new CLexer(input);
-CommonTokenStream tokens = new CommonTokenStream(lexer);
-tokens.getNumberOfOnChannelTokens();
-CParser parser = new CParser(tokens);
-ParseTree tree = parser.primaryExpression();pTree = tree;lexicalUnits = tokens.getTokens();}catch (Exception e){ System.out.println("File not found.");return false;}return true;}public ParseTree getPTree(){return pTree;}public List<Token> getLexicalUnits(){return lexicalUnits; }public void reset(){ pTree  = null;lexicalUnits = null; }}
