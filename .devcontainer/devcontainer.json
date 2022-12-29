@@ -6,15 +6,18 @@
   "features": {
     "ghcr.io/devcontainers/features/java:1": {
       "version": "17",
-      "installMaven": "true"
+      "installMaven": true
     },
     "ghcr.io/devcontainers/features/python:1": {
-      "version": "3.6"
+      "version": "3.11",
+      "installTools": false
     }
   },
   "extensions": [
     "EditorConfig.EditorConfig",
-    "mike-lischke.vscode-antlr4"
+    "mike-lischke.vscode-antlr4",
+    "tamasfe.even-better-toml",
+    "ms-python.python"
   ],
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
   // "forwardPorts": [],
