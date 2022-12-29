@@ -2,3 +2,5 @@ tasks/*
 !tasks/tNum.sta
 */.DS_Store
 # tokenizers/*
+
+**/__pycache__/
