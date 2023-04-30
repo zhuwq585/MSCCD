@@ -8,3 +8,7 @@ tokenizers/*
 # tokenizers/*
 *.zip
 getCodeNetRes.py
+*.antlr
+*/__pycache__
+*/.vscode
+*/.settings
