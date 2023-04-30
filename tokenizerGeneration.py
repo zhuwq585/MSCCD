@@ -89,9 +89,15 @@ if __name__ == "__main__":
     os.system("bash modules/shells/package.sh " + rootAbspath + " " + configObj["grammarName"])
 
     print("###################")
-    print("#### Tokenizer for " + str(configObj['grammarName']) + " is generated in ./tokenizers/" + str(configObj['grammarName']))
-    print("#### You can use this tokenizer by configuring the field 'tokenizer' of ./config.json to '" + str(configObj['grammarName']) + "'")
-    print("#### Over")
+
+    if os.path.exists("./tokenizers/" + configObj['grammarName'] + "/" +  configObj['grammarName'] + "_tokenizer.jar"):
+        print("#### Tokenizer for " + str(configObj['grammarName']) + " is generated in ./tokenizers/" + str(configObj['grammarName']))
+        print("#### You can use this tokenizer by configuring the field 'tokenizer' of ./config.json to '" + str(configObj['grammarName']) + "'")
+        print("#### Over")
+    else:
+        print("Failed to generate tokenizer.")
+        print("Check error report below.")
+        print("Over")
     print("###################")
     # os.system("bash modules/shells/runtimeCreation.sh " + rootAbspath)
     pass

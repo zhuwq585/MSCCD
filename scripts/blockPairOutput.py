@@ -2,7 +2,6 @@
 ## output: clone pair of file identifier
 ## parameters: taskId detectionId outputFile ["granularity keyword symbol token"]
 import sys, os, ujson
-from turtle import clone
 
 def cloneListGeneration(clonePath):
     res = []
@@ -108,7 +107,7 @@ if __name__ == "__main__":
             titleMsg = titleMsg[:-1] + "\n"
         
         with open(outputFile, "w") as f:
-            f.write(titleMsg)
+            # f.write(titleMsg)
             for clone in cloneListArr:
                 msg = fileListArr[clone[0][0]][clone[0][1]] + ","
                 msg = msg + str(tokenBagListArr[clone[0][0]][clone[0][1]][clone[0][2]][0]) + ","

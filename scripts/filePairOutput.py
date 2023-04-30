@@ -2,7 +2,6 @@
 ## output: clone pair of file identifier
 ## parameters: taskId detectionId outputFile
 import sys, os, ujson
-from turtle import clone
 
 MSCCD_ROOT = "/Users/syu/workspace/MSCCD/"
 def cloneListGeneration(clonePath):

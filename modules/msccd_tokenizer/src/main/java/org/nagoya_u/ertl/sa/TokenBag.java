@@ -54,9 +54,11 @@ public class TokenBag{
     }
 
     private String removeEnter(String str){
-        if (str.equalsIgnoreCase(str)){
-            str = str.replaceAll("\n", "");
-        }
+        // if (str.equalsIgnoreCase(str)){
+        //     str = str.replaceAll("\n", "");
+        // }
+        final String pattern = "\s";
+        str = str.replaceAll(pattern, "");
         return str;
     }
 

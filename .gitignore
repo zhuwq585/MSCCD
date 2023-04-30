@@ -1,4 +1,10 @@
 tasks/*
 !tasks/tNum.sta
 */.DS_Store
+tasks*
+modules/msccd_detector_*
+CodeNetRes_MSCCD
+tokenizers/*
 # tokenizers/*
+*.zip
+getCodeNetRes.py

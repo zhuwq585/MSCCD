@@ -4,13 +4,12 @@ class InputProject():
     # Project path; file list; 
     # id-file saving
     def __init__(self, inputPathList, extNameArr):
-        self.fileList = [] # projectId-file
+        self.fileList    = [] # projectId-file
         self.projectList = inputPathList
         
         if len(extNameArr) <= 0:
             print('extName configuration error. Please check config.json.')
             return False
-
         else:
             self.__extName = set()
             for i in extNameArr:

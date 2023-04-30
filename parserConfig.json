@@ -1,5 +1,5 @@
 {
-    "parser": "grammarDefinations/C",
-    "grammarName": "C",
-    "startSymbol": "primaryExpression"
+    "parser": "grammarDefinations/python3",
+    "grammarName": "Python3",
+    "startSymbol": "file_input"
 }

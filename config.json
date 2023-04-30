@@ -1,16 +1,17 @@
 {
     "inputProject": [
-        "sampleInput/jsoncpp"
+        "/Users/syu/workspace/ScalabilityTestGeneration/10M"
     ],
-    "keywordsList": "MSCCD/grammarDefinations/cpp/CPP14.reserved",
+    "keywordsList": "/Users/syu/workspace/MSCCD/grammarDefinations/java/Java.reserved",
     "languageExtensionName": [
-        ".cpp"
+        ".java"
     ],
     "minTokens": 20,
     "minTokensForBagGeneration": 20,
     "detectionThreshold": 0.7,
     "maxRound": 0,
-    "tokenizer": "CPP14",
-    "threadNum_tokenizer": 20,
-    "threadNum_detection": 20
+    "tokenizer": "Java",
+    "threadNum_tokenizer": 8,
+    "threadNum_detection": 8,
+    "outputFile": "./new.csv"
 }

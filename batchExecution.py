@@ -41,8 +41,8 @@ def getList_json(filePath):
 
 if __name__ == "__main__":
     ### config ### 
-    TASK_NUM = 44
-    configItem_normal = ["keywordsList", "tokenizer"]
+    TASK_NUM = 66
+    configItem_normal = ["keywordsList", "tokenizer","outputFile"]
     configItem_json   = ["inputProject", "languageExtensionName"]
     configItem_dict   = {}
     for item in configItem_normal:
@@ -76,8 +76,10 @@ if __name__ == "__main__":
             # detectionId = open("./tasks/task" +str(taskId) + "/d_Num.str","r").readlines()[0][:-1]
 
             # pairFileOutput
-            os.system("python3 ./scripts/filePairOutput.py " + str(taskId) + " 1 ./" + configObj['inputProject'][0].split("/")[-1] + "_" + configObj['inputProject'][0].split("/")[-2] + "_" + configObj['inputProject'][0].split("/")[-3] + ".txt")
+            os.system("python3 ./scripts/blockPairOutput.py " + str(taskId) + " 1 " +  configItem_dict['outputFile'][taskIndex])
             # os.system("python3 ./scripts/blockPairOutput.py " + str(taskId) + " " + str(detectionId) + " ./" + str(taskId) + "_"+ str(detectionId) + ".csv")
 
             #
             taskId += 1
+    print("over")
+    open("./over","w").write("over")

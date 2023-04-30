@@ -7,7 +7,8 @@ import java.util.ArrayList;
 
 public class TokenBagController {
 
-    public ArrayList<ArrayList<ArrayList<TokenBag>>> bagCollection;
+    public ArrayList<ArrayList<TokenBag>> bagCollection_granuIndex;
+    public ArrayList<ArrayList<ArrayList<TokenBag>>> bagCollection_idIndex;
     private int threadNum;
     private int minToken;
     public int minGranularity;
@@ -15,57 +16,110 @@ public class TokenBagController {
     TokenBagController(String sourcePath, TokenFrequency gtp, int thread_num, int minToken){
         minGranularity = 0;
         // load all token bags from source file and create gtp by token bags whose bagId is 0
-        bagCollection = new ArrayList<ArrayList<ArrayList<TokenBag>>>();
+        bagCollection_idIndex = new ArrayList<ArrayList<ArrayList<TokenBag>>>(); //fileid -> bagid -> tokenbag
+        bagCollection_granuIndex = new ArrayList<ArrayList<TokenBag>>(); // granularity -> tokenbags
         threadNum     = thread_num;
         this.minToken = minToken;
 
         loadBagsFromFile(sourcePath, gtp);
     }
 
-    public void loadBagsFromFile(String sourcePath, TokenFrequency gtp){
-            FileReader openedFile;
-            try{
-                openedFile = new FileReader(sourcePath);
-            }catch(FileNotFoundException e){
-                System.out.println("Token bag source file not found");
-                return ;
-            }
+    public void loadBagsFromFile(String sourcePath, TokenFrequency gtp){ //
+        FileReader openedFile;
+        try{
+            openedFile = new FileReader(sourcePath);
+        }catch(FileNotFoundException e){
+            System.out.println("Token bag source file not found");
+            return ;
+        }
 
-            BufferedReader input = new BufferedReader(openedFile);
-            String str = null;
-            try{
-                while( (str = input.readLine()) != null){
+        BufferedReader input = new BufferedReader(openedFile);
+        String str = null;
+        try{
+            while( (str = input.readLine()) != null){
 
-                    TokenBag tmpBag = createBagFromStr(str);
-                    if (tmpBag == null)
-                        continue;
+                TokenBag tmpBag = createBagFromStr(str);
+                if (tmpBag == null)
+                    continue;
 
-                    if(tmpBag.bagId == 0)
-                        gtp.addItems(tmpBag);
-                    
-                    if(tmpBag.projectId >= bagCollection.size())
-                        while(tmpBag.projectId >= bagCollection.size())
-                            bagCollection.add(new ArrayList<ArrayList<TokenBag>>());
+                if(tmpBag.bagId == 0)
+                    gtp.addItems(tmpBag);
                 
-                    if(tmpBag.fileId >= bagCollection.get(tmpBag.projectId).size())
-                        while(tmpBag.fileId>=bagCollection.get(tmpBag.projectId).size())
-                            bagCollection.get(tmpBag.projectId).add( new ArrayList<TokenBag>());
-                    
-                    if(tmpBag.granularity > minGranularity)
-                        minGranularity = tmpBag.granularity;
+                // granularity index generation
+                if(tmpBag.granularity >= bagCollection_granuIndex.size())
+                    while(tmpBag.granularity >= bagCollection_granuIndex.size())
+                        bagCollection_granuIndex.add(new ArrayList<TokenBag>());
+                
+                if (tmpBag.tokenNum >= this.minToken)
+                    bagCollection_granuIndex.get(tmpBag.granularity).add(tmpBag);
+                
+                if(tmpBag.granularity > minGranularity)
+                    minGranularity = tmpBag.granularity;
 
-                    bagCollection.get(tmpBag.projectId).get(tmpBag.fileId).add(tmpBag);
-
-
-                }
-                input.close();
-            }catch(Exception e){
-                System.out.println("err in BufferrdReader for loading token bags from source file");
-                System.out.println(e.getLocalizedMessage());
-                System.out.println(str);
-                e.printStackTrace();
+                // id index generation
+                if(tmpBag.projectId >= bagCollection_idIndex.size())
+                    while(tmpBag.projectId >= bagCollection_idIndex.size())
+                        bagCollection_idIndex.add(new ArrayList<ArrayList<TokenBag>>());
+                
+                if(tmpBag.fileId >= bagCollection_idIndex.get(tmpBag.projectId).size())
+                    while(tmpBag.fileId>=bagCollection_idIndex.get(tmpBag.projectId).size())
+                        bagCollection_idIndex.get(tmpBag.projectId).add( new ArrayList<TokenBag>());
+                
+                bagCollection_idIndex.get(tmpBag.projectId).get(tmpBag.fileId).add(tmpBag);
             }
-    }
+            input.close();
+        }catch(Exception e){
+            System.out.println("err in BufferrdReader for loading token bags from source file");
+            System.out.println(e.getLocalizedMessage());
+            System.out.println(str);
+            e.printStackTrace();
+        }
+    }   
+
+    // public void loadBagsFromFile_fbt(String sourcePath, TokenFrequency gtp){ // fileid -> bagid -> tokenbag
+    //         FileReader openedFile;
+    //         try{
+    //             openedFile = new FileReader(sourcePath);
+    //         }catch(FileNotFoundException e){
+    //             System.out.println("Token bag source file not found");
+    //             return ;
+    //         }
+
+    //         BufferedReader input = new BufferedReader(openedFile);
+    //         String str = null;
+    //         try{
+    //             while( (str = input.readLine()) != null){
+
+    //                 TokenBag tmpBag = createBagFromStr(str);
+    //                 if (tmpBag == null)
+    //                     continue;
+
+    //                 if(tmpBag.bagId == 0)
+    //                     gtp.addItems(tmpBag);
+                    
+    //                 if(tmpBag.projectId >= bagCollection.size())
+    //                     while(tmpBag.projectId >= bagCollection.size())
+    //                         bagCollection.add(new ArrayList<ArrayList<TokenBag>>());
+                
+    //                 if(tmpBag.fileId >= bagCollection.get(tmpBag.projectId).size())
+    //                     while(tmpBag.fileId>=bagCollection.get(tmpBag.projectId).size())
+    //                         bagCollection.get(tmpBag.projectId).add( new ArrayList<TokenBag>());
+                    
+    //                 if(tmpBag.granularity > minGranularity)
+    //                     minGranularity = tmpBag.granularity;
+
+    //                 bagCollection.get(tmpBag.projectId).get(tmpBag.fileId).add(tmpBag);
+
+
+    //             }
+    //             input.close();
+    //         }catch(Exception e){
+    //             System.out.println("err in BufferrdReader for loading token bags from source file");
+    //             System.out.println(e.getLocalizedMessage());
+    //             System.out.println(str);
+    //             e.printStackTrace();
+    //         }
+    // }
 
     private TokenBag createBagFromStr(String sourceLine){
         String infoArr[]     = sourceLine.split("@ @");
@@ -97,11 +151,50 @@ public class TokenBagController {
         return res;
     }
 
-
-    // this part is too slow!!!!!!
     public ArrayList<TokenBag> bagPoolGeneration(int roundId, int minToken, TokenFrequency gtp){
+   
+        ArrayList<TokenBag> res = bagCollection_granuIndex.get(roundId);
+        // for(ArrayList<ArrayList<TokenBag>> bagsForProject : bagCollection)
+        //     for( ArrayList<TokenBag> i : bagsForProject)
+        //         for(TokenBag j : i){
+        //             if(j.granularity == roundId && j.tokenNum >= minToken){
+        //             // if(j.granularity == roundId && j.symbolNum >= minToken)
+        //                 res.add(j);
+        //             }
+        //         }
+
+        ArrayList<TokenSorter> threadArr = new ArrayList<TokenSorter>();
+        for (int i = 0; i < threadNum; i++)
+            threadArr.add(new TokenSorter(gtp));
+        
+        int cursor = 0;
+        for (int i = 0; i < res.size(); i++)
+            threadArr.get(cursor).addBag(res.get(i));
+            cursor++;
+            if(cursor >= threadNum)
+                cursor = 0;
+        
+        for(Thread h : threadArr)
+            h.start();
+            // h.run();
+            // h.join();
+            
+        for(Thread h : threadArr)
+            try{
+                h.join();
+            }catch(InterruptedException e){
+                System.out.println(e.getLocalizedMessage());
+            }
+            
+        return res;
+    }
+
+
+
+    public ArrayList<TokenBag> bagPoolGeneration_old(int roundId, int minToken, TokenFrequency gtp){
+        
         ArrayList<TokenBag> res = new ArrayList<TokenBag>();
-        for(ArrayList<ArrayList<TokenBag>> bagsForProject : bagCollection)
+        for(ArrayList<ArrayList<TokenBag>> bagsForProject : bagCollection_idIndex)
             for( ArrayList<TokenBag> i : bagsForProject)
                 for(TokenBag j : i){
                     if(j.granularity == roundId && j.tokenNum >= minToken){

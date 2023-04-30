@@ -39,7 +39,7 @@ public class Detector {
             round++;
         }
         // overlap reduction
-        OverlapReductor reductor = new OverlapReductor(tBagController.bagCollection, thread_num);
+        OverlapReductor reductor = new OverlapReductor(tBagController.bagCollection_idIndex, thread_num);
         return reductor.run(pairsBefore);
     }
 
@@ -47,7 +47,7 @@ public class Detector {
         // if (round == 4)
         //     System.out.println(" ");
         // System.out.println("bagPoolGeneration");
-        ArrayList<TokenBag> bagPool = tBagController.bagPoolGeneration(round, minToken, gtp);
+        ArrayList<TokenBag> bagPool = tBagController.bagPoolGeneration(round, minToken, gtp); // slow
         System.out.println("Round " + String.valueOf(round) + " started, bagPool's size is " + String.valueOf(bagPool.size()));
 
         PartialIndex pIndex = new PartialIndex(bagPool, threshold);
