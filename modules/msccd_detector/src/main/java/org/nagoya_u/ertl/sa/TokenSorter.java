@@ -180,8 +180,8 @@ public class TokenSorter extends Thread {
     private void sortBag(TokenBag bag){
         LinkedList<Integer> res = new LinkedList<Integer>();
         LinkedList<Integer []> tmp = new LinkedList<Integer []>();
-        for(String token : bag.getAllToken()){
-            Integer [] insertNode = {this.gtp.getIdByToken(token), this.gtp.getFreqByToken(token)};
+        for(Integer tokenID : bag.getAllToken_ID()){
+            Integer [] insertNode = {tokenID, this.gtp.getFreqById(tokenID)};
             tmp.add( insertNode );
         }
 
@@ -197,7 +197,7 @@ public class TokenSorter extends Thread {
         });
 
         for (Integer[] a : tmp){
-            for(Integer times  = 0; times < bag.tokenMap.get(gtp.getTokenById(a[0])); times++){
+            for(Integer times  = 0; times < bag.tokenMap_id.get(a[0]); times++){
                 res.add(a[0]);
             }
         }

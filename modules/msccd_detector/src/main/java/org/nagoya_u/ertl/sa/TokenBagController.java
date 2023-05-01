@@ -45,11 +45,10 @@ public class TokenBagController {
                 if (tmpBag.granularity > maxRound)
                     continue;
 
-                if (tmpBag == null)
-                    continue;
-
                 if(tmpBag.bagId == 0)
                     gtp.addItems(tmpBag);
+                
+                tmpBag.freeHashMap(gtp);
                 
                 // granularity index generation
                 if(tmpBag.granularity >= bagCollection_granuIndex.size())

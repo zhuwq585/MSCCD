@@ -1,4 +1,6 @@
 package org.nagoya_u.ertl.sa;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Set;
@@ -6,6 +8,7 @@ import java.util.Set;
 public class TokenBag{
 
     public HashMap<String, Integer> tokenMap;
+    public HashMap<Integer, Integer> tokenMap_id;
     public LinkedList<Integer> sortedBag;
     public int projectId;
     public int fileId;
@@ -19,7 +22,7 @@ public class TokenBag{
 
     TokenBag(int fileId, int bagId, int granularity, int symbolNum, int pId, int tokenNum){
         tokenMap = new HashMap<String, Integer>();
-
+        tokenMap_id = new HashMap<Integer, Integer>();
         this.fileId       = fileId;
         this.granularity  = granularity;
         this.bagId        = bagId;
@@ -32,6 +35,13 @@ public class TokenBag{
         sortedBag = null;
     }
 
+    public void freeHashMap(TokenFrequency gtp){
+        for (String tokenString : this.tokenMap.keySet()){
+            this.tokenMap_id.put(gtp.getIdByToken(tokenString), this.tokenMap.get(tokenString));
+        }
+
+        this.tokenMap = null;
+    }
 
     public void addToken(String str){
         if(str.length() < 1)
@@ -72,6 +82,11 @@ public class TokenBag{
         return keyset.toArray(new String[keyset.size()]);
     }
 
+    public Integer[] getAllToken_ID(){
+        Set<Integer> keyset = tokenMap_id.keySet();
+        return keyset.toArray(new Integer[keyset.size()]);
+    }
+
     public LinkedList<String> getAllTokens(){
         LinkedList<String> res = new LinkedList<String>();
 
@@ -79,6 +94,19 @@ public class TokenBag{
             int i = 0;
             while(i < tokenMap.get(token)){
                 res.add(token);
+                i++;
+            }
+        }
+
+        return res;
+    }
+
+    public LinkedList<Integer> getAllTokens_Id(){
+        LinkedList<Integer> res = new LinkedList<>();
+        for(Integer tokenId : getAllToken_ID()){
+            int i = 0;
+            while(i < tokenMap_id.get(tokenId)){
+                res.add(tokenId);
                 i++;
             }
         }
