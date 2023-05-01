@@ -11,9 +11,10 @@ public class TokenBagController {
     public ArrayList<ArrayList<ArrayList<TokenBag>>> bagCollection_idIndex;
     private int threadNum;
     private int minToken;
+    private int maxRound;
     public int minGranularity;
 
-    TokenBagController(String sourcePath, TokenFrequency gtp, int thread_num, int minToken){
+    TokenBagController(String sourcePath, TokenFrequency gtp, int thread_num, int minToken, int maxRound){
         minGranularity = 0;
         // load all token bags from source file and create gtp by token bags whose bagId is 0
         bagCollection_idIndex = new ArrayList<ArrayList<ArrayList<TokenBag>>>(); //fileid -> bagid -> tokenbag
@@ -39,6 +40,10 @@ public class TokenBagController {
             while( (str = input.readLine()) != null){
 
                 TokenBag tmpBag = createBagFromStr(str);
+
+                if (tmpBag.granularity > maxRound)
+                    continue;
+
                 if (tmpBag == null)
                     continue;
 

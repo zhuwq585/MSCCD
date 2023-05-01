@@ -29,7 +29,7 @@ public class App
 
         System.out.println("load token bags.");
         // System.out.println(LocalTime.now());
-        TokenBagController tBagController = new TokenBagController(tokenBagSourcePath, gtp, thread_num, minToken);
+        TokenBagController tBagController = new TokenBagController(tokenBagSourcePath, gtp, thread_num, minToken, max_round);
         System.out.println("overrrr");
         // System.out.println(LocalTime.now());
 
