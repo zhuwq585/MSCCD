@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class TokenBagController {
 
@@ -70,7 +71,14 @@ public class TokenBagController {
                     while(tmpBag.fileId>=bagCollection_idIndex.get(tmpBag.projectId).size())
                         bagCollection_idIndex.get(tmpBag.projectId).add( new ArrayList<TokenBag>());
                 
-                bagCollection_idIndex.get(tmpBag.projectId).get(tmpBag.fileId).add(tmpBag);
+                
+                if(tmpBag.bagId >= bagCollection_idIndex.get(tmpBag.projectId).get(tmpBag.fileId).size()){
+                    while(tmpBag.bagId >= bagCollection_idIndex.get(tmpBag.projectId).get(tmpBag.fileId).size()){
+                        bagCollection_idIndex.get(tmpBag.projectId).get(tmpBag.fileId).add(null);
+                    }
+                }
+
+                bagCollection_idIndex.get(tmpBag.projectId).get(tmpBag.fileId).set(tmpBag.bagId,tmpBag);
             }
             input.close();
         }catch(Exception e){
@@ -232,5 +240,11 @@ public class TokenBagController {
             
         return res;
     }
+
+    // static public void main(String[] argv){
+    //     LinkedList<Integer> a = new LinkedList<>();
+    //     a.set(5,10);
+    //     System.out.println(a.get(5).toString());
+    // }
 }
 
