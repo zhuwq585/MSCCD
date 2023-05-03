@@ -163,9 +163,24 @@ public class TokenBagController {
         return res;
     }
 
+    public ArrayList<TokenBag> getTokenBagsByGranularity(int granularity){
+        try{
+            return this.bagCollection_granuIndex.get(granularity);
+        }catch (java.lang.IndexOutOfBoundsException e){
+            return null;
+        }
+
+
+    }
+
+
     public ArrayList<TokenBag> bagPoolGeneration(int roundId, int minToken, TokenFrequency gtp){
    
-        ArrayList<TokenBag> res = bagCollection_granuIndex.get(roundId);
+        ArrayList<TokenBag> res = getTokenBagsByGranularity(roundId);
+        
+        if(res == null){
+            return null;
+        }
         // for(ArrayList<ArrayList<TokenBag>> bagsForProject : bagCollection)
         //     for( ArrayList<TokenBag> i : bagsForProject)
         //         for(TokenBag j : i){
@@ -191,12 +206,12 @@ public class TokenBagController {
             // h.run();
             // h.join();
             
-        for(Thread h : threadArr)
-            try{
-                h.join();
-            }catch(InterruptedException e){
-                System.out.println(e.getLocalizedMessage());
-            }
+        // for(Thread h : threadArr)
+        //     try{
+        //         h.join();
+        //     }catch(InterruptedException e){
+        //         System.out.println(e.getLocalizedMessage());
+        //     }
             
         return res;
     }

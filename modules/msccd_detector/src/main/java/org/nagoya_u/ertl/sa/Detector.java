@@ -44,10 +44,10 @@ public class Detector {
     }
 
     private void detectionRound(int round, ArrayList<ArrayList<LinkedList<TokenBag>>> resArr){
-        // if (round == 4)
-        //     System.out.println(" ");
-        // System.out.println("bagPoolGeneration");
         ArrayList<TokenBag> bagPool = tBagController.bagPoolGeneration(round, minToken, gtp); // slow
+        if(bagPool == null){
+            return;
+        }
         System.out.println("Round " + String.valueOf(round) + " started, bagPool's size is " + String.valueOf(bagPool.size()));
 
         PartialIndex pIndex = new PartialIndex(bagPool, threshold);

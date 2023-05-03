@@ -76,7 +76,7 @@ class MainController():
         max_round            = taskObj.configObj['maxRound']
         #####
 
-        os.system("java -Xmx12000m -jar modules/msccd_detector.jar" + ' ' + decFolderPath + ' ' + tokenBagSourcePath + ' ' + str(minToken) + ' ' + str(similarity_threahold) + " " + str(thread_num) + " " + str(max_round))
+        os.system("java -Xmx16g -jar modules/msccd_detector.jar" + ' ' + decFolderPath + ' ' + tokenBagSourcePath + ' ' + str(minToken) + ' ' + str(similarity_threahold) + " " + str(thread_num) + " " + str(max_round))
 
         timeFinish = time.time()
         

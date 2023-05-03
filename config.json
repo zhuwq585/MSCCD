@@ -1,6 +1,6 @@
 {
     "inputProject": [
-        "/Users/syu/workspace/ScalabilityTestGeneration/1M"
+        "/Users/syu/workspace/ScalabilityTestGeneration/100M"
     ],
     "keywordsList": "/Users/syu/workspace/MSCCD/grammarDefinations/java/Java.reserved",
     "languageExtensionName": [
@@ -9,7 +9,7 @@
     "minTokens": 20,
     "minTokensForBagGeneration": 20,
     "detectionThreshold": 0.7,
-    "maxRound": 0,
+    "maxRound": 4,
     "tokenizer": "Java",
     "threadNum_tokenizer": 8,
     "threadNum_detection": 8,

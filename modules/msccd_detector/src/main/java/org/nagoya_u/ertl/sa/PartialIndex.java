@@ -22,8 +22,6 @@ public class PartialIndex {
                     ArrayList<Integer> tmp = new ArrayList<Integer>();
                     pIndex.get(indexedToken).put(bagId, tmp);
                 }
-                    
-                
                 pIndex.get(indexedToken).get(bagId).add(j);
 
             }
