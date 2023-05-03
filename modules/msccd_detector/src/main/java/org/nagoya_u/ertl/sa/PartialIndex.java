@@ -11,6 +11,7 @@ public class PartialIndex {
 
         for( int bagId = 0; bagId < bagPool.size(); bagId++){
             int bagLength = bagPool.get(bagId).sortedBag.size();
+            
             int numToBeIndexed = bagLength - (int)Math.ceil(bagLength * threshold) + 1;
 
             for(int j = 0; j < numToBeIndexed; j++){

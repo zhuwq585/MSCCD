@@ -22,6 +22,7 @@ public class TokenBagController {
         bagCollection_granuIndex = new ArrayList<ArrayList<TokenBag>>(); // granularity -> tokenbags
         threadNum     = thread_num;
         this.minToken = minToken;
+        this.maxRound = maxRound;
 
         loadBagsFromFile(sourcePath, gtp);
     }
@@ -167,10 +168,9 @@ public class TokenBagController {
         try{
             return this.bagCollection_granuIndex.get(granularity);
         }catch (java.lang.IndexOutOfBoundsException e){
+            System.out.println("No bags at granularity " + String.valueOf(granularity));
             return null;
         }
-
-
     }
 
 
@@ -206,45 +206,6 @@ public class TokenBagController {
             // h.run();
             // h.join();
             
-        // for(Thread h : threadArr)
-        //     try{
-        //         h.join();
-        //     }catch(InterruptedException e){
-        //         System.out.println(e.getLocalizedMessage());
-        //     }
-            
-        return res;
-    }
-
-
-
-    public ArrayList<TokenBag> bagPoolGeneration_old(int roundId, int minToken, TokenFrequency gtp){
-        
-        ArrayList<TokenBag> res = new ArrayList<TokenBag>();
-        for(ArrayList<ArrayList<TokenBag>> bagsForProject : bagCollection_idIndex)
-            for( ArrayList<TokenBag> i : bagsForProject)
-                for(TokenBag j : i){
-                    if(j.granularity == roundId && j.tokenNum >= minToken){
-                    // if(j.granularity == roundId && j.symbolNum >= minToken)
-                        res.add(j);
-                    }
-                }
-
-        ArrayList<TokenSorter> threadArr = new ArrayList<TokenSorter>();
-        for (int i = 0; i < threadNum; i++)
-            threadArr.add(new TokenSorter(gtp));
-        
-        int cursor = 0;
-        for (int i = 0; i < res.size(); i++)
-            threadArr.get(cursor).addBag(res.get(i));
-            cursor++;
-            if(cursor >= threadNum)
-                cursor = 0;
-        
-        for(Thread h : threadArr)
-            h.start();
-            // h.join();
-            
         for(Thread h : threadArr)
             try{
                 h.join();
@@ -255,10 +216,49 @@ public class TokenBagController {
         return res;
     }
 
-    // static public void main(String[] argv){
-    //     LinkedList<Integer> a = new LinkedList<>();
-    //     a.set(5,10);
-    //     System.out.println(a.get(5).toString());
+
+
+    // public ArrayList<TokenBag> bagPoolGeneration_old(int roundId, int minToken, TokenFrequency gtp){
+        
+    //     ArrayList<TokenBag> res = new ArrayList<TokenBag>();
+    //     for(ArrayList<ArrayList<TokenBag>> bagsForProject : bagCollection_idIndex)
+    //         for( ArrayList<TokenBag> i : bagsForProject)
+    //             for(TokenBag j : i){
+    //                 if(j.granularity == roundId && j.tokenNum >= minToken){
+    //                 // if(j.granularity == roundId && j.symbolNum >= minToken)
+    //                     res.add(j);
+    //                 }
+    //             }
+
+    //     ArrayList<TokenSorter> threadArr = new ArrayList<TokenSorter>();
+    //     for (int i = 0; i < threadNum; i++)
+    //         threadArr.add(new TokenSorter(gtp));
+        
+    //     int cursor = 0;
+    //     for (int i = 0; i < res.size(); i++)
+    //         threadArr.get(cursor).addBag(res.get(i));
+    //         cursor++;
+    //         if(cursor >= threadNum)
+    //             cursor = 0;
+        
+    //     for(Thread h : threadArr)
+    //         h.start();
+    //         // h.join();
+            
+    //     for(Thread h : threadArr)
+    //         try{
+    //             h.join();
+    //         }catch(InterruptedException e){
+    //             System.out.println(e.getLocalizedMessage());
+    //         }
+            
+    //     return res;
     // }
+
+    // // static public void main(String[] argv){
+    // //     LinkedList<Integer> a = new LinkedList<>();
+    // //     a.set(5,10);
+    // //     System.out.println(a.get(5).toString());
+    // // }
 }
 

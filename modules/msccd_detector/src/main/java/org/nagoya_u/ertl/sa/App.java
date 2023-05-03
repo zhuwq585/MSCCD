@@ -18,7 +18,7 @@ public class App
         // //testArgs
         // String outputFolder         = "/home/syu/workspace/MCCD/Project/tasks/";
         // String tokenBagSourcePath   = "/Users/syu/workspace/MSCCD/tasks/task3/tokenBags";
-        // int    minToken             = 50;
+        // int    minToken             = 20;
         // double similarity_threshold = 0.7;
         // int    thread_num           = 8;
         // int    max_round            = 4;

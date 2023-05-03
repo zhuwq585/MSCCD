@@ -1,6 +1,6 @@
 {
     "inputProject": [
-        "/Users/syu/workspace/ScalabilityTestGeneration/100M"
+        "/Users/syu/workspace/ScalabilityTestGeneration/10K"
     ],
     "keywordsList": "/Users/syu/workspace/MSCCD/grammarDefinations/java/Java.reserved",
     "languageExtensionName": [
