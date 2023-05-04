@@ -57,7 +57,7 @@ public class TokenBag{
         // if (str.equalsIgnoreCase(str)){
         //     str = str.replaceAll("\n", "");
         // }
-        final String pattern = "\s";
+        final String pattern = "\\s";
         str = str.replaceAll(pattern, "");
         return str;
     }
