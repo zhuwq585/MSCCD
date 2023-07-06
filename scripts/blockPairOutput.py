@@ -87,7 +87,7 @@ if __name__ == "__main__":
     # taskId = "10"
     # detectionId = "1"
     # outputFile = 'output.txt'
-    fileList  = MSCCD_ROOT + "tasks/task" + taskId + "/filelist.txt"
+    fileList  = MSCCD_ROOT + "tasks/task" + taskId + "/fileList.txt"
     cloneList = MSCCD_ROOT + "tasks/task" + taskId + "/detection" + detectionId + "/pairs.file"
     bagList   = MSCCD_ROOT + "tasks/task" + taskId + "/tokenBags"
     res = []

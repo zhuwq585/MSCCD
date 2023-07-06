@@ -31,7 +31,7 @@ if __name__ == "__main__":
     # taskId = "1"
     # detectionId = "1"
     # outputFile = 'output.txt'
-    fileList  = MSCCD_ROOT + "tasks/task" + taskId + "/filelist.txt"
+    fileList  = MSCCD_ROOT + "tasks/task" + taskId + "/fileList.txt"
     cloneList = MSCCD_ROOT + "tasks/task" + taskId + "/detection" + detectionId + "/pairs.file"
     res = []
     

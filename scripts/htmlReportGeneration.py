@@ -118,7 +118,7 @@ if __name__ == '__main__':
     # detectionId = "1"
     # outputFile = "test.html"
 
-    fileList  = MSCCD_PATH + "/tasks/task" + taskId + "/filelist.txt"
+    fileList  = MSCCD_PATH + "/tasks/task" + taskId + "/fileList.txt"
     cloneList = MSCCD_PATH + "/tasks/task" + taskId + "/detection" + detectionId + "/pairs.file"
     bagList   = MSCCD_PATH + "/tasks/task" + taskId + "/tokenBags"
 
