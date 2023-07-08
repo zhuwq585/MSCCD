@@ -66,14 +66,14 @@ By this part, we will execute the tool by generating a new task from the configu
 
 1 Edit the *config.json* file, and check the grammar file, keyword list file, and your input file.
 
-2 Run by **python3 controller.py**, and just wait for the result.
+2 Run by **python3 controller.py [outputMode]**, and just wait for the result. The option outputMode can be **pair** or **class**.
 
 3 Check the information in *tasks/task[taskId]/*, for each execution, there will be a folder named *detection** to save the result files
 
 ### Execute from a generated task
 By this part, we will execute the tool from a generated task. We can easily change the detection granularity(required) and threshold(optional) by command.
 
-Just run it by **python3 controller.py [taskId] ([statementThreshold])**. 
+Just run it by **python3 controller.py [outputMode] [taskId] ([statementThreshold])**. 
 
 For example, **python3 controller.py 1** means excute from tasks/task1. **python3 controller.py 2 0.9** means excute from tasks/task2, and set the detectionThreshold to 0.9
 

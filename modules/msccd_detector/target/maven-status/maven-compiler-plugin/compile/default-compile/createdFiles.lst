@@ -1,5 +1,6 @@
 org/nagoya_u/ertl/sa/TokenSorter$1.class
 org/nagoya_u/ertl/sa/TokenFrequency.class
+org/nagoya_u/ertl/sa/TokenBagController.class
 org/nagoya_u/ertl/sa/OverlapReductor.class
 org/nagoya_u/ertl/sa/PartialIndex.class
 org/nagoya_u/ertl/sa/TokenSorter.class

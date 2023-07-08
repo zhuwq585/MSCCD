@@ -1,16 +1,16 @@
 {
     "inputProject": [
-        "/Users/syu/workspace/ScalabilityTestGeneration/100K"
+        "/Users/syu/workspace/IoT_ BiolerplateCode/GitHub_scripts/dotnet/iot","/Users/syu/workspace/IoT_ BiolerplateCode/GitHub_scripts/dotnet/PowerShell-IoT","/Users/syu/workspace/IoT_ BiolerplateCode/GitHub_scripts/dotnet/RPi.SenseHat","/Users/syu/workspace/IoT_ BiolerplateCode/GitHub_scripts/dotnet/dotnet-iot-assets","/Users/syu/workspace/IoT_ BiolerplateCode/GitHub_scripts/dotnet/dotnet-core-iot-demo","/Users/syu/workspace/IoT_ BiolerplateCode/GitHub_scripts/dotnet/SimpleGPIO","/Users/syu/workspace/IoT_ BiolerplateCode/GitHub_scripts/dotnet/OneWire","/Users/syu/workspace/IoT_ BiolerplateCode/GitHub_scripts/dotnet/Sprinkler-IoTEdge","/Users/syu/workspace/IoT_ BiolerplateCode/GitHub_scripts/dotnet/Avalonia-IoT-LedBar","/Users/syu/workspace/IoT_ BiolerplateCode/GitHub_scripts/dotnet/IoTinker","/Users/syu/workspace/IoT_ BiolerplateCode/GitHub_scripts/dotnet/dotnet-iot-demos","/Users/syu/workspace/IoT_ BiolerplateCode/GitHub_scripts/dotnet/Iot-RPi-Sample","/Users/syu/workspace/IoT_ BiolerplateCode/GitHub_scripts/dotnet/Minimal-IoT","/Users/syu/workspace/IoT_ BiolerplateCode/GitHub_scripts/dotnet/raspberry-pi-dotnet-core-azure-iot","/Users/syu/workspace/IoT_ BiolerplateCode/GitHub_scripts/dotnet/iot-edge-beerlift","/Users/syu/workspace/IoT_ BiolerplateCode/GitHub_scripts/dotnet/IOTHouseHub","/Users/syu/workspace/IoT_ BiolerplateCode/GitHub_scripts/dotnet/IotProject"
     ],
-    "keywordsList": "/Users/syu/workspace/MSCCD/grammarDefinations/java/Java.reserved",
+    "keywordsList": "",
     "languageExtensionName": [
-        ".java"
+        ".cs"
     ],
     "minTokens": 20,
     "minTokensForBagGeneration": 20,
     "detectionThreshold": 0.7,
     "maxRound": 4,
-    "tokenizer": "Java",
+    "tokenizer": "CSharp",
     "threadNum_tokenizer": 8,
     "threadNum_detection": 8,
     "outputFile": "./new.csv"

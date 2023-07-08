@@ -140,10 +140,10 @@ public class Detector {
         if (this.mode == 0){ // pair
             TokenBag bagA = bagPool.get(0);
             cursor = 1;
-            while (cursor < cloneClasses.size() ){
+            while (cursor <= cloneClasses.size()-1 ){
                 try{
                     LinkedList<TokenBag> pair = new LinkedList<TokenBag>();
-                    TokenBag bagB = bagPool.get(cursor);
+                    TokenBag bagB = bagPool.get(cloneClasses.get(cursor));
 
                     if (bagA.fileId <= bagB.fileId){
                         pair.add(bagA);
@@ -153,12 +153,12 @@ public class Detector {
                         pair.add(bagA);
                     }
                     res.add(pair);
-                    cursor += 1;
-                }catch(NullPointerException e){
+                }catch(Exception e){
                     e.printStackTrace();
-                    cursor += 1;
                     continue;
                 }
+
+                cursor += 1;
             }
 
         }

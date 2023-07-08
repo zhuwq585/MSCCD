@@ -20,9 +20,21 @@ if __name__ == "__main__":
     if os.path.exists(cloneList):
         cloneListArr = cloneListGeneration(cloneList)
         for clone in cloneListArr:
-            if clone[0][0] != clone[1][0]:
-                res.append(clone)
-    
+            if len(clone) == 2: # pair
+                if clone[0][0] != clone[1][0]:
+                    res.append(clone)
+            else: # class
+                cursor = 1
+                cloneClass = []
+                cloneClass.append(clone[0])
+                while cursor <= len(clone) - 1:
+                    if clone[0][0] != clone[cursor][0]:
+                        cloneClass.append(clone[cursor])
+                    cursor += 1
+                if len(cloneClass) > 1:
+                    res.append(cloneClass)
+                
+                    
     with open(outputFile,"w") as f:
         for clone in res:
             f.write(ujson.dumps(clone)+"\n")
