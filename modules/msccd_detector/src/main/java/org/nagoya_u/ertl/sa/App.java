@@ -13,6 +13,7 @@ public class App
         Double similarity_threshold = Double.valueOf(args[3]);
         int    thread_num           = Integer.valueOf(args[4]);
         int    max_round            = Integer.valueOf(args[5]);
+        String mode                 = args[6];
         // args end
 
         // //testArgs
@@ -30,12 +31,12 @@ public class App
         System.out.println("load token bags.");
         // System.out.println(LocalTime.now());
         TokenBagController tBagController = new TokenBagController(tokenBagSourcePath, gtp, thread_num, minToken, max_round);
-        System.out.println("overrrr");
+        System.out.println("over");
         // System.out.println(LocalTime.now());
 
 
-        Detector cloneDetector = new Detector(gtp, tBagController, minToken, similarity_threshold, thread_num, max_round);
-        ArrayList<Integer[]>  res = cloneDetector.run();
+        Detector cloneDetector = new Detector(gtp, tBagController, minToken, similarity_threshold, thread_num, max_round, mode);
+        ArrayList<ArrayList<Integer>>  res = cloneDetector.run();
         // System.out.println(LocalTime.now());
 
         ResultReport rpt = new ResultReport();

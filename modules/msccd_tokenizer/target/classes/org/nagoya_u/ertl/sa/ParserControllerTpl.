@@ -1,0 +1,45 @@
+// // This file is to be generated automatically
+// package org.ertl_nagoya.sa;
+
+// import java.io.IOException;
+// import java.util.List;
+
+// import org.antlr.v4.runtime.*;
+// import org.antlr.v4.runtime.tree.*;
+// import org.ertl_nagoya.sa.parser.*;
+
+// public class ParserControllerTpl {
+//     public ParseTree pTree;
+//     public List<Token> lexicalUnits;
+//     ParserControllerTpl(){  }
+//     public void run(String filePath){
+//         try{
+//             CharStream input = CharStreams.fromFileName(filePath);
+//             CPP14Lexer lexer = new CPP14Lexer(input);
+//             CommonTokenStream tokens = new CommonTokenStream(lexer);
+//             CPP14Parser parser = new CPP14Parser(tokens);
+//             ParseTree tree = parser.file_input();
+//             pTree = tree;
+//             lexicalUnits = tokens.getTokens();
+//         }catch (IOException e){
+//             System.out.println("File not found.");
+//         }
+//     }
+//     public ParseTree getPTree(){
+//         return pTree;
+//     }
+//     public List<Token> getLexicalUnits(){
+//         return lexicalUnits;
+//     }
+//     public void reset(){
+//         pTree        = null;
+//         lexicalUnits = null;
+//     }
+
+//     // public static void main(String[] args) throws Exception{
+//     //     ParserController controller = new ParserController();
+//     //     controller.run("/home/syu/workspace/MCCD/Project/input/test/tt.cc");
+//     //     System.out.println("File not found.");
+
+//     // }
+// }

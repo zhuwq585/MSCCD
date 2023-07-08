@@ -20,21 +20,21 @@ class MainController():
         
         timeStart = time.time()
                 
-        if len(sys.argv) == 1:
+        if len(sys.argv) == 2:
             taskObj = self.createTask_new()
             if taskObj == None:
                 print('#### Can not get taskObj. Detector terminated.')
                 return
         else:
-            taskId = sys.argv[1]
+            taskId = sys.argv[2]
             
             try:
-                newDetectionThreshold = float(sys.argv[2])
+                newDetectionThreshold = float(sys.argv[3])
             except IndexError:
                 newDetectionThreshold = None
             
             try:
-                newMinsize = int(sys.argv[3])
+                newMinsize = int(sys.argv[4])
             except IndexError:
                 newMinsize = None
             
@@ -44,6 +44,8 @@ class MainController():
             taskObj.configObj['minTokens'] = newMinsize if newMinsize != None else taskObj.configObj['minTokens']
 
 
+        mode = sys.argv[1]
+        
         reportController = ReportController(taskObj)
         decFolderPath    = reportController.getDecFolderpath()
         if len(sys.argv) == 1:
@@ -76,7 +78,7 @@ class MainController():
         max_round            = taskObj.configObj['maxRound']
         #####
 
-        os.system("java -Xmx32g -jar modules/msccd_detector.jar" + ' ' + decFolderPath + ' ' + tokenBagSourcePath + ' ' + str(minToken) + ' ' + str(similarity_threahold) + " " + str(thread_num) + " " + str(max_round))
+        os.system("java -Xmx32g -jar modules/msccd_detector.jar" + ' ' + decFolderPath + ' ' + tokenBagSourcePath + ' ' + str(minToken) + ' ' + str(similarity_threahold) + " " + str(thread_num) + " " + str(max_round) + " " + mode)
 
         timeFinish = time.time()
         

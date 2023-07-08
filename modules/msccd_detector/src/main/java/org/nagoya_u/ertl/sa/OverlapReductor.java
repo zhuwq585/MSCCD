@@ -13,14 +13,16 @@ import java.util.LinkedList;
 public class OverlapReductor {
     public ArrayList<ArrayList<ArrayList<TokenBag>>> bagCollection;
     private HashMap<Integer, HashMap<Integer, ArrayList<Integer[]>>> fileCloneMap;
-    int thread_num;
+    public int thread_num;
+    public int mode;
     // private int projectNum;
     // private ArrayList<HashMap<Integer, HashMap<Integer, ArrayList<Integer[]>>>> fileCloneMapArr; 
 
-    OverlapReductor(ArrayList<ArrayList<ArrayList<TokenBag>>> bagCollection, int threadNum){
+    OverlapReductor(ArrayList<ArrayList<ArrayList<TokenBag>>> bagCollection, int threadNum, int mode){
         this.bagCollection = bagCollection;
         fileCloneMap = new HashMap<Integer, HashMap<Integer, ArrayList<Integer[]>>>();
         thread_num = threadNum;
+        this.mode = mode;
         // projectNum = bagCollection.size();
         // fileCloneMapArr = new ArrayList<HashMap<Integer, HashMap<Integer, ArrayList<Integer[]>>>>();
         // for(int i = 0 ; i < projectNum; i++)
@@ -70,30 +72,54 @@ public class OverlapReductor {
 
 
 
-    public ArrayList<Integer[]> run(ArrayList<ArrayList<LinkedList<TokenBag>>> clones){
-        ArrayList<Integer[]> res = new ArrayList<Integer[]>();
-
-        TokenBag bagA,bagB;
-        for( int round = 0; round < clones.size(); round++){
-            for(LinkedList<TokenBag> pair : clones.get(round)){
-                bagA = pair.get(0);
-                bagB = pair.get(1);
-
-                // if (bagA.fileId == 507 && bagA.bagId == 166 && bagB.fileId==507 && bagB.bagId == 231)
-                //     System.out.println("312312312");
-                // if (bagA.fileId == 608 && bagA.bagId == 3 && bagB.fileId==633 && bagB.bagId == 3)
-                //     System.out.println("312312312");
-                    
-
-                if ( !ifBagOverLapByFileCloneMap(bagA, bagB) && !ifSelfOverlappedClone(bagA, bagB)){
-                    addFileCloneMapItem(bagA, bagB);
-                    Integer[] tmp = {bagA.projectId, bagA.fileId,bagA.bagId,bagB.projectId,bagB.fileId,bagB.bagId};
+    public ArrayList<ArrayList <Integer>> run( ArrayList<ArrayList<LinkedList<TokenBag>>> clones){
+        ArrayList<ArrayList <Integer>> res = new ArrayList<ArrayList <Integer>>();
+        if (this.mode == 1){
+            for (ArrayList<LinkedList<TokenBag>> classPerRound : clones){
+                for (LinkedList<TokenBag> cloneClass : classPerRound){
+                    ArrayList <Integer> tmp = new ArrayList<>();
+                    for (TokenBag tBag : cloneClass){
+                        tmp.add(tBag.projectId);
+                        tmp.add(tBag.fileId);
+                        tmp.add(tBag.bagId);
+                    }
                     res.add(tmp);
                 }
-
             }
+
+            return res;
         }
-        return res;
+        else{
+            TokenBag bagA,bagB;
+            for( int round = 0; round < clones.size(); round++){
+                for(LinkedList<TokenBag> pair : clones.get(round)){
+                    bagA = pair.get(0);
+                    bagB = pair.get(1);
+
+                    // if (bagA.fileId == 507 && bagA.bagId == 166 && bagB.fileId==507 && bagB.bagId == 231)
+                    //     System.out.println("312312312");
+                    // if (bagA.fileId == 608 && bagA.bagId == 3 && bagB.fileId==633 && bagB.bagId == 3)
+                    //     System.out.println("312312312");
+                        
+
+                    if ( !ifBagOverLapByFileCloneMap(bagA, bagB) && !ifSelfOverlappedClone(bagA, bagB)){
+                        addFileCloneMapItem(bagA, bagB);
+                        ArrayList <Integer> tmp = new ArrayList<Integer>();
+                        tmp.add(bagA.projectId); 
+                        tmp.add(bagA.fileId);
+                        tmp.add(bagA.bagId);
+
+                        tmp.add(bagB.projectId);
+                        tmp.add(bagB.fileId);
+                        tmp.add(bagB.bagId);
+                        
+                        res.add(tmp);
+                    }
+
+                }
+            }
+            return res;
+        }
     }
 
     private void addFileCloneMapItem(TokenBag bagA, TokenBag bagB){

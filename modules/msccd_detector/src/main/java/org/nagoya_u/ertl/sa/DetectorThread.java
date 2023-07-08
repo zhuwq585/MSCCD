@@ -12,11 +12,12 @@ public class DetectorThread extends Thread{
     public LinkedList<Integer> queryBlockIndexArr;
     public PartialIndex pIndex;
     public ArrayList<TokenBag> bagPool;
-    public List<Integer[]> cloneClasses;
+    public List<Integer> cloneClasses;
     public Lock lock;
+    public int mode;
 
     // DetectorThread(double threshold, TokenFrequency gtp, PartialIndex pIndex, ArrayList<TokenBag> bagPool, ArrayList<Integer[]> cloneClasses, Lock lock){
-     DetectorThread(double threshold, TokenFrequency gtp, PartialIndex pIndex, ArrayList<TokenBag> bagPool, List<Integer[]> cloneClasses, Lock lock){
+    DetectorThread(double threshold, TokenFrequency gtp, PartialIndex pIndex, ArrayList<TokenBag> bagPool, List<Integer> cloneClasses, Lock lock, int mode){
 
         this.threshold = threshold;
         this.gtp = gtp;
@@ -25,6 +26,7 @@ public class DetectorThread extends Thread{
         this.bagPool = bagPool;
         this.cloneClasses = cloneClasses;
         this.lock = lock;
+        this.mode = mode;
     }
 
     public void addQueryBlock(int i){
@@ -95,7 +97,7 @@ public class DetectorThread extends Thread{
             }
 
             // ArrayList<Integer[]> res = verifyCandidates(queryBlock, queryTokenIndex, candidateMap, bagPool, queryBlockIndex);
-            ArrayList<Integer[]> res = verifyCandidates(queryBlock, candidateMap, bagPool, queryBlockIndex);
+            ArrayList<Integer> res = verifyCandidates(queryBlock, candidateMap, bagPool, queryBlockIndex);
 
 
             // lock.lock();
@@ -105,7 +107,7 @@ public class DetectorThread extends Thread{
             // }finally{
             //     lock.unlock();
             // }
-            for( Integer[] tmp: res)
+            for( Integer tmp: res)
                 cloneClasses.add(tmp);
             
             
@@ -126,9 +128,9 @@ public class DetectorThread extends Thread{
     // }
 
     // private ArrayList<Integer[]> verifyCandidates(LinkedList<Integer> queryBlock, int queryTokenIndex, ArrayList<Integer[]> candidateMap, ArrayList<TokenBag> bagPool, int queryBlockIndex){
-    private ArrayList<Integer[]> verifyCandidates(LinkedList<Integer> queryBlock, ArrayList<Integer[]> candidateMap, ArrayList<TokenBag> bagPool, int queryBlockIndex){
+    private ArrayList<Integer> verifyCandidates(LinkedList<Integer> queryBlock, ArrayList<Integer[]> candidateMap, ArrayList<TokenBag> bagPool, int queryBlockIndex){
 
-        ArrayList<Integer[]> res = new ArrayList<Integer[]>();
+        ArrayList<Integer> res = new ArrayList<Integer>();
 
         for(int i = 0; i < candidateMap.size(); i++){
             if (candidateMap.get(i)[0] <= 0)
@@ -169,8 +171,13 @@ public class DetectorThread extends Thread{
                 }
             }
             if (candidateMap.get(i)[0] >= ct){
-                Integer[] tmp = {queryBlockIndex, i};
-                res.add(tmp);
+                if (res.size() == 0){
+                    res.add(queryBlockIndex);
+                }
+                res.add(i);
+
+                // Integer[] tmp = {queryBlockIndex, i};
+                // res.add(tmp);
             }
         }
         return res;
