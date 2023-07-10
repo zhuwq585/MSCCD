@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 public class TokenBagController {
 
@@ -79,6 +78,7 @@ public class TokenBagController {
                 }
 
                 bagCollection_idIndex.get(tmpBag.projectId).get(tmpBag.fileId).set(tmpBag.bagId,tmpBag);
+
             }
             input.close();
         }catch(Exception e){

@@ -82,8 +82,10 @@ public class OverlapReductor {
                         tmp.add(tBag.projectId);
                         tmp.add(tBag.fileId);
                         tmp.add(tBag.bagId);
+  
                     }
                     res.add(tmp);
+
                 }
             }
 
@@ -96,11 +98,6 @@ public class OverlapReductor {
                     bagA = pair.get(0);
                     bagB = pair.get(1);
 
-                    // if (bagA.fileId == 507 && bagA.bagId == 166 && bagB.fileId==507 && bagB.bagId == 231)
-                    //     System.out.println("312312312");
-                    // if (bagA.fileId == 608 && bagA.bagId == 3 && bagB.fileId==633 && bagB.bagId == 3)
-                    //     System.out.println("312312312");
-                        
 
                     if ( !ifBagOverLapByFileCloneMap(bagA, bagB) && !ifSelfOverlappedClone(bagA, bagB)){
                         addFileCloneMapItem(bagA, bagB);

@@ -11,6 +11,7 @@ public class ResultReport {
     
     public void saveResult(ArrayList<ArrayList<Integer>> classList,  String outputPath){
         String outputFile = outputPath + "/pairs.file";
+        
         try{
             File newFile = new File(outputFile);
             newFile.createNewFile();
@@ -22,7 +23,8 @@ public class ResultReport {
                 int tBagIndex = 0;
                 int maxIndex = clonePair.size()/3 - 1;
                 while (tBagIndex <= maxIndex){
-                    writeStringTmp = writeStringTmp + "[" + String.valueOf(clonePair.get(tBagIndex*3)) + ", " + String.valueOf(clonePair.get(tBagIndex*3 + 1)) + ", " + String.valueOf(tBagIndex*3 + 2) + "]";
+                    writeStringTmp = writeStringTmp + "[" + String.valueOf(clonePair.get(tBagIndex*3)) + ", " + String.valueOf(clonePair.get(tBagIndex*3 + 1)) + ", " + String.valueOf(clonePair.get(tBagIndex*3 + 2)) + "]";
+
                     if(tBagIndex != maxIndex){
                         writeStringTmp = writeStringTmp + ",";
                     }
