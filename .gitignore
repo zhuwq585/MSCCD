@@ -1,5 +1,4 @@
 tasks/*
-!tasks/tNum.sta
 */.DS_Store
 tasks*
 modules/msccd_tokenizer/src/main/java/org/nagoya_u/ertl/sa/parser/*
@@ -12,3 +11,5 @@ getCodeNetRes.py
 */__pycache__
 */.vscode
 */.settings
+parserConfig.json
+config.json

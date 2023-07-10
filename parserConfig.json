@@ -1,5 +1,5 @@
 {
-    "parser": "grammarDefinations/python3",
-    "grammarName": "Python3",
-    "startSymbol": "file_input"
+    "parser": "grammarDefinations/javascript",
+    "grammarName": "JavaScript",
+    "startSymbol": "program"
 }

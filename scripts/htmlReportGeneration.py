@@ -54,7 +54,7 @@ def tokenBagListGeneration(sourcePath):
 
 
  
-def htmlReportGeneration_pairs(taskId, detectionId, fileList, cloneList, bagList, outputFile):
+def htmlReportGeneration(taskId, detectionId, fileList, cloneList, bagList, outputFile):
         # data
         sourceCodeFile = {}
 
@@ -158,6 +158,6 @@ if __name__ == '__main__':
             cloneListArr = cloneListGeneration(inputCloneList)
         tokenBagListArr = tokenBagListGeneration(bagList)
         
-        htmlReportGeneration_pairs(taskId, detectionId, fileListArr, cloneListArr, tokenBagListArr, outputFile)
+        htmlReportGeneration(taskId, detectionId, fileListArr, cloneListArr, tokenBagListArr, outputFile)
     else:
         print("File not exist")

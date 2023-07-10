@@ -89,6 +89,7 @@ class ParseTreeController extends Thread{
         this.fileId    = sFile.fileId;
         this.projectId = sFile.projectId;
 
+        try{
         if(pController.run(filePath)){
             setParseTree(pController.getPTree());
             setLexicalUnitsArray(pController.getLexicalUnits());
@@ -122,8 +123,12 @@ class ParseTreeController extends Thread{
             return res;
     
         }
+    
         else
             return null;
+    }catch(OutOfMemoryError e){
+        return null;
+    }
     }
 
 

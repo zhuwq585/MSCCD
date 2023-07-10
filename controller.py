@@ -120,7 +120,7 @@ class MainController():
         tokenizer           = os.path.abspath("./tokenizers/" + taskObj.configObj['tokenizer'] + "/" + taskObj.configObj['tokenizer'] + "_tokenizer.jar")
         
         
-        os.system("java -Xmx4800m -jar " + tokenizer + ' 1 ' + str(para_mintoken) + ' ' + para_fileList + ' ' + para_keywords + " " + para_outputFilePath + " " + str(para_threadNum))
+        os.system("java -Xmx8000m -jar " + tokenizer + ' 1 ' + str(para_mintoken) + ' ' + para_fileList + ' ' + para_keywords + " " + para_outputFilePath + " " + str(para_threadNum))
 
 
         print("#### Finished.")
