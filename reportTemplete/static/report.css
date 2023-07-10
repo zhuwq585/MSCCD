@@ -1,11 +1,11 @@
 #page {
     width: 100%;
 }
-#infoContent, #cloneContent, #formContent{
+#infoContent, #cloneContent{
     width: 95%;
     margin: 0 auto;
 }
-#infoContent,.cloneClass,#formContent{
+#infoContent,.cloneClass{
     margin: 0 auto;
     border: 2px;
     border-color: black;

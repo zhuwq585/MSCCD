@@ -12,12 +12,12 @@ public class DetectorThread extends Thread{
     public LinkedList<Integer> queryBlockIndexArr;
     public PartialIndex pIndex;
     public ArrayList<TokenBag> bagPool;
-    public List<Integer> cloneClasses;
+    public List<ArrayList<Integer>> cloneClasses;
     public Lock lock;
     public int mode;
 
     // DetectorThread(double threshold, TokenFrequency gtp, PartialIndex pIndex, ArrayList<TokenBag> bagPool, ArrayList<Integer[]> cloneClasses, Lock lock){
-    DetectorThread(double threshold, TokenFrequency gtp, PartialIndex pIndex, ArrayList<TokenBag> bagPool, List<Integer> cloneClasses, Lock lock, int mode){
+    DetectorThread(double threshold, TokenFrequency gtp, PartialIndex pIndex, ArrayList<TokenBag> bagPool, List<ArrayList<Integer>> cloneClasses, Lock lock, int mode){
 
         this.threshold = threshold;
         this.gtp = gtp;
@@ -97,7 +97,7 @@ public class DetectorThread extends Thread{
             }
 
             // ArrayList<Integer[]> res = verifyCandidates(queryBlock, queryTokenIndex, candidateMap, bagPool, queryBlockIndex);
-            ArrayList<Integer> res = verifyCandidates(queryBlock, candidateMap, bagPool, queryBlockIndex);
+            ArrayList<Integer> cloneClassOfQueryBlock = verifyCandidates(queryBlock, candidateMap, bagPool, queryBlockIndex);
 
 
             // lock.lock();
@@ -107,9 +107,11 @@ public class DetectorThread extends Thread{
             // }finally{
             //     lock.unlock();
             // }
-            for( Integer tmp: res)
-                cloneClasses.add(tmp);
-            
+            // for( Integer tmp: res)
+            //     cloneClasses.add(tmp);
+            if(cloneClassOfQueryBlock.size() > 0){
+                cloneClasses.add(cloneClassOfQueryBlock);
+            }
             
         }
 

@@ -103,7 +103,7 @@ public class Detector {
     private ArrayList<LinkedList<TokenBag>> cloneDetection(ArrayList<TokenBag> bagPool, PartialIndex pIndex){
         ArrayList<LinkedList<TokenBag>> res = new ArrayList<LinkedList<TokenBag>>();
 
-        List<Integer> cloneClasses = Collections.synchronizedList(new ArrayList<Integer>());  
+        List<ArrayList<Integer>> cloneClasses = Collections.synchronizedList(new ArrayList<ArrayList<Integer>>());  
         // new ArrayList<Integer[]>();
         
         int queryBlockNum = bagPool.size();
@@ -138,44 +138,44 @@ public class Detector {
 
 
         if (this.mode == 0){ // pair
-            TokenBag bagA = bagPool.get(0);
-            cursor = 1;
-            while (cursor <= cloneClasses.size()-1 ){
-                try{
-                    LinkedList<TokenBag> pair = new LinkedList<TokenBag>();
-                    TokenBag bagB = bagPool.get(cloneClasses.get(cursor));
+            for (ArrayList<Integer> cloneClass : cloneClasses){
+                TokenBag bagA = bagPool.get(cloneClass.get(0));
+                cursor = 1;
+                while (cursor <= cloneClass.size()-1 ){
+                    try{
+                        LinkedList<TokenBag> pair = new LinkedList<TokenBag>();
+                        TokenBag bagB = bagPool.get(cloneClass.get(cursor));
 
-                    if (bagA.fileId <= bagB.fileId){
-                        pair.add(bagA);
-                        pair.add(bagB);
-                    }else{
-                        pair.add(bagB);
-                        pair.add(bagA);
+                        if (bagA.fileId <= bagB.fileId){
+                            pair.add(bagA);
+                            pair.add(bagB);
+                        }else{
+                            pair.add(bagB);
+                            pair.add(bagA);
+                        }
+                        res.add(pair);
+                    }catch(Exception e){
+                        e.printStackTrace();
+                        continue;
                     }
-                    res.add(pair);
-                }catch(Exception e){
-                    e.printStackTrace();
-                    continue;
-                }
 
-                cursor += 1;
+                    cursor += 1;
+                }
             }
 
         }
         else if(this.mode == 1) { //class
-            LinkedList<TokenBag> cloneClass = new LinkedList<TokenBag>();
-            for (Integer bagIndex : cloneClasses){
-                try{
-                    cloneClass.add(bagPool.get(bagIndex));
-                }catch(NullPointerException e){
-                    e.printStackTrace();
-                    continue;
-                }    
+            for (ArrayList<Integer> cloneClass : cloneClasses){
+                LinkedList<TokenBag> cloneClassInBag = new LinkedList<TokenBag>();
+
+                for (Integer bagIndex : cloneClass){
+                        cloneClassInBag.add(bagPool.get(bagIndex));   
+                }
+                if (cloneClassInBag.size() >= 2){
+                    res.add(cloneClassInBag);
+                }
             }
 
-            if (cloneClass.size() >= 2){
-                res.add(cloneClass);
-            }
         }
 
        

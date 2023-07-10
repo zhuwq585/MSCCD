@@ -1,0 +1,114 @@
+<html>
+    <head>
+        <title>Detection Report ({{report.taskId}}.{{report.detectionId}})</title>
+        <link rel="stylesheet" href="{{url_for("static", filename="report.css")}}" type="text/css">
+    </head>
+    <body>
+        <div id="page">
+            <span class="hideInfo" id="maxClassId">{{report.classSum - 1}}</span>
+            <span class="hideInfo" id="maxPairId">{{report.classSize - 1}}</span>
+            <span class="hideInfo" id="currentClassId">{{report.classId}}</span>
+
+            <span class="hideInfo" id="currentPairId">{{report.pairId}}</span>
+            
+
+
+            <div id="formContent">
+                <div class="infoLine">
+                
+                    <form action="/getPair" method="post" name="getPair">
+                        <label>taskId:</label>
+                        <input type="text" name="taskId"  value="{{report.taskId}}">
+                        <label>detectionId:</label>
+                        <input type="text" name="detectionId" value="{{report.detectionId}}">
+                        <label>classId:</label>
+                        <input type="text" name="classId"  id="classId" value="{{report.classId}}">
+                        <label>pairId:</label>
+                        <input type="text" name="pairId" id="pairId" value="{{report.pairId}}" >
+                        <input type="submit">
+                    </form>
+                </div>
+                <div class="infoLine">
+                    <button id="nClass">Next Class</button> <button id="pClass">Previous Class</button> <button id="rClass">Random Class</button>
+                    <button id="nPair">Next Pair</button> <button id="pPair">Previous Pair</button> <button id="rPair">Random Pair</button>
+                </div>
+            </div>
+            <div id="infoContent">
+                <div class="infoLine">
+                    <div class="infoItem">
+                        <span>Clone class num: </span>
+                        <span>{{report.classSum}}</span>
+                    </div>
+                    <div class="infoItem">
+                        <span>Clone class size: </span>
+                        <span>{{report.classSize}}</span>
+                    </div>
+                    <div class="infoItem">
+                        <span>Clone class id: </span>
+                        <span>{{report.classId}}</span>
+                    </div>
+                    <div class="infoItem">
+                        <span>Clone pair id in class: </span>
+                        <span>{{report.pairId}}</span>
+                    </div>
+                    <!-- <div class="infoItem">
+                        <span>Threshold: </span>
+                        <span>{{report.threshold}}</span>
+                    </div>
+                    <div class="infoItem">
+                        <span>Min size:</span>
+                        <span>{{report.minsize}}</span>
+                    </div> -->
+                </div>
+                <!-- <div class="infoLine">
+                    <div class="infoItem">
+                        <span>
+                            Execution time:
+                        </span>
+                        <span>
+                            {{report.wholetime}}s
+                        </span>
+                    </div>
+                    <div class="infoItem">
+                        <span>
+                            Token bag generation time:
+                        </span>
+                        <span>
+                            {{report.bagtime}}s
+                        </span>
+                    </div>
+                    <div class="infoItem">
+                        <span>
+                            Detection time:
+                        </span>
+                        <span>
+                            {{report.detectiontime}}s
+                        </span>
+                    </div>
+                </div> -->
+            </div>
+            <div id="cloneContent">
+                <div class="cloneClass">
+                    <div class="clones">
+                    {% for code in report.clones %}
+                    
+                        <div class="clone">
+                            <div class="infoLine">File: {{code.filePath}}</div>
+                            <div class="infoLine">Position: {{code.position}}  Token num:{{code.tokenNum}}   Granularity: {{code.granularity}}</div>
+                            <pre>
+                                {% for line in code.content%}
+                                <span>{{line}}</span>
+                                {% endfor %}
+                            </pre>
+                        </div>
+                    
+                    {% endfor %}
+                    </div>
+                    <div style="clear:both"></div>
+                </div>
+                <div style="clear:both"></div>
+            </div>
+        </div>
+    </body>
+    <script src="{{url_for("static", filename="main.js")}}"></script>
+</html>
