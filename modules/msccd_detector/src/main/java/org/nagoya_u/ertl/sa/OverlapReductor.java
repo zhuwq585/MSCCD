@@ -1,6 +1,9 @@
 package org.nagoya_u.ertl.sa;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
 // import java.util.concurrent.ArrayBlockingQueue;
@@ -68,25 +71,78 @@ public class OverlapReductor {
     // }
 
 
+    public void cloneClassInBagSort(LinkedList<TokenBag> cloneClassInBag){
+        Collections.sort(cloneClassInBag, new Comparator<TokenBag>( ) {
+            @Override
+            public int compare(TokenBag a, TokenBag b){
+                 if (a.blockIdComparision(b)){ //a <= b
+                    return -1;
+                 }
+                 else{
+                    return 1;
+                 }
+            }
+        });        
+    }
 
+    public boolean ifIncludedCloneClass(LinkedList<TokenBag> candidateClass, ArrayList<LinkedList<TokenBag>> resInTBag){
+        for (LinkedList<TokenBag> testClass : resInTBag){
+            if (ifIncluded(candidateClass, testClass)){
+                return true;
+            }
+        }
 
+        return false;
+    }
 
+    public boolean ifIncluded(LinkedList<TokenBag> candidateClass, LinkedList<TokenBag> testClass){ // true: candidateClass is included by testClass
+        if (candidateClass.size() > testClass.size()){
+            return false;
+        }
+
+        int cursorC = candidateClass.size() - 1;
+        int cursorT = testClass.size() - 1;
+
+        while(cursorC >= 0 && cursorT >= 0){
+            if ( ! candidateClass.get(cursorC).blockIdEqual(testClass.get(cursorT))){
+                return false;
+            }
+
+            cursorC--;
+            cursorT--;
+
+        }
+
+        return true;
+        
+    }
 
     public ArrayList<ArrayList <Integer>> run( ArrayList<ArrayList<LinkedList<TokenBag>>> clones){
         ArrayList<ArrayList <Integer>> res = new ArrayList<ArrayList <Integer>>();
-        if (this.mode == 1){
+
+        if (this.mode == 1){ //class
+            ArrayList<LinkedList<TokenBag>> resInTBag = new ArrayList<LinkedList<TokenBag>>();
+
             for (ArrayList<LinkedList<TokenBag>> classPerRound : clones){
                 for (LinkedList<TokenBag> cloneClass : classPerRound){
-                    ArrayList <Integer> tmp = new ArrayList<>();
-                    for (TokenBag tBag : cloneClass){
-                        tmp.add(tBag.projectId);
-                        tmp.add(tBag.fileId);
-                        tmp.add(tBag.bagId);
-  
+                    cloneClassInBagSort(cloneClass);
+                    if (! ifIncludedCloneClass(cloneClass, resInTBag)){
+                        resInTBag.add(cloneClass);
                     }
-                    res.add(tmp);
+                }
+            }
+
+            for (LinkedList<TokenBag> cloneClass : resInTBag){
+
+                ArrayList <Integer> tmp = new ArrayList<>();
+                for (TokenBag tBag : cloneClass){
+                    tmp.add(tBag.projectId);
+                    tmp.add(tBag.fileId);
+                    tmp.add(tBag.bagId);
 
                 }
+                res.add(tmp);
+
             }
 
             return res;

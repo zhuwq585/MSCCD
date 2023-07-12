@@ -151,7 +151,10 @@ def getPair():
             print("generate FileList(...) for task " + str(g.TaskId))
             g.FileList = fileListGeneration(MSCCD_ROOT + "/tasks/task" + str(g.TaskId) + "/fileList.txt")
             g.BagList = tokenBagListGeneration(MSCCD_ROOT + "/tasks/task" + str(g.TaskId) + "/tokenBags")
-            g.CloneList = cloneListGeneration(MSCCD_ROOT + "/tasks/task" + str(g.TaskId) + "/detection" + str(g.DetectionId) + "/pairs.file")
+            try:
+                g.CloneList = cloneListGeneration(MSCCD_ROOT + "/tasks/task" + str(g.TaskId) + "/detection" + str(g.DetectionId) + "/pairs_cross.file")
+            except FileNotFoundError:
+                g.CloneList = cloneListGeneration(MSCCD_ROOT + "/tasks/task" + str(g.TaskId) + "/detection" + str(g.DetectionId) + "/pairs.file")
             # classId = 0
             # pairId  = 1
         

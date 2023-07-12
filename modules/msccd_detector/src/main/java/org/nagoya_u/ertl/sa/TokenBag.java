@@ -156,5 +156,47 @@ public class TokenBag{
         res += getTokens() + "\n";
         return res;
     }
+
+    public boolean blockIdEqual(TokenBag a){
+        if (this.projectId == a.projectId){
+            if(this.fileId == a.fileId){
+                if(this.bagId == a.bagId){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean blockIdComparision(TokenBag a){ //true: this.id <= a.id  false this.id > a.id
+        if(this.projectId < a.projectId){
+            return true;
+        }else if (this.projectId > a.projectId){
+            return false;
+        }else{ // project id equals
+            if(this.fileId < a.fileId){
+                return true;
+            }else if (this.fileId > a.fileId){
+                return false;
+            }else{ // file id equals
+                if(this.bagId <= a.bagId){
+                    return true;
+                }else{
+                        return false;
+                }   
+            }
+        }
+    }
+
+    public boolean fileCoverEqual(TokenBag a){
+        if (this.projectId == a.projectId){
+            if(this.fileId == a.fileId){
+                if(this.startLine == a.startLine && this.endLine == a.endLine){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
     // fileId @@ bagId @@ granularity @@ num_keywords @@ symbolN @@ startline -- endline @@ tokens...........
 }
