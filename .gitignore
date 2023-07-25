@@ -1,7 +1,6 @@
 tasks/*
 */.DS_Store
 tasks*
-modules/msccd_tokenizer/src/main/java/org/nagoya_u/ertl/sa/parser/*
 CodeNetRes_MSCCD
 tokenizers/*
 # tokenizers/*
@@ -13,3 +12,4 @@ getCodeNetRes.py
 */.settings
 parserConfig.json
 config.json
+modules/msccd_tokenizer/src/main/java/org/nagoya_u/ertl/sa/parser/*

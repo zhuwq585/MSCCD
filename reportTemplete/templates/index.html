@@ -1,16 +1,152 @@
 <html>
     <head>
+        <link href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+        <script src="https://cdn.staticfile.org/jquery/2.0.0/jquery.js"></script>
+        <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <title>Report</title>
+        <style>
+            div#content{
+                width: 800px;
+                margin: 0 auto;
+                border: 2px solid black;
+            }
 
+            form input{
+                display: block;
+                margin: 10px auto;
+                width: 400px;
+            
+            }
+            form label{
+                width: 400px;
+                display: block;
+                margin: 10px auto;
+                text-align: center;
+            }
+
+            form input[type="radio"]{
+                display: inline-block;
+                width: 10px;
+                margin-right: 5px;
+            }
+
+        </style>
     </head>
     <body>
-        <form action="/getPair" method="post">
+        <div id="content">
+            <ul id="myTab" class="nav nav-tabs">
+                <li class="active">
+                    <a href="#Normal" data-toggle="tab">
+                        Normal
+                    </a>
+                </li>
+                <li>
+                    <a href="#GValue" data-toggle="tab">Granularity value</a>
+                </li>
+                <li>
+                    <a href="#Size" data-toggle="tab">Size</a>
+                </li>
+                <li>
+                    <a href="#Both" data-toggle="tab">Granularity value & size</a>
+                </li>
+                
+            </ul>
 
-            <input type="text" name="taskId" >
 
-            <input type="text" name="detectionId">
+            <div id="myTabContent" class="tab-content">
+                <div id="Normal" class="tab-pane fade in active"> 
+                    <form action="/getClasses" method="post">
+                        <label>Task Id</label>
+                        <input type="text" name="taskId" >
+                        
+                        <label>DetectionId</label>
+                        <input type="text" name="detectionId">
+            
 
-            <input type="submit">
+                        <label>
+                            <span>All</span><input type="radio" name="cloneOrigin" value="all" checked><span>Intra-project</span><input type="radio" name="cloneOrigin" value="intra"><span>Cross-project</span><input type="radio" name="cloneOrigin" value="cross">
+                        </label>
+                        <input type="submit">
+            
+            
+                    </form>
 
-        </form>
+                </div>
+                <div id="GValue" class="tab-pane fade"> 
+                    <form action="/getClassesByGValue" method="post">
+                        <label>Task Id</label>
+                        <input type="text" name="taskId" >
+                        
+                        <label>DetectionId</label>
+                        <input type="text" name="detectionId">
+            
+                        <label>Granularity Value</label>
+                        <input type="text" name="gValue">
+            
+                        <label>
+                            <span>All</span><input type="radio" name="cloneOrigin" value="all" checked><span>Intra-project</span><input type="radio" name="cloneOrigin" value="intra"><span>Cross-project</span><input type="radio" name="cloneOrigin" value="cross">
+                        </label>
+                        <input type="submit">
+            
+                    </form>
+
+                </div>
+                <div id="Size" class="tab-pane fade"> 
+                    
+                    <form action="/getClassesBySize" method="post">
+                        <label>Task Id</label>
+                        <input type="text" name="taskId" >
+                        
+                        <label>DetectionId</label>
+                        <input type="text" name="detectionId">
+            
+                        <label>Min Size</label>
+                        <input type="text" name="lSize">
+                        <label>Max Size</label>
+                        <input type="text" name="rSize">
+
+                        <label>
+                            <span>All</span><input type="radio" name="cloneOrigin" value="all" checked><span>Intra-project</span><input type="radio" name="cloneOrigin" value="intra"><span>Cross-project</span><input type="radio" name="cloneOrigin" value="cross">
+                        </label>
+            
+                        <input type="submit">
+            
+                    </form>
+            
+                
+                </div>
+                <div id="Both" class="tab-pane fade">
+                    
+                    <form action="/getClassesByBoth" method="post">
+                        <label>Task Id</label>
+                        <input type="text" name="taskId" >
+                        
+                        <label>DetectionId</label>
+                        <input type="text" name="detectionId">
+            
+                        <label>Granularity Value</label>
+                        <input type="text" name="gValue">
+            
+                        <label>Min Size</label>
+                        <input type="text" name="lSize">
+                        <label>Max Size</label>
+                        <input type="text" name="rSize">
+
+                        <label>
+                            <span>All</span><input type="radio" name="cloneOrigin" value="all" checked><span>Intra-project</span><input type="radio" name="cloneOrigin" value="intra"><span>Cross-project</span><input type="radio" name="cloneOrigin" value="cross">
+                        </label>
+            
+                        <input type="submit">
+            
+                    </form>
+                </div>
+
+            </div>
+
+
+        </div>
+
+        
+
     </body>
 </html>

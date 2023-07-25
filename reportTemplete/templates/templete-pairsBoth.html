@@ -8,7 +8,6 @@
             <span class="hideInfo" id="maxClassId">{{report.classSum - 1}}</span>
             <span class="hideInfo" id="maxPairId">{{report.classSize - 1}}</span>
             <span class="hideInfo" id="currentClassId">{{report.classId}}</span>
-
             <span class="hideInfo" id="currentPairId">{{report.pairId}}</span>
             
 
@@ -16,7 +15,7 @@
             <div id="formContent">
                 <div class="infoLine">
                 
-                    <form action="/getClasses" method="post" name="getPair">
+                    <form action="/getClassesByBoth" method="post" name="getPair">
                         <label>taskId:</label>
                         <input type="text" name="taskId"  value="{{report.taskId}}">
                         <label>detectionId:</label>
@@ -25,7 +24,12 @@
                         <input type="text" name="classId"  id="classId" value="{{report.classId}}">
                         <label>pairId:</label>
                         <input type="text" name="pairId" id="pairId" value="{{report.pairId}}" >
-                    
+                        <label>granularity value:</label>
+                        <input type="text" name="gValue" id="gValue" value="{{report.gValue}}" >
+                        <label>MinToken:</label>
+                        <input type="text" name="lSize" id="lSize"  value="{{report.lSize}}" >
+                        <label>MaxToken:</label>
+                        <input type="text" name="rSize" id="rSize"  value="{{report.rSize}}">
 
                         {% if report.cloneOrigin == "all" %}
                         <label>

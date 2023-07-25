@@ -1,6 +1,6 @@
 from flask import *
 import ujson, sys, os
-
+from Manager import Manager
 
 
 app = Flask(__name__)
@@ -11,58 +11,6 @@ app.secret_key = 'secret'
 
 MSCCD_ROOT  = sys.path[0][:-15]
 
-
-##
-
-def cloneListGeneration(clonePath):
-    res = []
-    for cloneLine in open(clonePath, "r").readlines():
-        res.append(ujson.loads(cloneLine[:-1]))
-    
-    return res
-    
-def fileListGeneration(fileListPath):
-    res = []
-    splitTmp = None
-    for dataLine in open(fileListPath,"r").readlines():
-        splitTmp = dataLine[:-1].split(",")
-        projectId = int(splitTmp[0])
-        while len(res) - 1 < projectId:
-            res.append([])
-        res[projectId].append(splitTmp[1])
-
-    
-    return res
-
-def tokenBagListGeneration(sourcePath):
-    # not gain all the informations, only line number range
-    res = []
-    splitTmp = None
-    for sourceline in open(sourcePath,"r").readlines():
-        splitTmp  = sourceline[:-1].split("@ @")
-        projectId = int(splitTmp[0])
-        fileId    = int(splitTmp[1])
-        bagId     = int(splitTmp[2])
-        lineArr   = splitTmp[7].split(": :")
-        startLine = int(lineArr[0])
-        endLine   = int(lineArr[1])
-        
-        bag = {
-            "startLine" : startLine,
-            "endLine"   : endLine,
-            "tokenNum"  : int(splitTmp[6]),
-            "granularity" : int(splitTmp[3])
-        }
-        
-        while len(res) - 1 < projectId:
-            res.append([])
-        while len(res[projectId]) - 1 < fileId:
-            res[projectId].append([])
-        res[projectId][fileId].append( bag  )
-        if bagId != len(res[projectId][fileId]) - 1:
-            print("err")
-    
-    return res
 
 def getCodeContent(filePath, startLine, endLine):
     if os.path.exists(filePath):
@@ -122,44 +70,105 @@ def getReport(classId, pairId,taskId, detectionId):
 @app.before_request
 def init():
     #global 
-    g.TaskId      = None
-    g.DetectionId = None
-    g.FileList    = None
-    g.CloneList   = None
-    g.BagList     = None
+    g.manager = None
+
     
     
 @app.route('/index', methods=['GET', 'POST'])
+@app.route('/', methods=['GET', 'POST'])
 def index():
     return render_template('index.html')
 
 
-@app.route("/getPair", methods=['GET', 'POST'])
+# @app.route("/getMaxClass", methods=['GET','POST'])
+# def getMaxClass():
+#     taskId = request.form.get('taskId')
+#     detectionId = request.form.get("detectionId")
+#     if g.manager == None:
+#         g.manager = Manager(taskId, detectionId,cloneOrigin)
+#     elif g.manager.taskId != taskId or g.manager.detectionId != detectionId:
+#         g.manager = Manager(taskId, detectionId,cloneOrigin)
+    
+#     return None
+
+@app.route("/getClassesByBoth", methods=['GET','POST'])
+def getClassesByBoth():
+    taskId = request.form.get('taskId')
+    detectionId = request.form.get("detectionId")
+    lSize = int(request.form.get("lSize"))
+    rSize = int(request.form.get('rSize'))
+    gValue = int(request.form.get("gValue"))
+
+    classId = 0 if request.form.get("classId") == None else int(request.form.get("classId"))
+    pairId = 0 if request.form.get("classId") == None else int(request.form.get("pairId"))
+    
+    cloneOrigin = request.form.get("cloneOrigin")
+    
+    if g.manager == None or g.manager.taskId != taskId or g.manager.detectionId != detectionId or cloneOrigin != g.manager.cloneOrigin:
+        g.manager = Manager(taskId, detectionId,cloneOrigin)
+    
+    if g.manager.CloneListByBoth == None or g.manager.lSize != lSize or g.manager.rSize != rSize:
+        g.manager.generateCloneListByBoth(gValue,lSize,rSize)
+    return render_template("templete-pairsBoth.html", report = g.manager.generateReport(classId, pairId,[gValue, lSize,rSize]))
+
+
+@app.route("/getClassesBySize", methods=['GET','POST'])
+def getClassesBySize():
+    taskId = request.form.get('taskId')
+    detectionId = request.form.get("detectionId")
+    lSize = int(request.form.get("lSize"))
+    rSize = int(request.form.get('rSize'))
+    classId = 0 if request.form.get("classId") == None else int(request.form.get("classId"))
+    pairId = 0 if request.form.get("classId") == None else int(request.form.get("pairId"))
+    
+    cloneOrigin = request.form.get("cloneOrigin")
+    
+    if g.manager == None or g.manager.taskId != taskId or g.manager.detectionId != detectionId or cloneOrigin != g.manager.cloneOrigin:        
+        g.manager = Manager(taskId, detectionId,cloneOrigin)
+    
+    if g.manager.CloneListBySize == None or g.manager.lSize != lSize or g.manager.rSize != rSize:
+        g.manager.generateCloneListBySize(lSize,rSize)
+    
+    return render_template("templete-pairsSize.html", report = g.manager.generateReport(classId, pairId,[lSize,rSize]))
+
+
+@app.route("/getClassesByGValue", methods=['GET','POST'])
+def getPairByGValue():
+    taskId = request.form.get('taskId')
+    detectionId = request.form.get("detectionId")
+    print(request.form.get("gValue"))
+    gValue = int(request.form.get("gValue"))
+    classId = 0 if request.form.get("classId") == None else int(request.form.get("classId"))
+    pairId = 0 if request.form.get("classId") == None else int(request.form.get("pairId"))
+    
+    cloneOrigin = request.form.get("cloneOrigin")
+    
+    if g.manager == None or g.manager.taskId != taskId or g.manager.detectionId != detectionId or cloneOrigin != g.manager.cloneOrigin:
+        g.manager = Manager(taskId, detectionId,cloneOrigin)
+    
+    if g.manager.CloneListByGranularity == None:
+        g.manager.generateCloneListByGValue()
+    
+    return render_template("templete-pairsGValue.html", report = g.manager.generateReport(classId, pairId,[gValue]))
+    
+
+@app.route("/getClasses", methods=['GET', 'POST'])
 def getPair():
-    if request.method == 'POST':
-        taskId = request.form.get('taskId')
-        detectionId = request.form.get("detectionId")
-        classId = 0 if request.form.get("classId") == None else int(request.form.get("classId"))
-        pairId = 0 if request.form.get("classId") == None else int(request.form.get("pairId"))
+    taskId = request.form.get('taskId')
+    detectionId = request.form.get("detectionId")
+    classId = 0 if request.form.get("classId") == None else int(request.form.get("classId"))
+    pairId = 0 if request.form.get("classId") == None else int(request.form.get("pairId"))
 
 
-        print("####Inported: taskId: " + str(taskId) + " detectionId: " + str(detectionId) + " classId: " + str(classId) + " pairId: " + str(pairId))
-        
-        if g.FileList == None or g.CloneList == None or g.BagList == None or taskId != g.TaskId or g.DetectionId!= detectionId:
-            g.TaskId = taskId
-            g.DetectionId = detectionId
-            print("generate FileList(...) for task " + str(g.TaskId))
-            g.FileList = fileListGeneration(MSCCD_ROOT + "/tasks/task" + str(g.TaskId) + "/fileList.txt")
-            g.BagList = tokenBagListGeneration(MSCCD_ROOT + "/tasks/task" + str(g.TaskId) + "/tokenBags")
-            try:
-                g.CloneList = cloneListGeneration(MSCCD_ROOT + "/tasks/task" + str(g.TaskId) + "/detection" + str(g.DetectionId) + "/pairs_cross.file")
-            except FileNotFoundError:
-                g.CloneList = cloneListGeneration(MSCCD_ROOT + "/tasks/task" + str(g.TaskId) + "/detection" + str(g.DetectionId) + "/pairs.file")
-            # classId = 0
-            # pairId  = 1
-        
-        
-        
-        
-        
-        return render_template("templete-pairs.html", report = getReport(classId, pairId,taskId,detectionId))
+    print("####Inported: taskId: " + str(taskId) + " detectionId: " + str(detectionId) + " classId: " + str(classId) + " pairId: " + str(pairId))
+    
+    cloneOrigin = request.form.get("cloneOrigin")
+    if g.manager == None or g.manager.taskId != taskId or g.manager.detectionId != detectionId or cloneOrigin != g.manager.cloneOrigin:        
+        g.manager = Manager(taskId, detectionId,cloneOrigin)
+  
+    
+    
+    return render_template("templete-pairs.html", report = g.manager.generateReport(classId, pairId))
+
+if __name__ == "__main__":
+    app.run()
