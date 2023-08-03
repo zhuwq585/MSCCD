@@ -82,7 +82,7 @@ class ParseTreeController extends Thread{
     }
 
     
-    public ArrayList<TokenBag> run(SourceFile sFile){
+    public ArrayList<TokenBag> run(SourceFile sFile){  // generate token bags for a file
         System.out.println("executing file: " + sFile.filePath);
 
         this.filePath  = sFile.filePath;
@@ -131,7 +131,14 @@ class ParseTreeController extends Thread{
     }
     }
 
-
+    private boolean ifGeneratedBagOverlaped(ArrayList<TokenBag> generatedBags, TokenBag newBag){
+        for (TokenBag generatedBag : generatedBags ){
+            if (generatedBag.ifBagIdentified(newBag)){
+                return true;
+            }
+        }
+        return false;
+    }
 
     private ArrayList<TokenBag> getAllTokenBag(){
         ArrayList<TokenBag> result = new ArrayList<TokenBag>();
@@ -141,8 +148,9 @@ class ParseTreeController extends Thread{
 
         for(int i = 0; i < bagNodeArr.size();i++){
             TokenBag addBag = tokenBagGeneration(bagNodeArr.get(i)); 
-            if(addBag != null)        
+            if((addBag != null)&&(! ifGeneratedBagOverlaped(result, addBag)) ){
                 result.add( addBag );
+            }
         }
 
         return result;

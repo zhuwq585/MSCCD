@@ -7,8 +7,8 @@ class Manager:
     def __init__(self,taskId,detectionId,cloneOrigin) -> None:
         self.TaskId = taskId
         self.DetectionId = detectionId
-        self.CloneList = self.cloneListGeneration(cloneOrigin)
         self.FileList = self.fileListGeneration()
+        self.CloneList = self.cloneListGeneration(cloneOrigin)
         self.BagList = self.tokenBagListGeneration()
         self.CloneListByGranularity = None
         self.CloneListBySize = None
@@ -95,8 +95,8 @@ class Manager:
             res['classId'] = classId
             res['pairId'] = pairId
             
-            res['clones'].append(self.getCodeObj(classId,pairId,0))
-            res['clones'].append(self.getCodeObj(classId,pairId,1))
+            res['clones'].append(self.getCodeObj(classId,0))
+            res['clones'].append(self.getCodeObj(classId,pairId))
             res['taskId'] = self.TaskId
             res['detectionId'] = self.DetectionId
             
@@ -107,8 +107,8 @@ class Manager:
             res['classId'] = classId
             res['pairId'] = pairId
             
-            res['clones'].append(self.getCodeObj(classId,pairId,0,1,gValue))
-            res['clones'].append(self.getCodeObj(classId,pairId,1,1,gValue))
+            res['clones'].append(self.getCodeObj(classId,0,1,gValue))
+            res['clones'].append(self.getCodeObj(classId,pairId,1,gValue))
             res['taskId'] = self.TaskId
             res['detectionId'] = self.DetectionId
             res['gValue'] = gValue
@@ -122,8 +122,8 @@ class Manager:
             res['classId'] = classId
             res['pairId'] = pairId
             
-            res['clones'].append(self.getCodeObj(classId,pairId,0,2))
-            res['clones'].append(self.getCodeObj(classId,pairId,1,2))
+            res['clones'].append(self.getCodeObj(classId,0,2))
+            res['clones'].append(self.getCodeObj(classId,pairId,2))
             res['taskId'] = self.TaskId
             res['detectionId'] = self.DetectionId
             res['lSize'] = lSize
@@ -139,8 +139,8 @@ class Manager:
             res['classId'] = classId
             res['pairId'] = pairId
             
-            res['clones'].append(self.getCodeObj(classId,pairId,0,3,gValue))
-            res['clones'].append(self.getCodeObj(classId,pairId,1,3,gValue))
+            res['clones'].append(self.getCodeObj(classId,0,3,gValue))
+            res['clones'].append(self.getCodeObj(classId,pairId,3,gValue))
             res['taskId'] = self.TaskId
             res['detectionId'] = self.DetectionId
             res['gValue'] = gValue
@@ -149,28 +149,20 @@ class Manager:
             
         return res
     
-    def getCodeObj(self, classId, pairId,segmentIndexInClass,type = 0, gValue = 0):
+    def getCodeObj(self, classId, pairId,type = 0, gValue = 0):
         res = {}
         if type == 0:
-            if segmentIndexInClass == 0:
-                bagPosition = self.CloneList[classId][0]
-            else:
-                bagPosition = self.CloneList[classId][pairId]
+  
+            bagPosition = self.CloneList[classId][pairId]
         elif type == 1:
-            if segmentIndexInClass == 0:
-                bagPosition = self.CloneListByGranularity[gValue][classId][0]
-            else:
-                bagPosition = self.CloneListByGranularity[gValue][classId][pairId]
+
+            bagPosition = self.CloneListByGranularity[gValue][classId][pairId]
         elif type == 2:
-            if segmentIndexInClass == 0:
-                bagPosition = self.CloneListBySize[classId][0]
-            else:
-                bagPosition = self.CloneListBySize[classId][pairId]
+
+            bagPosition = self.CloneListBySize[classId][pairId]
         elif type == 3:
-            if segmentIndexInClass == 0:
-                bagPosition = self.CloneListByBoth[gValue][classId][0]
-            else:
-                bagPosition = self.CloneListByBoth[gValue][classId][pairId]
+
+            bagPosition = self.CloneListByBoth[gValue][classId][pairId]
         
             
         tokenBag = self.BagList[bagPosition[0]][bagPosition[1]][bagPosition[2]]
@@ -201,14 +193,18 @@ class Manager:
         
         if cloneOrigin == 'all':
             for cloneLine in open(clonePath, "r").readlines():
-                res.append(ujson.loads(cloneLine[:-1]))
+                cloneTmp = ujson.loads(cloneLine[:-1])
+                if self.cloneFilter(cloneTmp[0]):
+                    res.append(cloneTmp)
         else:
             if cloneOrigin == 'intra':
                 for cloneLine in open(clonePath, "r").readlines():
                     cloneTmp = ujson.loads(cloneLine[:-1])
                     if len(cloneTmp) == 2:
                         if cloneTmp[0][0] == cloneTmp[1][0]:
-                            res.append(cloneTmp)
+                            if self.cloneFilter(cloneTmp[0]):
+
+                                res.append(cloneTmp)
                     else: 
                         cursor = 1
                         cloneClass = []
@@ -219,14 +215,18 @@ class Manager:
                             cursor += 1
                         
                         if len(cloneClass) > 1:
-                            res.append(cloneClass)
+                            if self.cloneFilter(cloneTmp[0]):
+
+                                res.append(cloneClass)
                         
             elif cloneOrigin == "cross":
                 for cloneLine in open(clonePath, "r").readlines():
                     cloneTmp = ujson.loads(cloneLine[:-1])
                     if len(cloneTmp) == 2:
                         if cloneTmp[0][0] != cloneTmp[1][0]:
-                            res.append(cloneTmp)
+                            if self.cloneFilter(cloneTmp[0]):
+                            
+                                res.append(cloneTmp)
                     else: 
                         cursor = 1
                         cloneClass = []
@@ -237,7 +237,9 @@ class Manager:
                             cursor += 1
                         
                         if len(cloneClass) > 1:
-                            res.append(cloneClass)
+                            if self.cloneFilter(cloneTmp[0]):
+
+                                res.append(cloneClass)
         return res
     
     def fileListGeneration(self):
@@ -253,6 +255,17 @@ class Manager:
 
         
         return res
+
+    def cloneFilter(self, cloneArr) -> bool: # true: target
+        return self.pathFilter(self.FileList[cloneArr[0]][cloneArr[1]])
+
+    def pathFilter(self, path) -> bool :
+        filteroutFolderSet = {"node_modules"}
+        for name in path.split("/"):
+            if name in filteroutFolderSet:
+                return False
+        
+        return True
 
     def tokenBagListGeneration(self):
         # not gain all the informations, only line number range

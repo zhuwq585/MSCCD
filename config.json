@@ -1,17 +1,1 @@
-{
-    "inputProject": [
-        "/Users/syu/workspace/IoT-CollectedRepos/dotnet/PowerShell-IoT","/Users/syu/workspace/IoT-CollectedRepos/dotnet/RPi.SenseHat","/Users/syu/workspace/IoT-CollectedRepos/dotnet/dotnet-iot-assets","/Users/syu/workspace/IoT-CollectedRepos/dotnet/dotnet-core-iot-demo","/Users/syu/workspace/IoT-CollectedRepos/dotnet/SimpleGPIO","/Users/syu/workspace/IoT-CollectedRepos/dotnet/OneWire","/Users/syu/workspace/IoT-CollectedRepos/dotnet/Sprinkler-IoTEdge","/Users/syu/workspace/IoT-CollectedRepos/dotnet/Avalonia-IoT-LedBar","/Users/syu/workspace/IoT-CollectedRepos/dotnet/IoTinker","/Users/syu/workspace/IoT-CollectedRepos/dotnet/dotnet-iot-demos","/Users/syu/workspace/IoT-CollectedRepos/dotnet/Iot-RPi-Sample","/Users/syu/workspace/IoT-CollectedRepos/dotnet/Minimal-IoT","/Users/syu/workspace/IoT-CollectedRepos/dotnet/raspberry-pi-dotnet-core-azure-iot","/Users/syu/workspace/IoT-CollectedRepos/dotnet/iot-edge-beerlift","/Users/syu/workspace/IoT-CollectedRepos/dotnet/IOTHouseHub","/Users/syu/workspace/IoT-CollectedRepos/dotnet/IotProject"    
-],
-    "keywordsList": "",
-    "languageExtensionName": [
-        ".cs"
-    ],
-    "minTokens": 20,
-    "minTokensForBagGeneration": 20,
-    "detectionThreshold": 0.7,
-    "maxRound": 10,
-    "tokenizer": "CSharp",
-    "threadNum_tokenizer": 8,
-    "threadNum_detection": 8,
-    "outputFile": "./new.csv"
-}
+{"inputProject":["/Users/syu/workspace/IoT-CollectedRepos/cylon/arduino","/Users/syu/workspace/IoT-CollectedRepos/cylon/cylon-intel-iot-analytics","/Users/syu/workspace/IoT-CollectedRepos/cylon/BebopFlightApp","/Users/syu/workspace/IoT-CollectedRepos/cylon/cylon-pinoccio","/Users/syu/workspace/IoT-CollectedRepos/cylon/forwardjs","/Users/syu/workspace/IoT-CollectedRepos/cylon/cylon-spark","/Users/syu/workspace/IoT-CollectedRepos/cylon/cylon-tessel","/Users/syu/workspace/IoT-CollectedRepos/cylon/MiP-LeapMotion-LittleBits","/Users/syu/workspace/IoT-CollectedRepos/cylon/raspberry_sphero","/Users/syu/workspace/IoT-CollectedRepos/cylon/opencvnodebot","/Users/syu/workspace/IoT-CollectedRepos/cylon/cylon-opencv","/Users/syu/workspace/IoT-CollectedRepos/cylon/OSCONWorkshop","/Users/syu/workspace/IoT-CollectedRepos/cylon/preso-mobilecampla-2015","/Users/syu/workspace/IoT-CollectedRepos/cylon/hackdfw-2018","/Users/syu/workspace/IoT-CollectedRepos/cylon/cylon-bebop","/Users/syu/workspace/IoT-CollectedRepos/cylon/raspy-cylon","/Users/syu/workspace/IoT-CollectedRepos/cylon/AdaptiveEEGTraining","/Users/syu/workspace/IoT-CollectedRepos/cylon/iot1-infrared-ws","/Users/syu/workspace/IoT-CollectedRepos/cylon/cylon-force","/Users/syu/workspace/IoT-CollectedRepos/cylon/leapRockPaperScissors"],"keywordsList":" ","languageExtensionName":[".js"],"minTokens":20,"minTokensForBagGeneration":20,"detectionThreshold":0.7,"maxRound":10,"tokenizer":"JavaScript","threadNum_tokenizer":200,"threadNum_detection":200,"outputFile":"/Users/syu/workspace/MSCCD/CodeNetRes_MSCCD/1_Python_29.csvn"}

@@ -32,6 +32,15 @@ public class TokenBag{
         num_keywords = 0;
     }
 
+    public boolean ifBagIdentified(TokenBag inputedBag){
+        if (inputedBag.projectId == this.projectId && inputedBag.fileId == this.fileId){
+            if (inputedBag.startLine == this.startLine && inputedBag.endLine == this.endLine){
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void setBagId(int bagId){
         this.bagId = bagId;
     }

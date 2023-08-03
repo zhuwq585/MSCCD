@@ -4,7 +4,6 @@ from jinja2 import Environment, FileSystemLoader
 class ReportController():
     def __init__(self, taskObj):
         self.taskObj = taskObj
-
         # get current detection number
         if not self.__getDetectionNum():
             return False
@@ -211,6 +210,7 @@ class ReportController():
         try:
             os.mkdir(folderPath)
         except FileExistsError:
+            print("File exists error")
             return False
 
         self.__setDetectionNum(dId)

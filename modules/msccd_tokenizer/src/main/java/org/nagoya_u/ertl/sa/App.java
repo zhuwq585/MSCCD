@@ -119,8 +119,8 @@ public class App
 
         // start sub thread
         for(int i = 0; i < threadArr.size(); i++)
-            // threadArr.get(i).start();
-            threadArr.get(i).run();
+            threadArr.get(i).start();
+            // threadArr.get(i).run();
         
         try{
             BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(outputFilePath));

@@ -71,19 +71,6 @@ public class OverlapReductor {
     // }
 
 
-    public void cloneClassInBagSort(LinkedList<TokenBag> cloneClassInBag){
-        Collections.sort(cloneClassInBag, new Comparator<TokenBag>( ) {
-            @Override
-            public int compare(TokenBag a, TokenBag b){
-                 if (a.blockIdComparision(b)){ //a <= b
-                    return -1;
-                 }
-                 else{
-                    return 1;
-                 }
-            }
-        });        
-    }
 
     public boolean ifIncludedCloneClass(LinkedList<TokenBag> candidateClass, ArrayList<LinkedList<TokenBag>> resInTBag){
         for (LinkedList<TokenBag> testClass : resInTBag){
@@ -104,17 +91,84 @@ public class OverlapReductor {
         int cursorT = testClass.size() - 1;
 
         while(cursorC >= 0 && cursorT >= 0){
-            if ( ! candidateClass.get(cursorC).blockIdEqual(testClass.get(cursorT))){
-                return false;
+            if ( candidateClass.get(cursorC).fileCoverEqual(testClass.get(cursorT))){
+                cursorC--;
+                cursorT--;
             }
-
-            cursorC--;
-            cursorT--;
-
+            else{
+                cursorC--;
+            }
         }
 
-        return true;
+        if (cursorT == -1){
+            return true;
+        }
+        else{
+            return false;
+        }
         
+    }
+
+    public void removeSelfIncludedBag(LinkedList<TokenBag> cloneClass){
+        TokenBag centerBag = cloneClass.get(0);
+        int cursor = 1; 
+        while (cursor < cloneClass.size()){
+            if(ifBagOverLap(centerBag, cloneClass.get(cursor))){
+                cloneClass.remove(cursor);
+            }else{
+                cursor++;
+            }
+        }
+
+
+    }
+
+    public boolean ifIdenticalCenterBagClass(LinkedList<TokenBag> cloneClass, ArrayList<LinkedList<TokenBag>> resInTBag){
+        for (LinkedList<TokenBag> markedClass : resInTBag){
+            if (cloneClass.get(0).fileCoverEqual(markedClass.get(0))){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public TokenBag cloneClassInBagSort(LinkedList<TokenBag> cloneClassInBag){
+        // TokenBag centerBag = cloneClassInBag.removeFirst();
+
+        TokenBag centerBag = cloneClassInBag.getFirst();
+        Collections.sort(cloneClassInBag, new Comparator<TokenBag>( ) {
+            @Override
+            public int compare(TokenBag a, TokenBag b){
+                return a.blockIdComparision(b);
+                //  if (a.blockIdComparision(b)){ //a <= b
+                //     return -1;
+                //  }
+                //  else{
+                //     return 1;
+                //  }
+            }
+        });        
+        // cloneClassInBag.add(0, centerBag);
+        return centerBag;
+    }
+
+    public void sortCloneClassesBySize(ArrayList<LinkedList<TokenBag>> cloneClasses){
+        if (cloneClasses.size() < 2){
+            return;
+        }
+        Collections.sort(cloneClasses, new Comparator<LinkedList<TokenBag>>(){
+            @Override
+            public int compare(LinkedList<TokenBag> a, LinkedList<TokenBag> b){
+                if (a.size() < b.size()){ 
+                    return 1;
+                }
+                else if (a.size() == b.size()){
+                    return 0;
+                }else{
+                    return -1;
+                }
+            }
+        });
     }
 
     public ArrayList<ArrayList <Integer>> run( ArrayList<ArrayList<LinkedList<TokenBag>>> clones){
@@ -124,9 +178,29 @@ public class OverlapReductor {
             ArrayList<LinkedList<TokenBag>> resInTBag = new ArrayList<LinkedList<TokenBag>>();
 
             for (ArrayList<LinkedList<TokenBag>> classPerRound : clones){
+                // testing to sort clone classes by size
+                // if smaller clone class are on the top side, the filter will not work
+                sortCloneClassesBySize(classPerRound);
+                // delete if do not work well
                 for (LinkedList<TokenBag> cloneClass : classPerRound){
-                    cloneClassInBagSort(cloneClass);
-                    if (! ifIncludedCloneClass(cloneClass, resInTBag)){
+                    removeSelfIncludedBag(cloneClass);
+                    if (cloneClass.size() < 2){
+                        continue;
+                    }
+
+                    TokenBag centerbag = cloneClassInBagSort(cloneClass);
+
+                    if (!ifIncludedCloneClass(cloneClass, resInTBag) && !ifIdenticalCenterBagClass(cloneClass, resInTBag)){
+
+                        int cursor = 0;
+                        while (cursor < cloneClass.size()){
+                            if( cloneClass.get(cursor).blockIdEqual(centerbag) ){
+                                cloneClass.remove(cursor);
+                                break;
+                            }
+                            cursor++;
+                        }
+                        cloneClass.add(0, centerbag);
                         resInTBag.add(cloneClass);
                     }
                 }
