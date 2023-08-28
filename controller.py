@@ -44,45 +44,48 @@ class MainController():
 
         mode = sys.argv[1]
         
-        reportController = ReportController(taskObj)
-        decFolderPath    = reportController.getDecFolderpath()
-        if len(sys.argv) == 1:
-            sys.stdout.decLog(decFolderPath)
-            sys.stderr.decLog(decFolderPath,2)
-        else:
-            sys.stdout = Logger(taskObj.taskId)
-            sys.stdout.decLog(decFolderPath )
-            sys.stderr = Logger(taskObj.taskId, sys.stderr, 2)
-            sys.stderr.decLog(decFolderPath ,2)
-
-        if taskObj == None:
-            print('Err: Failed to load task' + str(taskId))
-            return False
-
-        # Clone Detection
-        print("################################################")
-        print("#### Code clone detection.")
-        print("################################################")
-        print('#### Starting detection with threshold ' + str(taskObj.configObj['detectionThreshold']) + ' ,minsize: ' + str(taskObj.configObj['minTokens']))        
-        timeBagGeneration = time.time()
-
-       
-        # detector parameters
-        # outputFolder: decFolderPath
-        tokenBagSourcePath   = taskObj.taskFolderPath + '/tokenBags'
-        minToken             = taskObj.configObj['minTokens']
-        similarity_threahold = taskObj.configObj['detectionThreshold']
-        thread_num           = taskObj.configObj['threadNum_detection']
-        max_round            = taskObj.configObj['maxRound']
-        #####
-
-        os.system("java -Xmx32g -jar modules/msccd_detector.jar" + ' ' + decFolderPath + ' ' + tokenBagSourcePath + ' ' + str(minToken) + ' ' + str(similarity_threahold) + " " + str(thread_num) + " " + str(max_round) + " " + mode)
-
-        timeFinish = time.time()
+        if mode == "class" or mode == "pair":
         
-        # Report 
-        reportController.reportGeneration([timeStart,timeBagGeneration,timeFinish])
+            reportController = ReportController(taskObj)
+            decFolderPath    = reportController.getDecFolderpath()
+            if len(sys.argv) == 1:
+                sys.stdout.decLog(decFolderPath)
+                sys.stderr.decLog(decFolderPath,2)
+            else:
+                sys.stdout = Logger(taskObj.taskId)
+                sys.stdout.decLog(decFolderPath )
+                sys.stderr = Logger(taskObj.taskId, sys.stderr, 2)
+                sys.stderr.decLog(decFolderPath ,2)
 
+            if taskObj == None:
+                print('Err: Failed to load task' + str(taskId))
+                return False
+
+            # Clone Detection
+            print("################################################")
+            print("#### Code clone detection.")
+            print("################################################")
+            print('#### Starting detection with threshold ' + str(taskObj.configObj['detectionThreshold']) + ' ,minsize: ' + str(taskObj.configObj['minTokens']))        
+            timeBagGeneration = time.time()
+
+        
+            # detector parameters
+            # outputFolder: decFolderPath
+            tokenBagSourcePath   = taskObj.taskFolderPath + '/tokenBags'
+            minToken             = taskObj.configObj['minTokens']
+            similarity_threahold = taskObj.configObj['detectionThreshold']
+            thread_num           = taskObj.configObj['threadNum_detection']
+            max_round            = taskObj.configObj['maxRound']
+            #####
+
+            os.system("java -Xmx32g -jar modules/msccd_detector.jar" + ' ' + decFolderPath + ' ' + tokenBagSourcePath + ' ' + str(minToken) + ' ' + str(similarity_threahold) + " " + str(thread_num) + " " + str(max_round) + " " + mode)
+
+            timeFinish = time.time()
+            
+            # Report 
+            reportController.reportGeneration([timeStart,timeBagGeneration,timeFinish])
+        else:
+            print("The output mode not exists. Please select in 'pair' or 'class'.")
 
 
 

@@ -2,7 +2,7 @@
 
 Coming soon.
 
-See our paper(accepted by ICPC2022) in https://arxiv.org/pdf/2204.01028.pdf 
+See our paper in https://arxiv.org/pdf/2204.01028.pdf 
 
 ## Docker Image
 
@@ -22,7 +22,6 @@ MSCCD mainly depends on these environments:
 + Python v3.6.9
 + Java 11 (Newer than Java9) (Remember to set version by editting modules/msccd_tokenizers/pom.xml when using a different version)
 + Maven v3.8.5
-+ jinja2 (pip3)
 + ujson (pip3)
 
 We added some interfaces and methods to ANTLR4.8 and packaged a .jar file for MSCCD. Please install the provided antlr-4.8-modified.jar to your local maven repository. 
@@ -77,7 +76,18 @@ Just run it by **python3 controller.py [outputMode] [taskId] ([statementThreshol
 
 For example, **python3 controller.py 1** means excute from tasks/task1. **python3 controller.py 2 0.9** means excute from tasks/task2, and set the detectionThreshold to 0.9
 
-## Check the detection results.
+### About the two output modes
+
+A clone class (clone set) is an equivalence class of the code clone relationship. 
+However, the Type-3 clone relationship is not transitive. 
+MSCCD outputs collections consisting of code segments.
+In these collections, the center segment (the first segment in the output) has a clone relationship with all other code segments. The similarity between every pair of none-center segments is not verified. 
+
+In the 'pair' mode, MSCCD outputs all code pairs verified as code clones. Users can get clone classes by finding equivalence classes in these pairs.
+
+In the 'class' mode, MSCCD treats the above collections approximately as equivalence classes and executes overlap reduction based on it. MSCCD also provides a script (script/classes2pairs.py) to convert clone classes into clone pairs. There will be a part of clone pairs that are not verified (it means the overlap similarity of segments in this pair may be less than the threshold).These non-verified pairs include true and false positives.
+
+## The detection reports.
 
  For each task, all the data is saved in the tasks/task* folder, including configurations, file list, token bags. Here is the description:
  | file | description |
@@ -89,8 +99,27 @@ For example, **python3 controller.py 1** means excute from tasks/task1. **python
  Results of each detection is saved in tasks/task*/detection* folder. 
  | file | description |
  | --- | --- |
- | pairs.file | Reported clones in [[projectId,fileId,bagId],[projectId,fileId,bagId]] |
+ | pairs.file | Reported clones pairs in [[projectId,fileId,bagId],[projectId,fileId,bagId]] |
+  | class.file | Reported clones classes in [[projectId,fileId,bagId],[projectId,fileId,bagId], ... ] |
  | info.obj | Exection times...|
+
+## Check the detected clones in real
+
+We provide a simple app to check the detected clones in your browser. 
+
+The python package dependencies:
+```
++ jinja2 
++ Flask
+```
+
+Then start the app by:
+```
+cd html_report
+flask run
+```
+
+The open your browser and access 127.0.0.1:5000/index 
 
 ## Scripts:
 
