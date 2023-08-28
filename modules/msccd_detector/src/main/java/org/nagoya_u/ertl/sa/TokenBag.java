@@ -196,9 +196,14 @@ public class TokenBag{
     public boolean fileCoverEqual(TokenBag a){
         if (this.projectId == a.projectId){
             if(this.fileId == a.fileId){
+                if (this.bagId == a.bagId){
+                    return true;
+                }
+
                 if(this.startLine == a.startLine && this.endLine == a.endLine){
                     return true;
                 }
+                
             }
         }
         return false;

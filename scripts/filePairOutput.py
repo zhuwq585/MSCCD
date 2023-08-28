@@ -1,5 +1,5 @@
 ## input: taskId, detectionId
-## output: clone pair of file identifier
+## output: clone pair with file identifier
 ## parameters: taskId detectionId outputFile
 import sys, os, ujson
 

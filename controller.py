@@ -41,7 +41,6 @@ class MainController():
             taskObj        = taskController.loadTask(taskId)
             taskObj.configObj['detectionThreshold'] = newDetectionThreshold if newDetectionThreshold != None else taskObj.configObj['detectionThreshold']
             taskObj.configObj['minTokens'] = newMinsize if newMinsize != None else taskObj.configObj['minTokens']
-            print(taskObj)
 
         mode = sys.argv[1]
         

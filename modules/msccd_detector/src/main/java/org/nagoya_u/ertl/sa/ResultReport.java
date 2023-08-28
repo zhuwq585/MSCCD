@@ -9,9 +9,18 @@ import java.util.ArrayList;
 
 public class ResultReport {
     
-    public void saveResult(ArrayList<ArrayList<Integer>> classList,  String outputPath){
-        String outputFile = outputPath + "/pairs.file";
-        
+    public void saveResult(ArrayList<ArrayList<Integer>> classList,  String outputPath, String mode){
+        String outputFile;
+        if(mode.equals("pair")){
+            outputFile = outputPath + "/pairs.file";
+        }
+        else if(mode.equals("class")){
+            outputFile = outputPath + "/class.file";
+        }
+        else{
+            return;
+        }
+
         try{
             File newFile = new File(outputFile);
             newFile.createNewFile();

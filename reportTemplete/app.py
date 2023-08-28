@@ -11,62 +11,6 @@ app.secret_key = 'secret'
 
 MSCCD_ROOT  = sys.path[0][:-15]
 
-
-def getCodeContent(filePath, startLine, endLine):
-    if os.path.exists(filePath):
-        try:
-            return open(filePath,"r").readlines()[startLine - 1:endLine]
-        except IsADirectoryError:
-            print(filePath)
-            return "file not found"
-    else:
-        return "file not found"
-
-def getCodeObj(classId, pairId,index):
-    res = {}
-    if index == 0:
-        bagPosition = g.CloneList[classId][0]
-    else:
-        bagPosition = g.CloneList[classId][pairId]
-        
-    tokenBag = g.BagList[bagPosition[0]][bagPosition[1]][bagPosition[2]]
-    
-    
-    
-    # filePath
-    filePath = g.FileList[bagPosition[0]][bagPosition[1]]
-
-    res['filePath'] = filePath
-    # position
-    startLine = tokenBag['startLine']
-    endLine = tokenBag['endLine']
-    res['position'] = str(startLine) + " - " + str(endLine)
-    # tokenNum
-    res['tokenNum'] = str(tokenBag['tokenNum'])
-    # granularity
-    res['granularity'] = str(tokenBag['granularity'])
-    
-    res['content'] = getCodeContent(filePath,startLine,endLine)
-    
-    return res
-
-def getReport(classId, pairId,taskId, detectionId):
-    res = {
-        "clones" : []
-    }
-    
-    res['classSum'] = len(g.CloneList)
-    res['classSize'] = len(g.CloneList[classId])
-    res['classId'] = classId
-    res['pairId'] = pairId
-    
-    res['clones'].append(getCodeObj(classId,pairId,0))
-    res['clones'].append(getCodeObj(classId,pairId,1))
-    res['taskId'] = taskId
-    res['detectionId'] = detectionId
-    
-    return res
-
 @app.before_request
 def init():
     #global 

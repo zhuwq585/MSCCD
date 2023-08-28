@@ -18,7 +18,7 @@ public class App
 
         // //testArgs
         // String outputFolder         = "/home/syu/workspace/MCCD/Project/tasks/";
-        // String tokenBagSourcePath   = "/Users/syu/workspace/MSCCD/tasks/task20001/tokenBags";
+        // String tokenBagSourcePath   = "/Users/syu/workspace/MSCCD/tasks/task50002/tokenBags";
         // int    minToken             = 20;
         // double similarity_threshold = 0.7;
         // int    thread_num           = 8;
@@ -41,7 +41,7 @@ public class App
         // System.out.println(LocalTime.now());
 
         ResultReport rpt = new ResultReport();
-        rpt.saveResult(res, outputFolder);
+        rpt.saveResult(res, outputFolder, mode);
         // System.out.println(LocalTime.now());
 
     }

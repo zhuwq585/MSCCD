@@ -73,6 +73,7 @@ public class OverlapReductor {
 
 
     public boolean ifIncludedCloneClass(LinkedList<TokenBag> candidateClass, ArrayList<LinkedList<TokenBag>> resInTBag){
+
         for (LinkedList<TokenBag> testClass : resInTBag){
             if (ifIncluded(candidateClass, testClass)){
                 return true;
@@ -82,7 +83,9 @@ public class OverlapReductor {
         return false;
     }
 
-    public boolean ifIncluded(LinkedList<TokenBag> candidateClass, LinkedList<TokenBag> testClass){ // true: candidateClass is included by testClass
+    public boolean ifIncluded(LinkedList<TokenBag> candidateClass, LinkedList<TokenBag> testClass){ 
+        // true: candidateClass is included by testClass
+        
         if (candidateClass.size() > testClass.size()){
             return false;
         }
@@ -96,11 +99,13 @@ public class OverlapReductor {
                 cursorT--;
             }
             else{
-                cursorC--;
+                cursorT--;
             }
         }
 
-        if (cursorT == -1){
+        // if (cursorT == -1){
+        if (cursorC == -1){
+
             return true;
         }
         else{
@@ -108,6 +113,10 @@ public class OverlapReductor {
         }
         
     }
+
+
+// [[0, 64, 3],[0, 64, 7],[0, 64, 11],[0, 64, 15],[0, 64, 19],[0, 64, 23],[0, 64, 27],[0, 64, 29]]
+// [[0, 64, 3],[0, 64, 7],[0, 64, 11],[0, 64, 15],[0, 64, 19],[0, 64, 23],[0, 64, 27]]
 
     public void removeSelfIncludedBag(LinkedList<TokenBag> cloneClass){
         TokenBag centerBag = cloneClass.get(0);
@@ -123,19 +132,22 @@ public class OverlapReductor {
 
     }
 
-    public boolean ifIdenticalCenterBagClass(LinkedList<TokenBag> cloneClass, ArrayList<LinkedList<TokenBag>> resInTBag){
-        for (LinkedList<TokenBag> markedClass : resInTBag){
-            if (cloneClass.get(0).fileCoverEqual(markedClass.get(0))){
+    public boolean ifIdenticalCenterBagClass(LinkedList<TokenBag> cloneClass, ArrayList<LinkedList<TokenBag>> resInTBag,ArrayList<Integer> centerBagIndexArray){
+        //  if center bags of two candidate clone set are corresponds to identical code segment, they are identical. 
+        int testClassIndex = 0;
+        while(testClassIndex < resInTBag.size()){
+            LinkedList<TokenBag> testClass = resInTBag.get(testClassIndex);
+            if (cloneClass.get(0).fileCoverEqual(testClass.get(centerBagIndexArray.get(testClassIndex)))){
                 return true;
             }
         }
         return false;
     }
 
-    public TokenBag cloneClassInBagSort(LinkedList<TokenBag> cloneClassInBag){
+    public void cloneClassInBagSort(LinkedList<TokenBag> cloneClassInBag){
         // TokenBag centerBag = cloneClassInBag.removeFirst();
+        // TokenBag centerBag = cloneClassInBag.getFirst();
 
-        TokenBag centerBag = cloneClassInBag.getFirst();
         Collections.sort(cloneClassInBag, new Comparator<TokenBag>( ) {
             @Override
             public int compare(TokenBag a, TokenBag b){
@@ -146,10 +158,10 @@ public class OverlapReductor {
                 //  else{
                 //     return 1;
                 //  }
+                
             }
         });        
         // cloneClassInBag.add(0, centerBag);
-        return centerBag;
     }
 
     public void sortCloneClassesBySize(ArrayList<LinkedList<TokenBag>> cloneClasses){
@@ -176,34 +188,49 @@ public class OverlapReductor {
 
         if (this.mode == 1){ //class
             ArrayList<LinkedList<TokenBag>> resInTBag = new ArrayList<LinkedList<TokenBag>>();
+            ArrayList<Integer> centerBagIndexArray = new ArrayList<Integer>(); // saves indexes of centerbag of each clone class in resInTBag
 
             for (ArrayList<LinkedList<TokenBag>> classPerRound : clones){
                 // testing to sort clone classes by size
                 // if smaller clone class are on the top side, the filter will not work
                 sortCloneClassesBySize(classPerRound);
                 // delete if do not work well
-                for (LinkedList<TokenBag> cloneClass : classPerRound){
-                    removeSelfIncludedBag(cloneClass);
-                    if (cloneClass.size() < 2){
+                for (LinkedList<TokenBag> candicateCloneClass : classPerRound){
+                    removeSelfIncludedBag(candicateCloneClass);
+                    if (candicateCloneClass.size() < 2){
                         continue;
                     }
 
-                    TokenBag centerbag = cloneClassInBagSort(cloneClass);
+                    TokenBag centerbag = candicateCloneClass.getFirst();
+                    cloneClassInBagSort(candicateCloneClass);
 
-                    if (!ifIncludedCloneClass(cloneClass, resInTBag) && !ifIdenticalCenterBagClass(cloneClass, resInTBag)){
+                    if (!ifIncludedCloneClass(candicateCloneClass, resInTBag) && !ifIdenticalCenterBagClass(candicateCloneClass, resInTBag, centerBagIndexArray)){
+                        // Bug: In this time, clone class in resInTBag are not sorted (center bag are returned);
 
                         int cursor = 0;
-                        while (cursor < cloneClass.size()){
-                            if( cloneClass.get(cursor).blockIdEqual(centerbag) ){
-                                cloneClass.remove(cursor);
+                        while (cursor < candicateCloneClass.size()){
+                            if( candicateCloneClass.get(cursor).blockIdEqual(centerbag) ){
+                                centerBagIndexArray.add(cursor);
+                                // candicateCloneClass.remove(cursor);
                                 break;
                             }
                             cursor++;
                         }
-                        cloneClass.add(0, centerbag);
-                        resInTBag.add(cloneClass);
+                        // candicateCloneClass.add(0, centerbag);
+                        resInTBag.add(candicateCloneClass);
                     }
                 }
+            }
+
+            int cursor = 0;
+            while (cursor < resInTBag.size() && cursor < centerBagIndexArray.size()){
+                // TokenBag centerBag = resInTBag.get(cursor).get(centerBagIndexArray.get(cursor));
+                // resInTBag.get(cursor).remove(centerBagIndexArray.get(cursor)); 
+                int centerBagIndex = centerBagIndexArray.get(cursor);
+                TokenBag centerBag = resInTBag.get(cursor).remove(centerBagIndex);
+                resInTBag.get(cursor).add(0, centerBag);
+
+                cursor++;
             }
 
             for (LinkedList<TokenBag> cloneClass : resInTBag){
@@ -221,12 +248,18 @@ public class OverlapReductor {
 
             return res;
         }
-        else{
+        else{  // pair
             TokenBag bagA,bagB;
             for( int round = 0; round < clones.size(); round++){
                 for(LinkedList<TokenBag> pair : clones.get(round)){
                     bagA = pair.get(0);
                     bagB = pair.get(1);
+
+                    if ( bagA.blockIdComparision(bagB) > 0 ){
+                        TokenBag tmp = bagA;
+                        bagA = bagB;
+                        bagB = tmp;
+                    }
 
 
                     if ( !ifBagOverLapByFileCloneMap(bagA, bagB) && !ifSelfOverlappedClone(bagA, bagB)){
