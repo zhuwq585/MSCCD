@@ -1,12 +1,9 @@
-## Features
 
-Coming soon.
-
-See our paper in https://arxiv.org/pdf/2204.01028.pdf 
+See our paper at https://dl.acm.org/doi/10.1145/3524610.3529161 or https://arxiv.org/pdf/2204.01028.pdf 
 
 ## Docker Image
 
-You can use the provideded docker image to avoiding environment dependence setting
+You can use the provided docker image to avoid the dependence setting.
 
 Link: https://drive.google.com/file/d/17zsCf-5FnKbE1iPw6Ca4onW5ckQX69eQ/view?usp=sharing 
 
@@ -20,7 +17,7 @@ We have tested MSCCD on Ubuntu 18.04LTS / MacOS Monterey.
 
 MSCCD mainly depends on these environments:
 + Python v3.6.9
-+ Java 11 (Newer than Java9) (Remember to set version by editting modules/msccd_tokenizers/pom.xml when using a different version)
++ Java 11 (Newer than Java9) (Remember to set version by editing modules/msccd_tokenizers/pom.xml when using a different version)
 + Maven v3.8.5
 + ujson (pip3)
 
@@ -31,7 +28,7 @@ We added some interfaces and methods to ANTLR4.8 and packaged a .jar file for MS
 ## Generate a tokenizer for the target language
 
 First, edit ./parserConfig.json :
-+ parser: The path of the grammar folder, including g4 files and sometimes java programs.
++ parser: The path of the grammar folder, including g4 files and sometimes Java programs.
 + grammarName: The grammar name defined in the g4 file. It can also be checked in pom.xml (for grammars from grammarsv4)
 + startSymbol: Can be easily checked in pom.xml or the g4 file.
 
@@ -61,7 +58,7 @@ We can configure the tool by *config.json*. Here are the items:
 Users may always need to do several detections for the same project. So we can save the necessary data in a task object to save time for the execution next time.
 
 ### Execute for the first time
-By this part, we will execute the tool by generating a new task from the configuration file.
+We will execute the tool by generating a new task from the configuration file by this part.
 
 1 Edit the *config.json* file, and check the grammar file, keyword list file, and your input file.
 
@@ -70,11 +67,11 @@ By this part, we will execute the tool by generating a new task from the configu
 3 Check the information in *tasks/task[taskId]/*, for each execution, there will be a folder named *detection** to save the result files
 
 ### Execute from a generated task
-By this part, we will execute the tool from a generated task. We can easily change the detection granularity(required) and threshold(optional) by command.
+In this part, we will execute the tool from a generated task. We can easily change the detection granularity(required) and threshold(optional) by command.
 
 Just run it by **python3 controller.py [outputMode] [taskId] ([statementThreshold])**. 
 
-For example, **python3 controller.py 1** means excute from tasks/task1. **python3 controller.py 2 0.9** means excute from tasks/task2, and set the detectionThreshold to 0.9
+For example, **python3 controller.py 1** means execute from tasks/task1. **python3 controller.py 2 0.9** means execute from tasks/task2, and set the detection threshold to 0.9
 
 ### About the two output modes
 
@@ -85,18 +82,18 @@ In these collections, the center segment (the first segment in the output) has a
 
 In the 'pair' mode, MSCCD outputs all code pairs verified as code clones. Users can get clone classes by finding equivalence classes in these pairs.
 
-In the 'class' mode, MSCCD treats the above collections approximately as equivalence classes and executes overlap reduction based on it. MSCCD also provides a script (script/classes2pairs.py) to convert clone classes into clone pairs. There will be a part of clone pairs that are not verified (it means the overlap similarity of segments in this pair may be less than the threshold).These non-verified pairs include true and false positives.
+In the 'class' mode, MSCCD treats the above collections approximately as equivalence classes and executes overlap reduction based on it. MSCCD also provides a script (script/classes2pairs.py) to convert clone classes into clone pairs. There will be a part of clone pairs that are not verified (it means the overlap similarity of segments in this pair may be less than the threshold). These non-verified pairs include true and false positives.
 
 ## The detection reports.
 
- For each task, all the data is saved in the tasks/task* folder, including configurations, file list, token bags. Here is the description:
+ For each task, all the data is saved in the tasks/task* folder, including configurations, file list, and token bags. Here is the description:
  | file | description |
  | --- | --- |
  | fileList.txt | Each line represents a source file, formatting with (projectId, file Path). The index of each file in each project is defined as fileId. |
  |tokenBags | Each line represents a token bag and uses '@ @' to separate each data field: projectId @ @ fileId @ @ bagId @ @ granularity value @ @ number of keywords @ @ symbol number @@ token number @@ start line in original file -- end line in original file@@ tokens(token text :: frequency) |
  | taskData.obj | Configurations |
 
- Results of each detection is saved in tasks/task*/detection* folder. 
+ The results of each detection are saved in tasks/task*/detection* folder. 
  | file | description |
  | --- | --- |
  | pairs.file | Reported clones pairs in [[projectId,fileId,bagId],[projectId,fileId,bagId]] |
@@ -107,11 +104,11 @@ In the 'class' mode, MSCCD treats the above collections approximately as equival
 
 We provide a simple app to check the detected clones in your browser. 
 
-The python package dependencies:
-```
+Python package dependencies:
+
 + jinja2 
 + Flask
-```
+
 
 Then start the app by:
 ```
@@ -119,17 +116,38 @@ cd html_report
 flask run
 ```
 
-The open your browser and access 127.0.0.1:5000/index 
+Then, access 127.0.0.1:5000/index in your browser.
 
 ## Scripts:
 
-+ **scripts/blockPairOutput.py** : generate a output file in csv format: [file1Path,startLine,endLine,file2Path,startLine,endline]
-  + python3 scripts/blockPairOutput.py taskId detectionId outputFile   
-+ **scripts/filePairOutput.py** : generate a output file in csv format: [file1Path,file2Path]
++ **scripts/blockPairOutput.py** : Generate a output file in CSV format: [file1Path,startLine,endLine,file2Path,startLine,endline]
+  + python3 scripts/blockPairOutput.py [taskId] [detectionId] [outputFile]   
++ **scripts/filePairOutput.py** : Generate an output file in CSV format: [file1Path,file2Path]
   + It's useful when MSCCD is executed as a file-level clone detector. (When setting maxRound in config.json as 1 or 0)
-  + python3 scripts/filePairOutput.py taskId detectionId outputFile   
+  + python3 scripts/filePairOutput.py [taskId] [detectionId] [outputFile]   
++ **scripts/classes2pairs.py** : Convert clone classes detected in class mode into clone pairs.
+  + As mentioned, clone pairs generated by this script include unverified pairs. They can be true positives or false positives.
+  + python3 scripts/classes2pairs.py [inputFile] [outputFile]
+    +  [inputFile]: class.file generated by class mode
++ **scripts/similarityCalculation.py** : Calculate overlap similarity for each clone pair.
+  + MSCCD does not output similarity (shared tokens) for detected code clones. (Detection stopped when similarity is higher than the threshold)
+  + python3 scripts/similarityCalculation.py [taskId] [detectionId]
 
-## Comming soon
-
-+ Speed up 
-+ Analysis scripts to make the detection results easier to read and use
+## Citation
+```
+@inproceedings{10.1145/3524610.3529161,
+author = {Zhu, Wenqing and Yoshida, Norihiro and Kamiya, Toshihiro and Choi, Eunjong and Takada, Hiroaki},
+title = {MSCCD: Grammar Pluggable Clone Detection Based on ANTLR Parser Generation},
+year = {2022},
+isbn = {9781450392983},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/3524610.3529161},
+doi = {10.1145/3524610.3529161},
+pages = {460–470},
+numpages = {11},
+keywords = {parser generator, programming language, code clone, syntactic analysis, clone detection},
+location = {Virtual Event},
+series = {ICPC '22}
+}
+```
