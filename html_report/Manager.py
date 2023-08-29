@@ -1,6 +1,6 @@
 import ujson,sys,os
 
-MSCCD_ROOT  = sys.path[0][:-15]
+MSCCD_ROOT  = sys.path[0][:-12]
 
 print(MSCCD_ROOT)
 class Manager:
@@ -189,7 +189,11 @@ class Manager:
     def cloneListGeneration(self, cloneOrigin):
         
         res = []
-        clonePath = MSCCD_ROOT + "/tasks/task" + str(self.TaskId) + "/detection" + str(self.DetectionId) + "/pairs.file"
+        
+        clonePath = MSCCD_ROOT + "/tasks/task" + str(self.TaskId) + "/detection" + str(self.DetectionId) + "/class.file"
+        if not os.path.exists(clonePath):
+            clonePath = MSCCD_ROOT + "/tasks/task" + str(self.TaskId) + "/detection" + str(self.DetectionId) + "/pairs.file"
+        
         
         if cloneOrigin == 'all':
             for cloneLine in open(clonePath, "r").readlines():
@@ -203,7 +207,6 @@ class Manager:
                     if len(cloneTmp) == 2:
                         if cloneTmp[0][0] == cloneTmp[1][0]:
                             if self.cloneFilter(cloneTmp[0]):
-
                                 res.append(cloneTmp)
                     else: 
                         cursor = 1

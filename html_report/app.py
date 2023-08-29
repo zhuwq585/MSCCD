@@ -9,7 +9,7 @@ app = Flask(__name__)
 app.secret_key = 'secret'
 
 
-MSCCD_ROOT  = sys.path[0][:-15]
+MSCCD_ROOT  = sys.path[0][:-12]
 
 @app.before_request
 def init():
